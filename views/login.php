@@ -8,7 +8,7 @@
 <body>
     <!-- <form action="https://api.themoviedb.org/3/movie/2?api_key=<<api_key>>&language=en-US" method="$_GET">
 
-        <?php $data = json_decode(file_get_contents('https://api.themoviedb.org/3/movie/550?api_key=c058df23ba034ee1884bbf9cb41ffd30'), true);?>
+        
 
         <pre>
             <?php 
@@ -21,12 +21,24 @@
 
     <form action="" method="$_GET">
 
-        <?php $data = json_decode(file_get_contents('https://api.themoviedb.org/3/movies?api_key=c058df23ba034ee1884bbf9cb41ffd30'), true);?>
-
         <pre>
             <?php 
-                $date = 
-                var_dump($data); 
+
+                $key = "c058df23ba034ee1884bbf9cb41ffd30";
+
+                $url = "https://api.themoviedb.org/3/movie/now_playing?api_key=" .$key. "&language=en-US&page=1";
+
+                $json = file_get_contents($url);
+
+                $data = json_decode($json, true);
+
+                /* var_dump($data); */
+
+                for($i=0; $i<20; $i++){
+
+                    $title = $data['results'][$i]['title'];
+                    var_dump($title);
+                }
             ?>
         </pre>
 
