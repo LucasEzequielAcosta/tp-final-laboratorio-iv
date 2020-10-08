@@ -1,7 +1,7 @@
 <?php
     namespace models;
 
-    class Cinema {
+    class Cine {
 
         private $name;
         private $capacity;

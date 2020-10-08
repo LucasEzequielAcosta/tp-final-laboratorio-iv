@@ -2,9 +2,9 @@
 
     class Request {
 
-        private $controlador;
-        private $metodo;
-        private $parametros;
+        private $controller;
+        private $method;
+        private $parameters = array();
         
         public function __construct() {
 
@@ -12,37 +12,51 @@
 
             $urlToArray = explode("/", $url);
 
-            $ArregloUrl = array_filter($urlToArray);
+            $urlArray = array_filter($urlToArray);
 
             
 
-            if(empty($ArregloUrl)) {
-                $this->controlador = 'Login';
+            if(empty($urlArray)) {
+                $this->controller = 'Home';
             } else {
-                $this->controlador = array_shift($ArregloUrl);
+                $this->controller = ucwords(array_shift($urlArray));
             }
 
-            if(empty($ArregloUrl)) {
-                $this->metodo = 'init';
+            if(empty($urlArray)) {
+                $this->method = 'Index';
             } else {
-                $this->metodo = array_shift($ArregloUrl);
+                $this->method = array_shift($urlArray);
             }            
 
-            $metodoRequest = $this->getMetodoRequest();
+            $methodRequest = $this->getMethodRequest();
 
-            if($metodoRequest == 'GET') {
-                if(!empty($ArregloUrl)) {
-                    $this->parametros = $ArregloUrl;
+            if($methodRequest == "GET")
+            {
+                unset($_GET["url"]);
+
+                if(!empty($_GET))
+                {                    
+                    foreach($_GET as $key => $value)                    
+                        array_push($this->parameters, $value);
                 }
-            } else {
-                $this->parametros = $_POST;
+                else
+                    $this->parameters = $urlArray;
             }
-
+            elseif ($_POST)
+                $this->parameters = $_POST;
+            
+            if($_FILES)
+            {
+                unset($this->parameters["button"]);
+                
+                foreach($_FILES as $file)
+                {
+                    array_push($this->parameters, $file);
+                }
+            }
         }
 
-        /**
-         * 
-         */
+        
         public static function getInstance()
         {
             static $inst = null;
@@ -61,18 +75,18 @@
         * 
         * @return String
         */
-        public static function getMetodoRequest()
+        public static function getMethodRequest()
         {
             return $_SERVER['REQUEST_METHOD'];
         }
 
         /**
-        * Devuelve el controlador
+        * Devuelve el controller
         * 
         * @return String
         */
-        public function getControlador() {
-            return $this->controlador;
+        public function getController() {
+            return $this->controller;
         }
 
         /**
@@ -80,8 +94,8 @@
         * 
         * @return String
         */
-        public function getMetodo() {
-            return $this->metodo;
+        public function getMethod() {
+            return $this->method;
         }
         
         /**
@@ -89,7 +103,7 @@
         * 
         * @return Array
         */
-        public function getParametros() {
-            return $this->parametros;
+        public function getParameters() {
+            return $this->parameters;
         }
     }

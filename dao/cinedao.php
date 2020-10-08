@@ -1,30 +1,30 @@
 <?php
     namespace dao;
 
-    use dao\ICinemaDao as ICinemaDao;
-    use models\Cinema as Cinema;
+    use dao\ICineDao as ICineDao;
+    use models\Cine as Cine;
 
-    class CinemaDao implements ICinemaDao
+    class CineDao implements ICineDao
     {
         private $cinemaList = array();
 
-        public function Add(Cinema $cinema)
+        public function add(Cine $cine)
         {
-            $this->RetrieveData();
+            $this->retrieveData();
             
-            array_push($this->cinemaList, $cinema);
+            array_push($this->cinemaList, $cine);
 
-            $this->SaveData();
+            $this->saveData();
         }
 
-        public function GetAll()
+        public function getAll()
         {
-            $this->RetrieveData();
+            $this->retrieveData();
 
             return $this->cinemaList;
         }
 
-        private function SaveData()
+        private function saveData()
         {
             $arrayToEncode = array();
 
@@ -43,7 +43,7 @@
             file_put_contents('data/Cinemas.json', $jsonContent);
         }
 
-        private function RetrieveData()
+        private function retrieveData()
         {
             $this->cinemaList = array();
 
@@ -55,7 +55,7 @@
 
                 foreach($arrayToDecode as $valuesArray)
                 {
-                    $cinema = new Cinema();
+                    $cinema = new Cine();
                     $cinema->setName($valuesArray["name"]);
                     $cinema->setCapacity($valuesArray["capacity"]);
                     $cinema->setAdress($valuesArray["adress"]);
@@ -66,4 +66,3 @@
             }
         }
     }
-?>
