@@ -1,1 +1,1 @@
-Trabajo partico final de la mataria Laboraotio de computacion 4
+Trabajo practico final de la materia Laboratorio de computacion 4
