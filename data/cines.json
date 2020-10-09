@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Ambassador",
+        "capacity": "400",
+        "adress": "Cordoba 2300",
+        "price": "300"
+    },
+    {
+        "name": "Los Gallegos",
+        "capacity": "300",
+        "adress": "yirigoyen 2000",
+        "price": "200"
+    },
+    {
+        "name": "Diagonal",
+        "capacity": "300",
+        "adress": "Diagonal Pueyrredon 3000",
+        "price": "300"
+    }
+]

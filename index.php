@@ -26,7 +26,7 @@
 	 */
 	Autoload::start();
 
-	session_start();
+	//session_start();
 
 	require_once(VIEWS_PATH."header.php");
 
