@@ -8,31 +8,30 @@
     {
         private $movieList = array();
 
-        public function Add(Movie $movie)
+        public function add(Movie $movie)
         {
-            $this->RetrieveData();
+            $this->retrieveData();
             
             array_push($this->movieList, $movie);
 
-            $this->SaveData();
+            $this->saveData();
         }
 
-        public function GetAll()
+        public function getAll()
         {
-            $this->RetrieveData();
+            $this->retrieveData();
 
             return $this->movieList;
         }
 
-        private function SaveData()
+        private function saveData()
         {
             $arrayToEncode = array();
 
             foreach($this->movieList as $movie)
             {
-                $valuesArray["tittle"] = $movie->getTittle();
+                $valuesArray["title"] = $movie->getTitle();
                 $valuesArray["genre"] = $movie->getGenre();
-                $valuesArray["duration"] = $movie->getduration();
                 $valuesArray["description"] = $movie->getDescription();
                 $valuesArray["rating"] = $movie->getRating();
 
@@ -44,7 +43,7 @@
             file_put_contents('data/movies.json', $jsonContent);
         }
 
-        private function RetrieveData()
+        private function retrieveData()
         {
             $this->movieList = array();
 
@@ -57,11 +56,10 @@
                 foreach($arrayToDecode as $valuesArray)
                 {
                     $movie = new movie();
-                    $movie->setTittle($valuesArray["tittle"]);
+                    $movie->setTitle($valuesArray["title"]);
                     $movie->setGenre($valuesArray["genre"]);
                     $movie->setDescription($valuesArray["description"]);
                     $movie->setRating($valuesArray["rating"]);
-                    $movie->setDuration($valuesArray["duration"]);
 
                     array_push($this->movieList, $movie);
                 }

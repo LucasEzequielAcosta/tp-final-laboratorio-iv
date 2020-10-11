@@ -6,6 +6,9 @@
         <li class="nav-item">
             <a class="nav-link" href="<?php echo FRONT_ROOT ?>user/showLoginView">Administrar</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo FRONT_ROOT ?>movie/addNowPlayingMovies">Ver peliculas</a>
+        </li>
     </ul>
 </nav>
 

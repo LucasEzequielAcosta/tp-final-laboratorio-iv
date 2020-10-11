@@ -7,31 +7,55 @@
     class MovieController {
 
         private $movieDao;
+        private $url;
+        private $apiKey;
 
         public function __construct()
         {
             $this->movieDao = new MovieDao();
+            $this->url = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
+            $this->apiKey = "c058df23ba034ee1884bbf9cb41ffd30";
         }
 
-        public function showAddView()
+        public function showNowPlayingView()
         {
-            require_once("../views/addcine.php");
+            $movieList = $this->movieDao->getAll();
+
+
+            require_once(VIEWS_PATH."movie-now-playing.php");
         }
 
-        public function ShowListView()
+        public function getNowPlayingMovies() 
         {
-            $studentList = $this->studentDAO->GetAll();
+            $json = file_get_contents($this->url . $this->apiKey);
 
-            require_once(VIEWS_PATH."student-list.php");
+            $data = json_decode($json, true);
+
+            $results = $data['results'];
+
+            return $results;
         }
 
-        public function addMovie($tittle, $genre, $durantion, $description, $rating) {
+        public function addNowPlayingMovies()
+        {
+            $results = $this->getNowPlayingMovies();
 
-            $movie = new Movie($tittle, $genre, $durantion, $description, $rating);
+            
+            $title = $results[0]['original_title'];
+            $genre = implode( ", ", $results[0]['genre_ids']);
+            $description = $results[0]['overview'];
+            $rating = $results[0]['vote_average'];
+
+            $movie = new Movie();
+
+            $movie->setTitle($title);
+            $movie->setGenre($genre);
+            $movie->setDescription($description);
+            $movie->setRating($rating);
 
             $this->movieDao->add($movie);
 
-            $this->showAddView();
+            $this->showNowPlayingView();
         }
     }
 ?>
