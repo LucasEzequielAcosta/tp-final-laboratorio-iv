@@ -8,12 +8,30 @@
     {
         private $movieList = array();
 
+        public function verify(Movie $movie)
+        {
+            foreach($this->movieList as $_movie)
+            {
+                if($_movie->getTitle() != $movie->getTitle())
+                {
+                    $response = true;
+                }
+                else
+                {
+                    return $reponse = false;
+                }
+            }
+            return $response;
+        }
+
         public function add(Movie $movie)
         {
             $this->retrieveData();
-            
-            array_push($this->movieList, $movie);
 
+            if($this->verify($movie))
+            {
+                array_push($this->movieList, $movie);
+            }
             $this->saveData();
         }
 

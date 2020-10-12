@@ -16,5 +16,11 @@
         "capacity": "300",
         "adress": "Diagonal Pueyrredon 3000",
         "price": "300"
+    },
+    {
+        "name": "asdsa",
+        "capacity": "sdfdf",
+        "adress": "dsfsdf",
+        "price": "234"
     }
 ]

@@ -10,7 +10,7 @@ require_once('admin-nav.php');
                     <th>titulo</th>
                     <th>Descripcion</th>
                     <th>Puntaje</th>
-                    <th>Genero</th>
+                    <th>Generos</th>
                 </thead>
                 <tbody>
                     <?php
