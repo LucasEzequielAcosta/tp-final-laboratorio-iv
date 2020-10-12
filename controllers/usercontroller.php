@@ -34,6 +34,9 @@
                 {  
                     $alert = "error";
                     require_once(VIEWS_PATH . "login.php");
+                    echo '<script type="text/javascript">';
+                    echo ' alert("Usuario y/o contraseña no válidos!")';
+                    echo '</script>';
                 }
             }
         }

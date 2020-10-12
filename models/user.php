@@ -32,3 +32,4 @@
             $this->passowrd = $value;
         }
     }
+?>
