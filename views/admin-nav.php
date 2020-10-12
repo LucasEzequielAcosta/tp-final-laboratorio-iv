@@ -11,7 +11,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo FRONT_ROOT ?>cine/addNowPlayingMovies">Listar Cines</a>
+            <a class="nav-link" href="<?php echo FRONT_ROOT ?>cine/showListView">Listar Cines</a>
         </li>
 
         <li class="nav-item">
