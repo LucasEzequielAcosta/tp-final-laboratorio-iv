@@ -6,6 +6,7 @@
     interface ICineDao
     {
         function Add(Cine $movie);
+        function Delete($name);
         function GetAll();
     }
 ?>

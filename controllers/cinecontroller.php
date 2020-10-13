@@ -11,18 +11,27 @@
         public function __construct() {
 
             $this->cineDao = new CineDao();
-        }
+        }        
 
         public function showAddView()
         {
+            session_start();
             require_once(VIEWS_PATH . "add-cine.php");
         }
 
         public function showListView()
         {
+            session_start();
             $cineList = $this->cineDao->getAll();
 
             require_once(VIEWS_PATH . "cine-list.php");
+        }
+
+        public function delete($name)
+        {
+            $this->cineDao->delete($name);
+
+            $this->showListView();
         }
 
         public function addCine($name, $capacity, $adress, $price) {

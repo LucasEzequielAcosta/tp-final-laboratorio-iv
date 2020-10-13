@@ -8,7 +8,7 @@
         public $description;
         public $rating;
 
-        public function __contruct($title='', $genre='', $description='', $rating='') {
+        public function __construct($title='', $genre='', $description='', $rating='') {
 
             $this->title = $title;
             $this->genre = $genre;
