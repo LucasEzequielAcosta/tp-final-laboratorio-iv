@@ -21,6 +21,7 @@
 
         public function showNowPlayingView()
         {
+            
             $movieList = $this->movieDao->getAll();
 
 

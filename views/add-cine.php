@@ -1,5 +1,16 @@
 <?php
-require_once('admin-nav.php');
+
+
+if(isset($_SESSION))
+{
+    
+    $currentUser= $_SESSION['loggedUser'];
+    if($currentUser->getType() == 'admin')
+    {
+        require_once('admin-nav.php');
+    
+    
+    
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">
@@ -38,3 +49,14 @@ require_once('admin-nav.php');
     </section>
 </main>
 
+<?php
+    }
+
+    else
+    {
+        require_once(VIEWS_PATH.'nav.php');
+        require_once(VIEWS_PATH.'login.php');
+        
+    }
+}
+?>

@@ -28,3 +28,12 @@ body {
     width: 500px;
     border: 2px solid rgba(0, 0, 0, 0.2);
 }
+
+.page-holder {
+    min-height: 100vh;
+  }
+  
+.bg-cover {
+    background-size: cover !important;
+  }
+
