@@ -2,7 +2,8 @@
     namespace controllers;
 
     use models\User as User;
-    use controllers\CineController as CineController;
+    use dao\UserDao as UserDao;
+    use controllers\HomeController as HomeController;
 
     class UserController {
 
@@ -11,29 +12,94 @@
             require_once(VIEWS_PATH . "login.php");
         }
 
+        public function showRegisterView()
+        {
+            require_once(VIEWS_PATH. "register.php");
+        }
+
         public function login() 
         {
             if($_POST)
             {
-                $user = $_POST['user'];
-                $password = $_POST['password'];
+                $_user= new User($_POST['user'], $_POST['password']);
+                $userDao= new UserDao();
 
-                if(($user == "admin") && ($password == "123456"))
+                if(($_user->getUser() == "admin") && ($_user->getPassword() == "123456")) //Superadmin default, para poder definir otros admin
                 { 
                     session_start();
 
-                    $loggedUser = new User($user, $password);
+                    $_user->setType('admin');
+                    
 
-                    $_SESSION['loggedUser'] = $loggedUser;
+                    $_SESSION['loggedUser'] = $_user;
 
-                    $cineController = new CineController();
+                    $homeController = new HomeController();
 
-                    $cineController->showAddView();
+                    $homeController->home();                    
                 }
+
+                elseif($userDao->searchUser($_user->getUser()))
+                {
+                    if($userDao->verifyPassword($_user))
+                    {
+                        session_start();
+                        
+                        $_SESSION['loggedUser'] = $userDao->fullUser($_user);
+
+                        $homeController = new HomeController();
+
+                        $homeController->home(); 
+                    }
+
+                    else
+                    {
+                        require_once(VIEWS_PATH . "login.php");
+                        echo '<script> alert("Contraseña errónea!") </script>';
+                    }
+                }
+
+                elseif(($userDao->searchUser($_user->getUser())) == false )
+                {
+                    require_once(VIEWS_PATH . "login.php");
+                    echo '<script> alert("Usuario no encontrado!") </script>';
+                }
+                
+
                 else
                 {  
                     $alert = "error";
                     require_once(VIEWS_PATH . "login.php");
+                    echo '<script> alert("Usuario y/o contraseña no válidos!") </script>'; 
+                }
+            }
+        }
+        
+
+        public function register()
+        {
+            if($_POST)
+            {
+                $newUser= new User($_POST['user'], $_POST['password']);
+                $userDao= new UserDao();
+                
+
+                if($userDao->searchUser($newUser->getUser()))
+                {
+                    require_once(VIEWS_PATH. "register.php");
+                    echo '<script> alert("Usuario ya existente!") </script>';
+                }
+
+                elseif($newUser->getUser() == 'admin')
+                {
+                    require_once(VIEWS_PATH. "register.php");
+                    echo '<script> alert("No se puede ocupar el nombre del Superadmin") </script>';
+                }
+
+                else
+                {
+                    $userDao->register($newUser);
+                    require_once(VIEWS_PATH . "login.php");
+                    echo '<script> alert("Usuario registrado exitosamente! Bienvenido '. $newUser->getUser() . ' !") </script>';
                 }
             }
         }

@@ -1,26 +1,26 @@
 [
     {
-        "name": "Ambassador",
-        "capacity": "400",
-        "adress": "Cordoba 2300",
-        "price": "300"
+        "name": "A",
+        "capacity": "1",
+        "adress": "1",
+        "price": "1"
     },
     {
-        "name": "Los Gallegos",
-        "capacity": "300",
-        "adress": "yirigoyen 2000",
-        "price": "200"
+        "name": "B",
+        "capacity": "2",
+        "adress": "2",
+        "price": "2"
     },
     {
-        "name": "Diagonal",
-        "capacity": "300",
-        "adress": "Diagonal Pueyrredon 3000",
-        "price": "300"
+        "name": "C",
+        "capacity": "3",
+        "adress": "3",
+        "price": "3"
     },
     {
-        "name": "asdsa",
-        "capacity": "sdfdf",
-        "adress": "dsfsdf",
-        "price": "234"
+        "name": "D",
+        "capacity": "4",
+        "adress": "4",
+        "price": "4"
     }
 ]

@@ -8,11 +8,28 @@
     {
         private $cineList = array();
 
+        public function delete($name)
+        {
+            $this->retrieveData();
+
+            foreach($this->cineList as $key => $_cine)
+            {
+                if($_cine->getName() == $name)
+                {
+                    unset($this->cineList[$key]);
+                    sort($this->cineList);
+                }
+            }
+
+            $this->saveData();
+        }
+
         public function add(Cine $cine)
         {
             $this->retrieveData();
             
             array_push($this->cineList, $cine);
+            sort($this->cineList);
 
             $this->saveData();
         }
@@ -20,6 +37,7 @@
         public function getAll()
         {
             $this->retrieveData();
+            sort($this->cineList);
 
             return $this->cineList;
         }
@@ -66,3 +84,4 @@
             }
         }
     }
+?>
