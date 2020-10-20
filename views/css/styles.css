@@ -6,7 +6,7 @@ html, body {
 
 body {
     font-family: 'Montserrat', sans-serif;
-    background: url(../img/bg.png) no-repeat center center fixed;
+    background-image: url("../img/6f1b5dbaf1005d0c3083ebbd54fd1433.jpg"); /* no-repeat center center fixed; */
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
