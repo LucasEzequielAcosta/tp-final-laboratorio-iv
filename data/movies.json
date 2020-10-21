@@ -118,5 +118,47 @@
         "genre": "Comedy, Drama",
         "description": "Scott has been a case of arrested development ever since his firefighter father died when he was seven. He\u2019s now reached his mid-20s having achieved little, chasing a dream of becoming a tattoo artist that seems far out of reach. As his ambitious younger sister heads off to college, Scott is still living with his exhausted ER nurse mother and spends his days smoking weed, hanging with the guys \u2014 Oscar, Igor and Richie \u2014 and secretly hooking up with his childhood friend Kelsey. But when his mother starts dating a loudmouth firefighter named Ray, it sets off a chain of events that will force Scott to grapple with his grief and take his first tentative steps toward moving forward in life.",
         "rating": 6.8
+    },
+    {
+        "title": "Rogue",
+        "genre": "Action",
+        "description": "Battle-hardened O\u2019Hara leads a lively mercenary team of soldiers on a daring mission: rescue hostages from their captors in remote Africa. But as the mission goes awry and the team is stranded, O\u2019Hara\u2019s squad must face a bloody, brutal encounter with a gang of rebels.",
+        "rating": 5.9
+    },
+    {
+        "title": "12 Hour Shift",
+        "genre": "Comedy, Crime, Horror, Thriller",
+        "description": "It's 1998 and over the course of one 12-hour shift at an Arkansas hospital, a junkie nurse, her scheming cousin and a group of black market organ-trading criminals start a heist that could lead to their collective demise.",
+        "rating": 5
+    },
+    {
+        "title": "\u5287\u5834\u7248\u300c\u9b3c\u6ec5\u306e\u5203\u300d\u7121\u9650\u5217\u8eca\u7de8",
+        "genre": "Action, Adventure, Animation, Drama, Fantasy, History",
+        "description": "Tanjir\u014d Kamado, joined with Inosuke Hashibira, a boy raised by boars who wears a boar's head, and Zenitsu Agatsuma, a scared boy who reveals his true power when he sleeps, boards the Infinity Train on a new mission with the Fire Hashira, Ky\u014djur\u014d Rengoku, to defeat a demon who has been tormenting the people and killing the demon slayers who oppose it!",
+        "rating": 8
+    },
+    {
+        "title": "Love and Monsters",
+        "genre": "Adventure, Comedy, Romance, Science Fiction",
+        "description": "Seven years after the Monsterpocalypse, Joel Dawson, along with the rest of humanity, has been living underground ever since giant creatures took control of the land. After reconnecting over radio with his high school girlfriend Aimee, who is now 80 miles away at a coastal colony, Joel begins to fall for her again. As Joel realizes that there\u2019s nothing left for him underground, he decides against all logic to venture out to Aimee, despite all the dangerous monsters that stand in his way.",
+        "rating": 8.1
+    },
+    {
+        "title": "The War with Grandpa",
+        "genre": "Comedy, Drama, Family",
+        "description": "Sixth-grader Peter is pretty much your average kid\u2014he likes gaming, hanging with his friends and his beloved pair of Air Jordans. But when his recently widowed grandfather Ed  moves in with Peter\u2019s family, the boy is forced to give up his most prized possession of all, his bedroom. Unwilling to let such an injustice stand, Peter devises a series of increasingly elaborate pranks to drive out the interloper, but Grandpa Ed won\u2019t go without a fight.",
+        "rating": 6.1
+    },
+    {
+        "title": "Spontaneous",
+        "genre": "Comedy, Horror, Romance, Science Fiction",
+        "description": "When students in their high school begin inexplicably exploding (literally...), seniors Mara and Dylan struggle to survive in a world where each moment may be their last.",
+        "rating": 7.1
+    },
+    {
+        "title": "Away",
+        "genre": "Adventure, Animation, Fantasy",
+        "description": "After suffering a plane crash on a mysterious island, a young man embarks on an epic journey through forests, deserts and mountains trying to escape the shadow of a huge dark spirit.",
+        "rating": 6.9
     }
 ]

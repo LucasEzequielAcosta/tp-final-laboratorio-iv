@@ -8,5 +8,15 @@
         "user": "Fulanito",
         "password": "detal",
         "type": "client"
-    }    
+    },
+    {
+        "user": "ghj",
+        "password": "678",
+        "type": "client"
+    },
+    {
+        "user": "qwe",
+        "password": "123",
+        "type": "client"
+    }
 ]

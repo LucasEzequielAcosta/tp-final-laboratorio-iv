@@ -58,7 +58,7 @@
                     }
                 }
 
-                elseif(($userDao->searchUser($_user->getUser())) == false )
+                elseif(($userDao->searchUser($_user->getUser())) == false)
                 {
                     require_once(VIEWS_PATH . "login.php");
                     echo '<script> alert("Usuario no encontrado!") </script>';
