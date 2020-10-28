@@ -14,12 +14,7 @@ if(isset($_SESSION))
     {
         require_once('client-nav.php');
     }
-    
- 
-
-
-
-
+}
 ?>
 <main class="py-5">
     <div class="container">
@@ -54,7 +49,8 @@ if(isset($_SESSION))
             <h2 class="mb-4">Listado de Peliculas Actuales</h2>
             <table class="table bg-light-alpha">
                 <thead>
-                    <th>titulo</th>
+                    <th>Poster</th>
+                    <th>Titulo</th>
                     <th>Descripcion</th>
                     <th>Puntaje</th>
                     <th>Generos</th>
@@ -64,6 +60,7 @@ if(isset($_SESSION))
                     foreach ($movieList as $movie) {
                     ?>
                         <tr>
+                            <td><img src="<?php echo $movie->getPoster()?>" class="img-fluid"></td>
                             <td><?php echo $movie->getTitle() ?></td>
                             <td><?php echo $movie->getDescription() ?></td>
                             <td><?php echo $movie->getRating() ?></td>
@@ -78,8 +75,3 @@ if(isset($_SESSION))
         </div>
     </section>
 </main>
-
-
-<?php
-}
-?>

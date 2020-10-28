@@ -24,7 +24,7 @@
         } );
     </script>
 
-    <title>Cinemacenter</title>
+    <title>Movie Pass</title>
 </head>
 
 <body>

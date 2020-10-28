@@ -1,10 +1,9 @@
 <?php
     namespace dao;
 
-    use dao\ICineDao as ICineDao;
     use models\Cine as Cine;
 
-    class CineDao implements ICineDao
+    class CineDao
     {
         private $cineList = array();
 

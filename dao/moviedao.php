@@ -1,25 +1,46 @@
 <?php
     namespace dao;
 
-    use dao\IMovieDao as IMovieDao;
     use models\Movie as Movie;
 
-    class MovieDao implements IMovieDao
+    class MovieDao
     {
         private $movieList = array();
+        private $nowPlayingUrl;
+        private $apiKey;
+
+        function __construct()
+        {
+            $this->nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
+            $this->genresUrl = "https://api.themoviedb.org/3/genre/movie/list?api_key=";
+            $this->apiKey = "c058df23ba034ee1884bbf9cb41ffd30";
+        }
+
+        public function getNowPlayingMovies() 
+        {
+            $json = file_get_contents($this->nowPlayingUrl . $this->apiKey . "&language=es");
+
+            $data = json_decode($json, true);
+
+            $results = $data['results'];
+
+            return $results;
+        }
 
         public function verify(Movie $movie)
         {
+            $response = true;
             foreach($this->movieList as $_movie)
             {
-                if($_movie->getTitle() != $movie->getTitle())
+                if($_movie->getId() != $movie->getId())
                 {
                     $response = true;
                 }
                 else
                 {
-                    return $reponse = false;
+                    return $response = false;
                 }
+
             }
             return $response;
         }
@@ -52,6 +73,8 @@
                 $valuesArray["genre"] = $movie->getGenre();
                 $valuesArray["description"] = $movie->getDescription();
                 $valuesArray["rating"] = $movie->getRating();
+                $valuesArray["poster"] = $movie->getPoster();
+                $valuesArray["id"] = $movie->getId();
 
                 array_push($arrayToEncode, $valuesArray);
             }
@@ -78,6 +101,8 @@
                     $movie->setGenre($valuesArray["genre"]);
                     $movie->setDescription($valuesArray["description"]);
                     $movie->setRating($valuesArray["rating"]);
+                    $movie->setPoster($valuesArray["poster"]);
+                    $movie->setId($valuesArray["id"]);
 
                     array_push($this->movieList, $movie);
                 }
