@@ -13,7 +13,7 @@
 
         <li class="nav-item">
 
-            <a class="nav-link" href="<?php echo FRONT_ROOT ?>movie/addNowPlayingMovies">Ver peliculas</a>
+            <a class="nav-link" href="<?php echo FRONT_ROOT ?>movie/showNowPlayingView">Ver peliculas</a>
 
 
 

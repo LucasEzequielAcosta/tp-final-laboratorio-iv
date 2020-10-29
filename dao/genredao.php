@@ -15,7 +15,21 @@
             $this->apiKey = "c058df23ba034ee1884bbf9cb41ffd30";
         }
 
-        public function getGenres($genreId)
+        public function getGenres() 
+        {
+            $json = file_get_contents($this->genresUrl . $this->apiKey);
+
+            $genresArray = json_decode($json, true);
+
+            return $genresArray['genres'];
+        }
+
+        /**
+         * Trae los generos de la API
+         *
+         * @param [models\Genre] $genreId
+         */
+        public function getGenreById($genreId) 
         {
             $json = file_get_contents($this->genresUrl . $this->apiKey);
 
@@ -41,6 +55,35 @@
             $this->retrieveData();
 
             return $this->genreList;
+        }
+
+        public function verify(Genre $genre)
+        {
+            $response = true;
+            foreach($this->genreList as $_genre)
+            {
+                if($_genre->getGenreId() != $genre->getGenreId())
+                {
+                    $response = true;
+                }
+                else
+                {
+                    return $response = false;
+                }
+
+            }
+            return $response;
+        }
+
+        public function add(Genre $genre)
+        {
+            $this->retrieveData();
+
+            if($this->verify($genre))
+            {
+                array_push($this->genreList, $genre);
+            }
+            $this->saveData();
         }
 
         private function saveData()
