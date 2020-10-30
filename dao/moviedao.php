@@ -1,10 +1,13 @@
 <?php
     namespace dao;
 
+    use \Exception as Exception;
+    use dao\Connection as Connection;
     use models\Movie as Movie;
 
     class MovieDao
     {
+        private $tableName = "movies";
         private $movieList = array();
         private $nowPlayingUrl;
         private $apiKey;
@@ -12,7 +15,7 @@
         function __construct()
         {
             $this->nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
-            $this->genresUrl = "https://api.themoviedb.org/3/genre/movie/list?api_key=";
+            $this->moviesUrl = "https://api.themoviedb.org/3/movie/movie/list?api_key=";
             $this->apiKey = "c058df23ba034ee1884bbf9cb41ffd30";
         }
 
@@ -47,66 +50,54 @@
 
         public function add(Movie $movie)
         {
-            $this->retrieveData();
-
-            if($this->verify($movie))
+            try
             {
-                array_push($this->movieList, $movie);
+                $query = "INSERT INTO " . $this->tableName . " (idMovie, titulo, descripcion, rating, poster) VALUES (:idMovie, :titulo, :descripcion, :rating, :poster);";
+
+                $parameters["idMovie"] = $movie->getId();
+                $parameters["titulo"] = $movie->getTitle();
+                $parameters["descripcion"] = $movie->getDescription();
+                $parameters["rating"] = $movie->getRating();
+                $parameters["poster"] = $movie->getPoster();
+
+                $this->connection = Connection::GetInstance();
+
+                $this->connection->ExecuteNonQuery($query, $parameters);
             }
-            $this->saveData();
+
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
         }
 
         public function getAll()
         {
-            $this->retrieveData();
-
-            return $this->movieList;
-        }
-
-        private function saveData()
-        {
-            $arrayToEncode = array();
-
-            foreach($this->movieList as $movie)
+            try
             {
-                $valuesArray["title"] = $movie->getTitle();
-                $valuesArray["genre"] = $movie->getGenre();
-                $valuesArray["description"] = $movie->getDescription();
-                $valuesArray["rating"] = $movie->getRating();
-                $valuesArray["poster"] = $movie->getPoster();
-                $valuesArray["id"] = $movie->getId();
+                $query = "SELECT * FROM " . $this->tableName;
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
 
-                array_push($arrayToEncode, $valuesArray);
-            }
-
-            $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-            
-            file_put_contents('data/movies.json', $jsonContent);
-        }
-
-        private function retrieveData()
-        {
-            $this->movieList = array();
-
-            if(file_exists('data/movies.json'))
-            {
-                $jsonContent = file_get_contents('data/movies.json');
-
-                $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-                foreach($arrayToDecode as $valuesArray)
+                foreach ($resultSet as $fila)
                 {
                     $movie = new movie();
-                    $movie->setTitle($valuesArray["title"]);
-                    $movie->setGenre($valuesArray["genre"]);
-                    $movie->setDescription($valuesArray["description"]);
-                    $movie->setRating($valuesArray["rating"]);
-                    $movie->setPoster($valuesArray["poster"]);
-                    $movie->setId($valuesArray["id"]);
+                    $movie->setId($fila["idMovie"]);
+                    $movie->setTitle($fila["titulo"]);
+                    $movie->setDescription($fila["descripcion"]);
+                    $movie->setRating($fila["rating"]);
+                    $movie->setPoster($file["poster"]);
 
                     array_push($this->movieList, $movie);
                 }
+
+                return $this->movieList;                
             }
-        }
+
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
+        }       
     }
 ?>

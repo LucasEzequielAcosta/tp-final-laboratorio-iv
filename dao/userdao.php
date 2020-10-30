@@ -1,12 +1,16 @@
 <?php
     namespace dao;
 
+    use \Exception as Exception;
+    use dao\Connection as Connection;
     use dao\IUserDao as IUserDao;
     use models\User as User;
 
     class UserDao implements IUserDao
     {
         private $userList = array();
+        private $connection;
+        private $tableName = "users";
 
         public function fullUser(User $user) //Busca usuario completo y devuelve
         {
@@ -60,7 +64,8 @@
         }
 
    
-        public function changeType(User $user, $type)
+        //Crear vista para administrar usuarios?????????
+        /*public function changeType(User $user, $type)
         {
             $this->getAll();
 
@@ -73,63 +78,56 @@
             }
             $this->saveData();
         }
+        */
   
 
         public function register(User $user)
         {
-            $this->getAll();            
-            array_push($this->userList, $user);
-            $this->saveData();            
+            try
+            {
+                $query = "INSERT INTO " . $this->tableName . " (user, password, type) VALUES (:user, :password, :type);";
+
+                $parameters["user"] = $user->getUser();
+                $parameters["password"] = $user->getPassword();
+                $parameters["type"] = $user->getType();                
+
+                $this->connection = Connection::GetInstance();
+
+                $this->connection->ExecuteNonQuery($query, $parameters);
+            }
+
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }            
         }
 
 
         public function getAll()
         {
-            $this->retrieveData();
-
-            return $this->userList;
-        }
-
-
-        private function saveData()
-        {
-            $arrayToEncode= array();
-
-            foreach($this->userList as $user)
+            try
             {
-                $valuesArray["user"] = $user->getUser();
-                $valuesArray["password"] = $user->getPassword();
-                $valuesArray["type"] = $user->getType();
+                $query = "SELECT * FROM " . $this->tableName;
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
 
-                array_push($arrayToEncode, $valuesArray);
-            }
-
-            $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-
-            file_put_contents('data/users.json', $jsonContent);
-        }
-        
-
-        private function retrieveData()
-        {
-            $this->userList = array();
-
-            if(file_exists('data/users.json'))
-            {
-                $jsonContent = file_get_contents('data/users.json');
-
-                $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-                foreach($arrayToDecode as $arrayValue)
+                foreach ($resultSet as $fila)
                 {
                     $user = new User();
-                    $user->setUser($arrayValue["user"]);
-                    $user->setPassword($arrayValue["password"]);
-                    $user->setType($arrayValue["type"]);
+                    $user->setUser($fila["user"]);
+                    $user->setPassword($fila["password"]);
+                    $user->setType($fila["type"]);                    
 
                     array_push($this->userList, $user);
                 }
+
+                return $this->userList;                
             }
-        }
+
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
+        }        
     }
 ?>

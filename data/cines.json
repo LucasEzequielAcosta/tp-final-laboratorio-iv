@@ -22,5 +22,11 @@
         "capacity": "4",
         "adress": "4",
         "price": "4"
+    },
+    {
+        "name": "asd",
+        "capacity": "2",
+        "adress": "asd",
+        "price": "3"
     }
 ]

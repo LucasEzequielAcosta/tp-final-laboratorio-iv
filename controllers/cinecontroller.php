@@ -22,6 +22,9 @@
         public function showListView()
         {
             session_start();
+            $cineList = [];
+            unset($cineList);
+            
             $cineList = $this->cineDao->getAll();
 
             require_once(VIEWS_PATH . "cine-list.php");
@@ -29,7 +32,18 @@
 
         public function delete($name)
         {
-            $this->cineDao->delete($name);
+            $cineList = [];
+            unset($cineList);
+            $cineList = $this->cineDao->getAll();
+            $cine = new Cine();
+            foreach ($cineList as $key)
+            {
+                if($key->getName() == $name)
+                {
+                    $cine = $key;
+                }
+            }
+            $this->cineDao->delete($cine);
 
             $this->showListView();
         }

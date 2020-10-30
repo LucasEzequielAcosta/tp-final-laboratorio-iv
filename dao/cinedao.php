@@ -1,86 +1,81 @@
 <?php
     namespace dao;
 
+    use \Exception as Exception;
+    use dao\Connection as Connection;
     use models\Cine as Cine;
 
     class CineDao
     {
         private $cineList = array();
+        private $connection;
+        private $tableName = "cines";
 
-        public function delete($name)
+        public function delete(Cine $cine)
         {
-            $this->retrieveData();
-
-            foreach($this->cineList as $key => $_cine)
+            try
             {
-                if($_cine->getName() == $name)
-                {
-                    unset($this->cineList[$key]);
-                    sort($this->cineList);
-                }
-            }
+                $query = "DELETE FROM " . $this->tableName . " WHERE (name='" . $cine->getName() . "') AND (adress='" . $cine->getAdress() . "');";
 
-            $this->saveData();
+                $this->connection = Connection::GetInstance();
+                $this->connection->ExecuteNonQuery($query);
+            }
+            
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
         }
 
         public function add(Cine $cine)
         {
-            $this->retrieveData();
-            
-            array_push($this->cineList, $cine);
-            sort($this->cineList);
+            try
+            {
+                $query = "INSERT INTO " . $this->tableName . " (name, capacity, adress, price) VALUES (:name, :capacity, :adress, :price);";
 
-            $this->saveData();
+                $parameters["name"] = $cine->getName();
+                $parameters["capacity"] = $cine->getCapacity();
+                $parameters["adress"] = $cine->getAdress();
+                $parameters["price"] = $cine->getPrice();
+
+                $this->connection = Connection::GetInstance();
+
+                $this->connection->ExecuteNonQuery($query, $parameters);
+            }
+
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
         }
 
         public function getAll()
         {
-            $this->retrieveData();
-            sort($this->cineList);
-
-            return $this->cineList;
-        }
-
-        private function saveData()
-        {
-            $arrayToEncode = array();
-
-            foreach($this->cineList as $cine)
+            try
             {
-                $valuesArray["name"] = $cine->getName();
-                $valuesArray["capacity"] = $cine->getCapacity();
-                $valuesArray["adress"] = $cine->getAdress();
-                $valuesArray["price"] = $cine->getPrice();
+                $query = "SELECT * FROM " . $this->tableName;
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
 
-                array_push($arrayToEncode, $valuesArray);
-            }
-
-            $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-            
-            file_put_contents('data/cines.json', $jsonContent);
-        }
-
-        private function retrieveData()
-        {
-            $this->cineList = array();
-
-            if(file_exists('data/cines.json'))
-            {
-                $jsonContent = file_get_contents('data/cines.json');
-
-                $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-                foreach($arrayToDecode as $valuesArray)
+                foreach ($resultSet as $fila)
                 {
                     $cine = new Cine();
-                    $cine->setName($valuesArray["name"]);
-                    $cine->setCapacity($valuesArray["capacity"]);
-                    $cine->setAdress($valuesArray["adress"]);
-                    $cine->setPrice($valuesArray["price"]);
+                    $cine->setName($fila["name"]);
+                    $cine->setCapacity($fila["capacity"]);
+                    $cine->setAdress($fila["adress"]);
+                    $cine->setPrice($fila["price"]);
 
                     array_push($this->cineList, $cine);
                 }
+
+                return $this->cineList;                
             }
-        }
+
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
+
+        }              
     }
 ?>
