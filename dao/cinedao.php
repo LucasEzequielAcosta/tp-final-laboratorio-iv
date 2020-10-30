@@ -51,9 +51,7 @@
 
         public function getAll()
         {
-            $this->cineList = array();
-
-            if(file_exists('data/cines.json'))
+            try
             {
                 $query = "SELECT * FROM " . $this->tableName;
                 $this->connection = Connection::GetInstance();
