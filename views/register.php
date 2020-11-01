@@ -14,7 +14,7 @@ require_once('nav.php');
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Usuario</label>
-                            <input type="text" name="user" value="" class="form-control">
+                            <input type="email" name="user" value="" class="form-control">
                         </div>
                     </div>
                     <div class="col-lg-4">

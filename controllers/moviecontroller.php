@@ -36,8 +36,10 @@
 
         public function addNowPlayingMovies()
         {
+            //Trae de la API las peliculas que estan en cartelera y las guarda en $results
             $results = $this->movieDao->getNowPlayingMovies();
 
+            //Recorre el arreglo de results y va guardando 
             for($i=0; $i<19; $i++)
             {
                 $title = $results[$i]['original_title'];

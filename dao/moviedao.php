@@ -19,6 +19,7 @@
             $this->apiKey = "c058df23ba034ee1884bbf9cb41ffd30";
         }
 
+        //Trae de la API las peliculas que estan en cartelera y las retorna en un arreglo
         public function getNowPlayingMovies() 
         {
             $json = file_get_contents($this->nowPlayingUrl . $this->apiKey . "&language=es");
@@ -79,13 +80,13 @@
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
 
-                foreach ($resultSet as $fila)
+                foreach ($resultSet as $file)
                 {
                     $movie = new movie();
-                    $movie->setId($fila["idMovie"]);
-                    $movie->setTitle($fila["titulo"]);
-                    $movie->setDescription($fila["descripcion"]);
-                    $movie->setRating($fila["rating"]);
+                    $movie->setId($file["idMovie"]);
+                    $movie->setTitle($file["titulo"]);
+                    $movie->setDescription($file["descripcion"]);
+                    $movie->setRating($file["rating"]);
                     $movie->setPoster($file["poster"]);
 
                     array_push($this->movieList, $movie);
