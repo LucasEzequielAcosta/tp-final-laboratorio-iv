@@ -7,7 +7,6 @@
 
     class CineDao
     {
-        private $cineList = array();
         private $connection;
         private $tableName = "cines";
 
@@ -21,6 +20,29 @@
                 $this->connection->ExecuteNonQuery($query);
             }
             
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+
+        public function modify(Cine $cine, $idName)
+        {
+            try
+            {
+                $query = "UPDATE " . $this->tableName . " SET name=:name, capacity=:capacity, adress=:adress, price=:price WHERE name=:id;";
+
+                $parameters["name"] = $cine->getName();
+                $parameters["capacity"] = $cine->getCapacity();
+                $parameters["adress"] = $cine->getAdress();
+                $parameters["price"] = $cine->getPrice();
+                $parameters["id"] = $idName;
+
+                $this->connection = Connection::GetInstance();
+
+                $this->connection->ExecuteNonQuery($query, $parameters);
+            }
+
             catch (Exception $ex)
             {
                 throw $ex;
@@ -53,6 +75,8 @@
         {
             try
             {
+                $cineList = array();
+
                 $query = "SELECT * FROM " . $this->tableName;
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
@@ -65,10 +89,10 @@
                     $cine->setAdress($fila["adress"]);
                     $cine->setPrice($fila["price"]);
 
-                    array_push($this->cineList, $cine);
+                    array_push($cineList, $cine);
                 }
 
-                return $this->cineList;                
+                return $cineList;                
             }
 
             catch (Exception $ex)

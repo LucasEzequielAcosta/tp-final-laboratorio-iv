@@ -21,9 +21,7 @@
 
         public function showListView()
         {
-            session_start();
-            $cineList = [];
-            unset($cineList);
+            session_start();            
             
             $cineList = $this->cineDao->getAll();
 
@@ -31,9 +29,7 @@
         }
 
         public function delete($name)
-        {
-            $cineList = [];
-            unset($cineList);
+        {            
             $cineList = $this->cineDao->getAll();
             $cine = new Cine();
             foreach ($cineList as $key)
@@ -44,6 +40,21 @@
                 }
             }
             $this->cineDao->delete($cine);
+
+            $this->showListView();
+        }
+
+        public function modify($idName, $newName, $newCapacity, $newAdress, $newPrice)
+        {            
+            $cine = new Cine();
+            $cine->setName($newName);
+            $cine->setCapacity($newCapacity);
+            $cine->setAdress($newAdress);
+            $cine->setPrice($newPrice);
+
+            $this->cineDao->modify($cine, $idName);
+
+            usleep(550000);
 
             $this->showListView();
         }

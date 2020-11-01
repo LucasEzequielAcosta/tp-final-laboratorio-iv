@@ -7,8 +7,7 @@
 
     class GenreDao
     {
-        private $tableName = "generos";
-        private $genreList = array();
+        private $tableName = "generos";        
         private $genresUrl;
         private $apiKey;
 
@@ -57,6 +56,7 @@
         {
             try
             {
+                $genreList = array();
                 $query = "SELECT * FROM " . $this->tableName;
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
@@ -67,10 +67,10 @@
                     $genre->setGenre($fila["genero"]);
                     $genre->setGenreId($fila["idGenero"]);                    
 
-                    array_push($this->genreList, $genre);
+                    array_push($genreList, $genre);
                 }
 
-                return $this->genreList;                
+                return $genreList;                
             }
 
             catch (Exception $ex)
@@ -81,8 +81,9 @@
 
         public function verify(Genre $genre)
         {
+            $genreList = array();
             $response = true;
-            foreach($this->genreList as $_genre)
+            foreach($genreList as $_genre)
             {
                 if($_genre->getGenreId() != $genre->getGenreId())
                 {
