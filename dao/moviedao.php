@@ -7,8 +7,7 @@
 
     class MovieDao
     {
-        private $tableName = "movies";
-        private $movieList = array();
+        private $tableName = "movies";        
         private $nowPlayingUrl;
         private $apiKey;
 
@@ -33,8 +32,9 @@
 
         public function verify(Movie $movie)
         {
+            $movieList = array();
             $response = true;
-            foreach($this->movieList as $_movie)
+            foreach($movieList as $_movie)
             {
                 if($_movie->getId() != $movie->getId())
                 {
@@ -76,6 +76,7 @@
         {
             try
             {
+                $movieList = array();
                 $query = "SELECT * FROM " . $this->tableName;
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
@@ -89,10 +90,10 @@
                     $movie->setRating($file["rating"]);
                     $movie->setPoster($file["poster"]);
 
-                    array_push($this->movieList, $movie);
+                    array_push($movieList, $movie);
                 }
 
-                return $this->movieList;                
+                return $movieList;                
             }
 
             catch (Exception $ex)
