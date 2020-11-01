@@ -8,15 +8,15 @@
 
     class UserDao implements IUserDao
     {
-        private $userList = array();
         private $connection;
         private $tableName = "users";
 
         public function fullUser(User $user) //Busca usuario completo y devuelve
         {
-            $this->getAll();
+            $userList = array();
+            $userList = $this->getAll();
 
-            foreach($this->userList as $_user)
+            foreach($userList as $_user)
             {
                 if($_user->getUser() == $user->getUser())
                 {
@@ -29,10 +29,11 @@
 
         public function verifyPassword(User $user) //Verifica password
         {   
-            $this->getAll();
+            $userList = array();
+            $userList = $this->getAll();
             $response= false;
 
-            foreach($this->userList as $_user)
+            foreach($userList as $_user)
             {
                 if($_user->getUser() == $user->getUser())
                 {
@@ -49,10 +50,11 @@
 
         public function searchUser($name) //Verifica si el nombre de usuario ya existe
         {
-            $this->getAll();
+            $userList = array();
+            $userList = $this->getAll();
             $response= false;
 
-            foreach($this->userList as $_user)
+            foreach($userList as $_user)
             {
                 if($_user->getUser() == $name)
                 {
@@ -107,6 +109,7 @@
         {
             try
             {
+                $userList = array();
                 $query = "SELECT * FROM " . $this->tableName;
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
@@ -118,10 +121,10 @@
                     $user->setPassword($fila["password"]);
                     $user->setType($fila["type"]);                    
 
-                    array_push($this->userList, $user);
+                    array_push($userList, $user);
                 }
 
-                return $this->userList;                
+                return $userList;                
             }
 
             catch (Exception $ex)
