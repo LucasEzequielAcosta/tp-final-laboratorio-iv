@@ -73,6 +73,7 @@
   top: 15px;
   right: 35px;
   }
+}
     </style>
 
     <title>Movie Pass</title>
