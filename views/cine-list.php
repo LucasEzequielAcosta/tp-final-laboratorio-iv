@@ -52,13 +52,13 @@ if(isset($_SESSION))
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
                                                             <label style="color:white" for="">Nombre</label>
-                                                            <input type="text" name="name" value="<?php echo $cine->getName(); ?>" class="form-control">
+                                                            <input type="text" name="name" value="<?php echo $cine->getName(); ?>" class="form-control" required>
                                                         </div>
                                                     </div>                                                    
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
                                                             <label style="color:white" for="">Direccion</label>
-                                                            <input type="text" name="adress" value="<?php echo $cine->getadress() ?>" class="form-control">
+                                                            <input type="text" name="adress" value="<?php echo $cine->getadress() ?>" class="form-control" required>
                                                         </div>
                                                     </div>                                                    
                                                 </div>
