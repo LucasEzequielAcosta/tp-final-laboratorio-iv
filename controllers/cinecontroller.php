@@ -11,7 +11,13 @@
         public function __construct() {
 
             $this->cineDao = new CineDao();
-        }        
+        }
+
+        public function showHomeView()
+        {
+            session_start();
+            require_once(VIEWS_PATH . "cine-home.php");
+        }
 
         public function showAddView()
         {
@@ -24,6 +30,12 @@
             session_start();            
             
             $cineList = $this->cineDao->getAll();
+            
+            if(!empty($cineList))
+            {
+                $capacidad = $this->cineDao->getCapacity();
+            }           
+            
 
             require_once(VIEWS_PATH . "cine-list.php");
         }
@@ -44,13 +56,11 @@
             $this->showListView();
         }
 
-        public function modify($idName, $newName, $newCapacity, $newAdress, $newPrice)
+        public function modify($idName, $newName, $newAdress)
         {            
             $cine = new Cine();
-            $cine->setName($newName);
-            $cine->setCapacity($newCapacity);
-            $cine->setAdress($newAdress);
-            $cine->setPrice($newPrice);
+            $cine->setName($newName);            
+            $cine->setAdress($newAdress);            
 
             $this->cineDao->modify($cine, $idName);
 
@@ -59,9 +69,9 @@
             $this->showListView();
         }
 
-        public function addCine($name, $capacity, $adress, $price) {
+        public function addCine($name, $adress) {
 
-            $cine = new Cine($name, $capacity, $adress, $price);
+            $cine = new Cine($name, $adress);
 
             $this->cineDao->add($cine);
 
