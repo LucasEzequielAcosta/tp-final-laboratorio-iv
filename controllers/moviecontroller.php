@@ -18,8 +18,8 @@
 
         public function showNowPlayingView()
         {  
+            $genreList = $this->genreDao->update();
             $movieList = $this->movieDao->getAll();
-            $genreList = $this->genreDao->getAll();
 
             if($movieList)
             {
