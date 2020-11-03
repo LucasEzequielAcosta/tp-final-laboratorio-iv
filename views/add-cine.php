@@ -8,9 +8,7 @@ if(isset($_SESSION))
     if($currentUser->getType() == 'admin')
     {
         require_once('admin-nav.php');
-    
-    
-    
+        require_once('cine-nav.php');
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">
@@ -24,24 +22,14 @@ if(isset($_SESSION))
                             <input type="text" name="name" value="" class="form-control">
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">Capacidad</label>
-                            <input type="text" name="capacity" value="" class="form-control">
-                        </div>
-                    </div>
+                    
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="">Direccion</label>
                             <input type="text" name="adress" value="" class="form-control">
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">Precio</label>
-                            <input type="text" name="price" value="" class="form-control">
-                        </div>
-                    </div>
+                    
                 </div>
                 <button type="submit" name="button" class="btn btn-dark ml-auto d-block">Agregar</button>
 

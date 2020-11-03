@@ -6,6 +6,7 @@ if(isset($_SESSION))
     if($currentUser->getType() == 'admin')
     {
         require_once('admin-nav.php');
+        require_once('cine-nav.php');
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">
@@ -15,8 +16,7 @@ if(isset($_SESSION))
                 <thead>
                     <th>Nombre</th>
                     <th>Capacidad</th>
-                    <th>Direccion</th>
-                    <th>Precio</th>
+                    <th>Direccion</th>                    
                     <th>Opciones</th>
                 </thead>
                 <tbody>
@@ -25,9 +25,8 @@ if(isset($_SESSION))
                     ?>
                         <tr>
                             <td><?php echo $cine->getName() ?></td>
-                            <td><?php echo $cine->getCapacity() ?></td>
-                            <td><?php echo $cine->getadress() ?></td>
-                            <td><?php echo $cine->getPrice() ?></td>                            
+                            <td><?php echo ($capacidad[$cine->getName()] == null) ? 'N/A' : ($capacidad[$cine->getName()]);  ?></td>
+                            <td><?php echo $cine->getadress() ?></td>                                                       
                             <td>
                             
                                 <form action="<?php echo FRONT_ROOT ?>cine/Delete" method="post">
@@ -36,13 +35,14 @@ if(isset($_SESSION))
                                     </button>
                                 </form>
                                 
-                                    <button onclick="openNav()">
+                                    <button onclick="openNav<?php echo $cine->getName(); ?>()">
                                         <img width="20" height="20" src="<?php echo IMG_PATH ?>modify.png" alt="Modificar_Cine">
                                     </button>
 
-                                    <div id="myNav" class="overlay">
-                                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                                    <div id="myNav<?php echo $cine->getName(); ?>" class="overlay">
+                                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav<?php echo $cine->getName(); ?>()">&times;</a>
                                         <div class="overlay-content">
+                                        <h1 style="color:white"><strong>Modificar <?php echo $cine->getName(); ?></strong></h1>
                                             <form action="<?php echo FRONT_ROOT ?>cine/Modify" method="post">
                                             <section id="listado" class="mb-5">
                                             <div class="container">
@@ -54,27 +54,15 @@ if(isset($_SESSION))
                                                             <label style="color:white" for="">Nombre</label>
                                                             <input type="text" name="name" value="<?php echo $cine->getName(); ?>" class="form-control">
                                                         </div>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label style="color:white" for="">Capacidad</label>
-                                                            <input type="text" name="capacity" value="<?php echo $cine->getCapacity() ?>" class="form-control">
-                                                        </div>
-                                                    </div>
+                                                    </div>                                                    
                                                     <div class="col-lg-4">
                                                         <div class="form-group">
                                                             <label style="color:white" for="">Direccion</label>
                                                             <input type="text" name="adress" value="<?php echo $cine->getadress() ?>" class="form-control">
                                                         </div>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label style="color:white" for="">Precio</label>
-                                                            <input type="text" name="price" value="<?php echo $cine->getPrice() ?>" class="form-control">
-                                                        </div>
-                                                    </div>
+                                                    </div>                                                    
                                                 </div>
-                                                <button type="submit" name="button" class="btn btn-dark ml-auto d-block" onclick="closeNav()" href="javascript:void(0)">Modificar</button>
+                                                <button type="submit" name="button" class="btn btn-dark ml-auto d-block" onclick="closeNav<?php echo $cine->getName(); ?>()" href="javascript:void(0)">Modificar</button>
                                             </div>
                                             </section>
                                             </form>
@@ -82,12 +70,12 @@ if(isset($_SESSION))
                                     </div>
 
                                     <script>
-                                        function openNav() {
-                                            document.getElementById("myNav").style.width = "100%";
+                                        function openNav<?php echo $cine->getName(); ?>() {
+                                            document.getElementById("myNav<?php echo $cine->getName(); ?>").style.width = "100%";
                                         }
 
-                                        function closeNav() {
-                                            document.getElementById("myNav").style.width = "0%";
+                                        function closeNav<?php echo $cine->getName(); ?>() {
+                                            document.getElementById("myNav<?php echo $cine->getName(); ?>").style.width = "0%";
                                         }
                                     </script>                                
                             </td>                            
