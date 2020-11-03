@@ -4,16 +4,14 @@
     class Movie {
 
         private $title;
-        private $genre;
         private $description;
         private $rating;
         private $poster;
         private $id;
 
-        public function __construct($title='', $genre='', $description='', $rating='', $poster='', $id='') {
+        public function __construct($title='', $description='', $rating='', $poster='', $id='') {
 
             $this->title = $title;
-            $this->genre = $genre;
             $this->description = $description;
             $this->rating = $rating;
             $this->poster = $poster;
@@ -23,11 +21,6 @@
         public function getTitle() {
 
             return $this->title;
-        }
-
-        public function getGenre() {
-
-            return $this->genre;
         }
 
         public function getDescription() {
@@ -53,11 +46,6 @@
         public function setTitle($value) {
 
             $this->title = $value;
-        }
-
-        public function setGenre($value) {
-
-            $this->genre = $value;
         }
 
         public function setDescription($value) {

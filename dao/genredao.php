@@ -17,41 +17,6 @@
             $this->apiKey = "c058df23ba034ee1884bbf9cb41ffd30";
         }
 
-        public function getGenres() 
-        {
-            $json = file_get_contents($this->genresUrl . $this->apiKey);
-
-            $genresArray = json_decode($json, true);
-
-            return $genresArray['genres'];
-        }
-
-        /**
-         * Trae los generos de la API
-         *
-         * @param [models\Genre] $genreId
-         */
-        public function getGenreById($genreId) 
-        {
-            $json = file_get_contents($this->genresUrl . $this->apiKey);
-
-            $genresArray = json_decode($json, true);
-
-            $genreNames = array();
-
-            for($i=0; $i<18; $i++)
-            {
-                foreach($genreId as $value)
-                {
-                    if($genresArray['genres'][$i]['id'] == $value)
-                    {
-                        array_push($genreNames, $genresArray['genres'][$i]['name']);
-                    }
-                }
-            }
-            return $genreNames;
-        }
-
         public function getAll()
         {
             try
@@ -79,25 +44,7 @@
             }
         }
 
-        public function verify(Genre $genre)
-        {
-            $genreList = array();
-            $response = true;
-            foreach($genreList as $_genre)
-            {
-                if($_genre->getGenreId() != $genre->getGenreId())
-                {
-                    $response = true;
-                }
-                else
-                {
-                    return $response = false;
-                }
-
-            }
-            return $response;
-        }
-
+        //Guarda los generos en la BD
         public function add(Genre $genre)
         {
             try
@@ -118,4 +65,35 @@
             } 
         }        
     }
+
+
+
+/*         public function getGenresFromAPI() 
+        {
+            $json = file_get_contents($this->genresUrl . $this->apiKey);
+
+            $genresArray = json_decode($json, true);
+
+            return $genresArray['genres'];
+        }
+
+        public function insertFromApiToDb() 
+        {
+            $json = file_get_contents($this->genresUrl . $this->apiKey);
+            $arrayToDecode = ($json) ? json_decode($json,true) : array();
+            
+            foreach($arrayToDecode['genres'] as $value):
+                $genre = $this->createFromApi($value);
+                $this->add($genre);
+            endforeach;	
+        }
+
+        public function createFromApi($valuesArray)
+        {
+            $genre = new Genre();
+            $genre->setGenreId($valuesArray["id"]); 
+            $genre->setGenre($valuesArray["name"]);
+            return $genre;
+        } */
+
 ?>

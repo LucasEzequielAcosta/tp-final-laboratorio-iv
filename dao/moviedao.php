@@ -10,6 +10,7 @@
         private $tableName = "movies";        
         private $nowPlayingUrl;
         private $apiKey;
+        //private $connection;
 
         function __construct()
         {
@@ -100,6 +101,12 @@
             {
                 throw $ex;
             }
-        }       
+        }
+        
+        public function getByGenre()
+        {
+            $movieList = array();
+            $query = "SELECT * FROM " . "mxg" ;
+        }
     }
 ?>
