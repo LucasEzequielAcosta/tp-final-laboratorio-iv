@@ -154,5 +154,37 @@
                 throw $ex;
             }
         }
+
+        public function getByGenre($id)
+        {
+            try{
+
+            
+                $query = "SELECT m.*, g.genero FROM movies m LEFT JOIN mxg mg ON m.idMovie = mg.idMovie LEFT JOIN generos g ON mg.idGenero = g.idGenero WHERE g.idGenero = $id";
+                $movieList = array();
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+
+                foreach ($resultSet as $fila)
+                    {
+                        $movie = new movie();
+                        $movie->setId($fila["idMovie"]);
+                        $movie->setTitle($fila["titulo"]);
+                        $movie->setDescription($fila["descripcion"]);
+                        $movie->setRating($fila["rating"]);
+                        $movie->setPoster($fila["poster"]);
+
+                        array_push($movieList, $movie);
+                    }
+
+                    return $movieList;               
+            }
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
+
+
+        }
     }
 ?>

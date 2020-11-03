@@ -33,15 +33,15 @@
 
         public function getByGenre()
         {
-            if($_POST)
+            if($_POST != -1)
             {   
                 $genreId = $_POST['genre'];
                 $movieList = $this->movieDao->getByGenre($genreId);
+                
                 if($movieList)
                 {
                     require_once(VIEWS_PATH."movie-now-playing.php");
                 }
-
             }
             else
             {
