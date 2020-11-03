@@ -5,7 +5,11 @@
     <ul class="navbar-nav ml-auto">        
         <li class="nav-item">
             <a class="nav-link" href="<?php echo FRONT_ROOT ?>cine/showHomeView">Administrar Cines</a>
-        </li>        
+        </li> 
+
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo FRONT_ROOT ?>funcion/showFunctionView">Administrar Funciones</a>
+        </li>       
 
         <li class="nav-item">
             <a class="nav-link" href="<?php echo FRONT_ROOT ?>movie/showNowPlayingView">Ver peliculas</a>

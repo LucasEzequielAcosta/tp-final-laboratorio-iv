@@ -35,5 +35,26 @@
         {
             return $this->idFuncion;
         }
+
+        public function setIdMovie($idMovie)
+        {
+            $this->idMovie = $idMovie;
+        }
+
+        public function setNombreSala($nombreSala)
+        {
+            $this->nombreSala = $nombreSala;
+        }
+
+        public function setHorario($horario)
+        {
+            $this->horario = $horario;
+        }
+
+        public function setIdFuncion($idFuncion)
+        {
+            $this->idFuncion = $idFuncion;
+        }
         
     }
+?>

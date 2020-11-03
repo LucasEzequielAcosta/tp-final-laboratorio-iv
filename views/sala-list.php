@@ -9,8 +9,12 @@ if(isset($_SESSION))
         require_once('cine-nav.php');
 ?>
 <main class="py-5">
-    <h1>Administración de Salas</h1>
-    
+<section id="listado" class="mb-5">
+<div class="container">
+    <h1 class="mb-4">Administración de Salas</h1>
+    </div>
+    </section>
+    <br>
     <?php foreach($cineList as $cine) { ?>
     
     <section id="listado" class="mb-5">
