@@ -26,8 +26,7 @@
         public function getTitle() {
 
             return $this->title;
-        }
-       
+        }       
 
         public function getDescription() {
 
