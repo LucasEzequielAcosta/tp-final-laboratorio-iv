@@ -26,16 +26,38 @@
             }
         }
 
+        public function getCapacity()
+        {
+            try
+            {
+                $cineList = $this->getAll();                               
+                
+                foreach ($cineList as $cine)
+                {
+                    $query = 'SELECT SUM(capacidadSala) as capacidad FROM salas WHERE nombreCine ="' . $cine->getName() . '";';
+                    $this->connection = Connection::GetInstance();
+                    $result = $this->connection->Execute($query);                    
+                    $capacityArray[$cine->getName()] = $result[0]['capacidad'];                    
+                }
+
+                
+                return $capacityArray;
+            }
+
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+
         public function modify(Cine $cine, $idName)
         {
             try
             {
-                $query = "UPDATE " . $this->tableName . " SET name=:name, capacity=:capacity, adress=:adress, price=:price WHERE name=:id;";
+                $query = "UPDATE " . $this->tableName . " SET name=:name, adress=:adress WHERE name=:id;";
 
-                $parameters["name"] = $cine->getName();
-                $parameters["capacity"] = $cine->getCapacity();
-                $parameters["adress"] = $cine->getAdress();
-                $parameters["price"] = $cine->getPrice();
+                $parameters["name"] = $cine->getName();                
+                $parameters["adress"] = $cine->getAdress();                
                 $parameters["id"] = $idName;
 
                 $this->connection = Connection::GetInstance();
@@ -53,12 +75,10 @@
         {
             try
             {
-                $query = "INSERT INTO " . $this->tableName . " (name, capacity, adress, price) VALUES (:name, :capacity, :adress, :price);";
+                $query = "INSERT INTO " . $this->tableName . " (name, adress) VALUES (:name, :adress);";
 
-                $parameters["name"] = $cine->getName();
-                $parameters["capacity"] = $cine->getCapacity();
-                $parameters["adress"] = $cine->getAdress();
-                $parameters["price"] = $cine->getPrice();
+                $parameters["name"] = $cine->getName();                
+                $parameters["adress"] = $cine->getAdress();                
 
                 $this->connection = Connection::GetInstance();
 
@@ -84,10 +104,8 @@
                 foreach ($resultSet as $fila)
                 {
                     $cine = new Cine();
-                    $cine->setName($fila["name"]);
-                    $cine->setCapacity($fila["capacity"]);
-                    $cine->setAdress($fila["adress"]);
-                    $cine->setPrice($fila["price"]);
+                    $cine->setName($fila["name"]);                    
+                    $cine->setAdress($fila["adress"]);                    
 
                     array_push($cineList, $cine);
                 }
