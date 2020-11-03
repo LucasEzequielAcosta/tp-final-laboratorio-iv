@@ -79,6 +79,7 @@
             }
         }
 
+<<<<<<< Updated upstream
         public function verify(Genre $genre)
         {
             $genreList = array();
@@ -98,6 +99,11 @@
             return $response;
         }
 
+=======
+        
+
+        //Guarda los generos en la BD
+>>>>>>> Stashed changes
         public function add(Genre $genre)
         {
             try
@@ -117,5 +123,41 @@
                 throw $ex;
             } 
         }        
+<<<<<<< Updated upstream
     }
+=======
+    
+
+
+
+        public function getGenresFromAPI() 
+        {
+            $json = file_get_contents($this->genresUrl . $this->apiKey);
+
+            $genresArray = json_decode($json, true);
+
+            return $genresArray['genres'];
+        }
+
+        public function insertFromApiToDb() 
+        {
+            $json = file_get_contents($this->genresUrl . $this->apiKey);
+            $arrayToDecode = ($json) ? json_decode($json,true) : array();
+            
+            foreach($arrayToDecode['genres'] as $value):
+                $genre = $this->createFromApi($value);
+                $this->add($genre);
+            endforeach;	
+        }
+
+        public function createFromApi($valuesArray)
+        {
+            $genre = new Genre();
+            $genre->setGenreId($valuesArray["id"]); 
+            $genre->setGenre($valuesArray["name"]);
+            return $genre;
+        }
+    }
+
+>>>>>>> Stashed changes
 ?>

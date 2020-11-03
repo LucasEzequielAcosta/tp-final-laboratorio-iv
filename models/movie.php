@@ -9,8 +9,12 @@
         private $rating;
         private $poster;
         private $id;
+        private $genres;
 
         public function __construct($title='', $genre='', $description='', $rating='', $poster='', $id='') {
+=======
+        public function __construct($title='', $description='', $rating='', $poster='', $id='', $genres= array()) {
+>>>>>>> Stashed changes
 
             $this->title = $title;
             $this->genre = $genre;
@@ -18,6 +22,8 @@
             $this->rating = $rating;
             $this->poster = $poster;
             $this->id = $id;
+            $this->genres = $genres;
+
         }
 
         public function getTitle() {
@@ -50,6 +56,11 @@
             return $this->id;
         }
 
+        public function getGenres() {
+
+            return $this->genres;
+        }
+
         public function setTitle($value) {
 
             $this->title = $value;
@@ -78,6 +89,11 @@
         public function setId($value) {
 
             $this->id = $value;
+        }
+
+        public function setGenres($genres) {
+
+            $this->genres = $genres;
         }
     }
 ?>

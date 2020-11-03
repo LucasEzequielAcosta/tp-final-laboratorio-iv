@@ -26,6 +26,7 @@
 
             if($movieList)
             {
+                $this->movieDao->insertMovieGenres();
                 require_once(VIEWS_PATH."movie-now-playing.php");
             }
             else
@@ -36,7 +37,12 @@
 
         public function addNowPlayingMovies()
         {
+<<<<<<< Updated upstream
             $results = $this->movieDao->getNowPlayingMovies();
+=======
+            //Trae de la API las peliculas que estan en cartelera y las guarda en $results
+            $results = $this->movieDao->getNowPlayingMovies();            
+>>>>>>> Stashed changes
 
             for($i=0; $i<19; $i++)
             {
@@ -61,3 +67,5 @@
             $this->showNowPlayingView();
         }
     }
+
+?>

@@ -10,6 +10,10 @@
         private $tableName = "movies";        
         private $nowPlayingUrl;
         private $apiKey;
+<<<<<<< Updated upstream
+=======
+        private $connection;
+>>>>>>> Stashed changes
 
         function __construct()
         {
@@ -29,6 +33,28 @@
             return $results;
         }
 
+        public function createMoviesFromJson()
+        {
+            $movieList = array();
+            $JSON = $this->getNowPlayingMovies();
+
+            for($i=0; $i<19; $i++)
+            {
+                $movie = new Movie();
+
+                $movie->setTitle($JSON[$i]['original_title']);
+                $movie->setDescription($JSON[$i]['overview']);
+                $movie->setRating($JSON[$i]['vote_average']);
+                $movie->setPoster('https://image.tmdb.org/t/p/w500' . $JSON[$i]['poster_path']);
+                $movie->setId($JSON[$i]['id']);
+                $movie->setGenres($JSON[$i]['genre_ids']);                
+
+                array_push($movieList, $movie);
+            }
+
+            return $movieList;
+        }
+
         public function verify(Movie $movie)
         {
             $movieList = array();
@@ -46,6 +72,37 @@
 
             }
             return $response;
+        }
+
+        public function insertMovieGenres()
+        {
+            try
+            {
+                $movieList = $this->createMoviesFromJson();                
+                foreach($movieList as $movie)
+                {
+                    $genres = $movie->getGenres();
+
+                    foreach($genres as $genre)
+                    {
+                        $query = "INSERT INTO mxg (idMovie, idGenero) VALUES (:idMovie, :idGenero);";
+
+                        $parameters['idMovie'] = $movie->getId();
+                        $parameters['idGenero'] = $genre;
+
+                        $this->connection = Connection::GetInstance();
+
+                        $this->connection->ExecuteNonQuery($query, $parameters);
+                    }
+                }
+
+                
+            }
+
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
         }
 
         public function add(Movie $movie)
