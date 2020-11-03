@@ -10,7 +10,7 @@
         private $tableName = "movies";        
         private $nowPlayingUrl;
         private $apiKey;
-        //private $connection;
+        private $connection;
 
         function __construct()
         {
@@ -19,7 +19,6 @@
             $this->apiKey = "c058df23ba034ee1884bbf9cb41ffd30";
         }
 
-        //Trae de la API las peliculas que estan en cartelera y las retorna en un arreglo
         public function getNowPlayingMovies() 
         {
             $json = file_get_contents($this->nowPlayingUrl . $this->apiKey . "&language=es");
@@ -29,6 +28,28 @@
             $results = $data['results'];
 
             return $results;
+        }
+
+        public function createMoviesFromJson()
+        {
+            $movieList = array();
+            $JSON = $this->getNowPlayingMovies();
+
+            for($i=0; $i<19; $i++)
+            {
+                $movie = new Movie();
+
+                $movie->setTitle($JSON[$i]['original_title']);
+                $movie->setDescription($JSON[$i]['overview']);
+                $movie->setRating($JSON[$i]['vote_average']);
+                $movie->setPoster('https://image.tmdb.org/t/p/w500' . $JSON[$i]['poster_path']);
+                $movie->setId($JSON[$i]['id']);
+                $movie->setGenres($JSON[$i]['genre_ids']);                
+
+                array_push($movieList, $movie);
+            }
+
+            return $movieList;
         }
 
         public function verify(Movie $movie)
@@ -48,6 +69,37 @@
 
             }
             return $response;
+        }
+
+        public function insertMovieGenres()
+        {
+            try
+            {
+                $movieList = $this->createMoviesFromJson();                
+                foreach($movieList as $movie)
+                {
+                    $genres = $movie->getGenres();
+
+                    foreach($genres as $genre)
+                    {
+                        $query = "INSERT INTO mxg (idMovie, idGenero) VALUES (:idMovie, :idGenero);";
+
+                        $parameters['idMovie'] = $movie->getId();
+                        $parameters['idGenero'] = $genre;
+
+                        $this->connection = Connection::GetInstance();
+
+                        $this->connection->ExecuteNonQuery($query, $parameters);
+                    }
+                }
+
+                
+            }
+
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
         }
 
         public function add(Movie $movie)
@@ -82,14 +134,14 @@
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
 
-                foreach ($resultSet as $file)
+                foreach ($resultSet as $fila)
                 {
                     $movie = new movie();
-                    $movie->setId($file["idMovie"]);
-                    $movie->setTitle($file["titulo"]);
-                    $movie->setDescription($file["descripcion"]);
-                    $movie->setRating($file["rating"]);
-                    $movie->setPoster($file["poster"]);
+                    $movie->setId($fila["idMovie"]);
+                    $movie->setTitle($fila["titulo"]);
+                    $movie->setDescription($fila["descripcion"]);
+                    $movie->setRating($fila["rating"]);
+                    $movie->setPoster($fila["poster"]);
 
                     array_push($movieList, $movie);
                 }
@@ -101,12 +153,6 @@
             {
                 throw $ex;
             }
-        }
-        
-        public function getByGenre()
-        {
-            $movieList = array();
-            $query = "SELECT * FROM " . "mxg" ;
-        }
+        }       
     }
 ?>
