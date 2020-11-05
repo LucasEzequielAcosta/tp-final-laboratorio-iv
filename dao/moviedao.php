@@ -19,7 +19,8 @@
             $this->apiKey = "c058df23ba034ee1884bbf9cb41ffd30";
         }
 
-        public function getNowPlayingMovies() 
+        //Trae de la API las peliculas que estan en cartelera y las retorna
+        public function getNowPlayingMoviesFromAPI() 
         {
             $json = file_get_contents($this->nowPlayingUrl . $this->apiKey . "&language=es");
 
@@ -30,78 +31,83 @@
             return $results;
         }
 
-        public function createMoviesFromJson()
+        //Crea un objeto Movie a partir de lo que llega de la API
+        public function createMoviesFromAPI($valuesArray)
         {
-            $movieList = array();
-            $JSON = $this->getNowPlayingMovies();
+            $movie = new Movie();
 
-            for($i=0; $i<19; $i++)
-            {
-                $movie = new Movie();
+            $movie->setTitle($valuesArray['original_title']);
+            $movie->setDescription($valuesArray['overview']);
+            $movie->setRating($valuesArray['vote_average']);
+            $movie->setPoster('https://image.tmdb.org/t/p/w500' . $valuesArray['poster_path']);
+            $movie->setId($valuesArray['id']);
+            $movie->setGenres($valuesArray['genre_ids']);                
 
-                $movie->setTitle($JSON[$i]['original_title']);
-                $movie->setDescription($JSON[$i]['overview']);
-                $movie->setRating($JSON[$i]['vote_average']);
-                $movie->setPoster('https://image.tmdb.org/t/p/w500' . $JSON[$i]['poster_path']);
-                $movie->setId($JSON[$i]['id']);
-                $movie->setGenres($JSON[$i]['genre_ids']);                
-
-                array_push($movieList, $movie);
-            }
-
-            return $movieList;
+            return $movie;
         }
 
-        public function verify(Movie $movie)
+        //Inserta en la DB las peliculas traidas de la API
+        private function insertFromApiToDb() 
         {
-            $movieList = array();
-            $response = true;
-            foreach($movieList as $_movie)
+            $movies = $this->getNowPlayingMoviesFromAPI();
+            
+            foreach($movies as $value)
             {
-                if($_movie->getId() != $movie->getId())
+                $movie = $this->createMoviesFromApi($value);
+                $this->add($movie);
+
+            }
+        }
+
+        //Retorna un arreglo de objetos Movie
+        private function getMovieObjects()
+        {
+            $movies = $this->getNowPlayingMoviesFromAPI();
+
+            foreach($movies as $movie){
+                $resultMovies[] = $this->createMoviesFromApi($movie);
+            }
+            return $resultMovies;
+        }
+
+        //Hace un update en la tabla de peliculas
+        public function update()
+        {
+            if($this->getAll())
+            {
+                $movies = $this->getMovieObjects();
+                foreach($movies as $movie)
+                {       
+                    if(!$this->exists($movie->getId()))
+                    {
+                        $this->add($movie);
+                    }
+                }
+            }
+            else
+            {
+                $this->insertFromApiToDb();
+            }
+            return $this->getAll();
+        }
+
+        //Verifica mediante el ID si existe una pelicula en la BD y retorna true o false
+        private function exists($id)
+        {
+            $movies = $this->getAll();
+            $response = false;
+
+            foreach($movies as $movie)
+            {
+                if($movie->getId() == $id)
                 {
                     $response = true;
                 }
-                else
-                {
-                    return $response = false;
-                }
-
             }
             return $response;
         }
 
-        public function insertMovieGenres()
-        {
-            try
-            {
-                $movieList = $this->createMoviesFromJson();                
-                foreach($movieList as $movie)
-                {
-                    $genres = $movie->getGenres();
-
-                    foreach($genres as $genre)
-                    {
-                        $query = "INSERT INTO mxg (idMovie, idGenero) VALUES (:idMovie, :idGenero);";
-
-                        $parameters['idMovie'] = $movie->getId();
-                        $parameters['idGenero'] = $genre;
-
-                        $this->connection = Connection::GetInstance();
-
-                        $this->connection->ExecuteNonQuery($query, $parameters);
-                    }
-                }
-
-                
-            }
-
-            catch (Exception $ex)
-            {
-                throw $ex;
-            }
-        }
-
+        //Hace un insert en la tabla de peliculas
         public function add(Movie $movie)
         {
             try
@@ -125,6 +131,7 @@
             }
         }
 
+        //retorna todas la peliculas de la tabla mediante un select
         public function getAll()
         {
             try
@@ -155,17 +162,64 @@
             }
         }
 
-        public function getByGenre($id)
+        //retorna todos los registros de la tabla mxg
+        public function getMoviesXgenero()
+        {
+            try
+            {
+                $query = "SELECT * FROM mxg;"; 
+                $this->connection = Connection::GetInstance();
+                $resulSet = $this->connection->Execute($query);
+
+                return $resulSet;
+            }
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+
+
+        //Hace un insert en la tabla mxg
+        public function insertMovieGenres()
+        {
+            try
+            {
+                $movieList = $this->getMovieObjects();                
+                foreach($movieList as $movie)
+                {
+                    $genres = $movie->getGenres();
+
+                    foreach($genres as $genre)
+                    {
+                        $query = "INSERT INTO mxg (idMovie, idGenero) VALUES (:idMovie, :idGenero);";
+
+                        $parameters['idMovie'] = $movie->getId();
+                        $parameters['idGenero'] = $genre;
+
+                        $this->connection = Connection::GetInstance();
+                        $this->connection->ExecuteNonQuery($query, $parameters);
+                    }
+                }
+            }catch (Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+
+
+        //retorna las peliculas de un determinado id de genero
+        public function getMoviesByGenre($id)
         {
             try{
+                if($this->getMoviesXgenero())
+                {
+                    $query = "SELECT m.*, g.genero FROM movies m LEFT JOIN mxg mg ON m.idMovie = mg.idMovie LEFT JOIN generos g ON mg.idGenero = g.idGenero WHERE g.idGenero = $id";
+                    $movieList = array();
+                    $this->connection = Connection::GetInstance();
+                    $resultSet = $this->connection->Execute($query);
 
-            
-                $query = "SELECT m.*, g.genero FROM movies m LEFT JOIN mxg mg ON m.idMovie = mg.idMovie LEFT JOIN generos g ON mg.idGenero = g.idGenero WHERE g.idGenero = $id";
-                $movieList = array();
-                $this->connection = Connection::GetInstance();
-                $resultSet = $this->connection->Execute($query);
-
-                foreach ($resultSet as $fila)
+                    foreach ($resultSet as $fila)
                     {
                         $movie = new movie();
                         $movie->setId($fila["idMovie"]);
@@ -176,15 +230,15 @@
 
                         array_push($movieList, $movie);
                     }
-
-                    return $movieList;               
-            }
-            catch (Exception $ex)
+                    return $movieList;
+                }
+                else{
+                    $this->insertMovieGenres();
+                    $this->getMoviesByGenre($id);
+                }
+            }catch (Exception $ex)
             {
                 throw $ex;
             }
-
-
         }
     }
-?>

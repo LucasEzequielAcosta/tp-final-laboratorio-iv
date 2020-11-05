@@ -17,15 +17,17 @@
             $this->apiKey = "c058df23ba034ee1884bbf9cb41ffd30";
         }
 
+        //Trae de la API todos los generos
         private function getGenresFromAPI() 
         {
-            $json = file_get_contents($this->genresUrl . $this->apiKey);
+            $json = file_get_contents($this->genresUrl . $this->apiKey . "&language=es");
 
             $genresArray = json_decode($json, true);
 
             return $genresArray['genres'];
         }
 
+        //Crea un objeto Genre a partir de lo que llega de la API
         private function createFromApi($valuesArray)
         {
             $genre = new Genre();
@@ -34,6 +36,7 @@
             return $genre;
         }
 
+        //Inserta en la DB los generos traidos de la API
         private function insertFromApiToDb() 
         {
             $genres = $this->getGenresFromAPI();
@@ -43,6 +46,54 @@
                 $genre = $this->createFromApi($value);
                 $this->add($genre);
             }
+        }
+
+        //Retorna un arreglo de objetos Genre
+        private function getGenreObjects()
+        {
+            $genres = $this->getGenresFromAPI();
+
+            foreach($genres as $genre){
+                $resultGenres[] = $this->createFromApi($genre);
+            }
+            return $resultGenres;
+        }
+
+        //Hace un update en la tabla de generos
+        public function update()
+        {
+            if($this->getAll())
+            {
+                $genres = $this->getGenreObjects();
+                foreach($genres as $genre)
+                {
+                    if(!$this->exists($genre->getGenreId()))
+                    {
+                        $this->add($genre);
+                    }
+                }
+            }
+            else
+            {
+                $this->insertFromApiToDb();
+            }
+            return $this->getAll();
+        }
+
+        //Verifica mediante el ID si existe un genero en la BD y retorna true o false
+        private function exists($id)
+        {
+            $genres = $this->getAll();
+            $response = false;
+
+            foreach($genres as $genre)
+            {
+                if($genre->getGenreId() == $id)
+                {
+                    $response = true;
+                }
+            }
+            return $response;
         }
 
         //Guarda los generos en la BD
@@ -65,7 +116,8 @@
                 throw $ex;
             }
         }
-
+        
+        //retorna todos los generos de la tabla mediante un select
         public function getAll()
         {
             try
@@ -93,52 +145,25 @@
             }
         }
 
-        private function updateFromApi()
+        //Retorna un genero buscado mediante si id
+        public function getGenreById($id)
         {
-            $json = file_get_contents($this->genresUrl . $this->apiKey);
-            $result = json_decode($json, true);
-            $genres = $result['genres'];
-
-            foreach($genres as $genre){
-                $resultGenres[] = new Genre($genre['id'], $genre['name']);
-            }
-            return $resultGenres;
-        }
-
-        public function update()
-        {
-            if($this->getAll())
+            try
             {
-                $genres = $this->updateFromApi();
-                foreach($genres as $genre)
-                {       
-                    if(!$this->exists($genre->getGenreId()))
-                    {
-                        $this->add($genre);
-                    }
-                }
-                return $this->getAll();
-            }
-            else
-            {
-                $this->insertFromApiToDb();
-            }
-        }
+                $query = "SELECT * FROM  generos  WHERE  idGenero = $id";
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
 
-        private function exists($id)
-        {
-            $genres = $this->getAll();
+                $genre = new genre();
+                $genre->setGenre($resultSet[0]["genero"]);
+                $genre->setGenreId($resultSet[0]["idGenero"]);
 
-            foreach($genres as $genre)
+                return $genre->getGenre();                
+            }
+
+            catch (Exception $ex)
             {
-                if($genre->getGenreId() == $id)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                throw $ex;
             }
         }
 
