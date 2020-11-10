@@ -1,4 +1,5 @@
 <?php
+require_once(VIEWS_PATH."header.php");
 require_once('nav.php');
 ?>
 
@@ -7,7 +8,6 @@ require_once('nav.php');
         <div class="container">
             <h1 class="mb-4">Ingresar</h1>
             
-            <h6 class="mb-1">Superadmin por defecto: admin / 123456</h6>
             <form action= "<?php echo FRONT_ROOT ?>user/login" method="post" class="bg-light-alpha p-5">
                 <div class="row">
                     <div class="col-lg-4">
@@ -30,4 +30,8 @@ require_once('nav.php');
         </div>
     </section>
 </main>
+
+<?php
+require_once(VIEWS_PATH."footer.php");
+?>
 

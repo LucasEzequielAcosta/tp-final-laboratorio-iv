@@ -1,5 +1,5 @@
 <?php
-
+require_once(VIEWS_PATH."header.php");
 session_start();
 if (isset($_SESSION)) {
 
@@ -58,3 +58,6 @@ if (isset($_SESSION)) {
         </div>
     </section>
 </main>
+<?php
+require_once(VIEWS_PATH."footer.php");
+?>

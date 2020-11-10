@@ -1,4 +1,5 @@
 <?php
+require_once(VIEWS_PATH."header.php");
 if (isset($_SESSION)) {
 
     $currentUser = $_SESSION['loggedUser'];
@@ -167,5 +168,5 @@ if (isset($_SESSION)) {
         }
     }
 
-
+    require_once(VIEWS_PATH."footer.php");
 ?>

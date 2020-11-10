@@ -1,3 +1,6 @@
+<?php
+require_once(VIEWS_PATH."header.php");
+?>
 <nav class="navbar navbar-expand-lg  navbar-light" style="background-color: #e3f2fd;">
     <span class="navbar-text">
         <strong></strong>
@@ -16,3 +19,6 @@
         </li> 
     </ul>
 </nav>
+<?php
+require_once(VIEWS_PATH."footer.php");
+?>

@@ -1,3 +1,6 @@
+<?php
+require_once(VIEWS_PATH."header.php");
+?>
 <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
     <span class="navbar-text">
         <strong>Movie Pass</strong>
@@ -12,14 +15,6 @@
         </li>
     </ul>
 </nav>
-
-
-<!-- 
-El administrador (A) podrá realizar las siguientes actividades:
-b)Administrar cines.Cada registro debe tener el nombre del cine,su capacidad total, dirección y valor único de entrada.
-El cliente (C) podrá realizar las siguientes actividades:
-a) Consultar películas por fecha y/o categoría.
-Revisión
-1.1 - Administrar Cines (A- Item b, con dao en memoria)
-1.2 - Consulta de películas actuales (C- Item a - get de la api)
--->
+<?php
+require_once(VIEWS_PATH."footer.php");
+?>

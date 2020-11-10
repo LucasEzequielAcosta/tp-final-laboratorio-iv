@@ -110,7 +110,7 @@
     
             session_destroy();
 
-            require_once(VIEWS_PATH . "index.php");
+            require_once(VIEWS_PATH . "login.php");
         } 
     }
 ?>

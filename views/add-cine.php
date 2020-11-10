@@ -1,4 +1,5 @@
 <?php
+require_once(VIEWS_PATH."header.php");
 
 
 if(isset($_SESSION))
@@ -49,4 +50,6 @@ if(isset($_SESSION))
         
     }
 }
+require_once(VIEWS_PATH."footer.php");
+
 ?>

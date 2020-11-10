@@ -1,4 +1,6 @@
 <?php
+require_once(VIEWS_PATH."header.php");
+
 if(isset($_SESSION))
 {
     
@@ -105,8 +107,8 @@ if(isset($_SESSION))
     else
     {
         require_once(VIEWS_PATH.'nav.php');
-        require_once(VIEWS_PATH.'login.php');
-              
+        require_once(VIEWS_PATH.'login.php');         
     }
+    require_once(VIEWS_PATH."footer.php");
 }
 ?>
