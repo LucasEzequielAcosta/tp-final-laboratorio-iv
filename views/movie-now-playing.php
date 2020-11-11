@@ -1,5 +1,5 @@
 <?php
-require_once(VIEWS_PATH."header.php");
+require_once(VIEWS_PATH . "header.php");
 session_start();
 if (isset($_SESSION)) {
 
@@ -31,13 +31,14 @@ if (isset($_SESSION)) {
     <br><br>
     <section id="listado" class="mb-5">
         <div class="container">
-            <h2 class="mb-4">Listado de Peliculas <?php if($_POST)echo ($_POST['genre'] != -1) ? "de " . $this->genreDao->getGenreById($_POST['genre']) : " "; ?></h2>
-            <table class="table bg-light-alpha"> 
+            <h2 class="mb-4">Listado de Peliculas <?php if ($_POST) echo ($_POST['genre'] != -1) ? "de " . $this->genreDao->getGenreById($_POST['genre']) : " "; ?></h2>
+            <table class="table bg-light-alpha">
                 <thead>
                     <th>Poster</th>
                     <th>Titulo</th>
                     <th>Descripcion</th>
                     <th>Puntaje</th>
+                    <th></th>
                 </thead>
                 <tbody>
                     <?php
@@ -48,6 +49,12 @@ if (isset($_SESSION)) {
                             <td><?php echo $movie->getTitle() ?></td>
                             <td><?php echo $movie->getDescription() ?></td>
                             <td><?php echo $movie->getRating() ?></td>
+
+                            <td>
+                                <form action="<?php echo FRONT_ROOT ?>funcion/showFunctionView" method="post">
+                                    <button type="submit" class="btn btn-success ml-3"> Comprar </button>
+                                </form>
+                            </td>
                         </tr>
                     <?php
                     }
@@ -59,5 +66,5 @@ if (isset($_SESSION)) {
     </section>
 </main>
 <?php
-require_once(VIEWS_PATH."footer.php");
+require_once(VIEWS_PATH . "footer.php");
 ?>
