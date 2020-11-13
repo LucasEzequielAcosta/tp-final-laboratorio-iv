@@ -26,6 +26,7 @@
                     $funcion->setIdMovie($fila['idMovie']);
                     $funcion->setIdFuncion($fila['idFuncion']);
                     $funcion->setHorario($fila['horario']);
+                    $funcion->setFecha($fila['fecha']);
                     $funcion->setNombreSala($fila['nombreSala']);
 
                     array_push($funcionList, $funcion);
@@ -44,10 +45,11 @@
         {
             try
             {
-                $query = "UPDATE " . $this->tableName . " SET idMovie=:idMovie, horario=:horario, nombreSala=:nombreSala WHERE idFuncion=:idFuncion;";
+                $query = "UPDATE " . $this->tableName . " SET idMovie=:idMovie, horario=:horario, fecha=:fecha, nombreSala=:nombreSala WHERE idFuncion=:idFuncion;";
 
                 $parameters['idMovie'] = $funcion->getIdMovie();
                 $parameters['horario'] = $funcion->getHorario();
+                $parameters['fecha'] = $funcion->getFecha();
                 $parameters['nombreSala'] = $funcion->getNombreSala();
                 $parameters['idFuncion'] = $funcion->getIdFuncion();
 
@@ -82,10 +84,11 @@
         {
             try
             {
-                $query = "INSERT INTO " . $this->tableName . " (idMovie, horario, nombreSala) VALUES (:idMovie, :horario, :nombreSala);";
+                $query = "INSERT INTO " . $this->tableName . " (idMovie, horario, fecha, nombreSala) VALUES (:idMovie, :horario, :fecha, :nombreSala);";
 
                 $parameters['idMovie'] = $funcion->getIdMovie();
                 $parameters['horario'] = $funcion->getHorario();
+                $parameters['fecha'] = $funcion->getFecha();
                 $parameters['nombreSala'] = $funcion->getNombreSala();
 
                 $this->connection = Connection::GetInstance();

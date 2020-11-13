@@ -11,7 +11,7 @@
         
         public function home()
         {            
-            require_once(ROOT. "views/home.php");
+            require_once(VIEWS_PATH. 'admin-funcion.php');
         }
     }
 ?>

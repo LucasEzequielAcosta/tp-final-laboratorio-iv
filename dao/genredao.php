@@ -145,7 +145,7 @@
             }
         }
 
-        //Retorna un genero buscado mediante si id
+        //Retorna un genero buscado mediante su id
         public function getGenreById($id)
         {
             try

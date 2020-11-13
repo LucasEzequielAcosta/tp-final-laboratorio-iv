@@ -27,6 +27,7 @@
         {
             if($_POST['genre'] != -1)
             {   
+                var_dump($_POST);
                 $genreId = $_POST['genre'];
                 $movieList = $this->movieDao->getMoviesByGenre($genreId);
                 $genreList = $this->genreDao->update();

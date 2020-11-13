@@ -241,4 +241,19 @@
                 throw $ex;
             }
         }
+
+        public function getMovieById($id)
+        {
+            $movies = $this->getAll();
+
+            foreach($movies as $movie)
+            {
+                $movie->getTitle();
+                if($movie->getId() == $id)
+                {
+                    return $movie->getTitle();
+                }
+            }
+        }
+
     }

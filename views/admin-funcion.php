@@ -6,10 +6,6 @@ if (isset($_SESSION)) {
     $currentUser = $_SESSION['loggedUser'];
     if ($currentUser->getType() == 'admin') {
         require_once('admin-nav.php');
-    } else {
-        require_once(VIEWS_PATH . 'nav.php');
-        //require_once(VIEWS_PATH.'login.php');         
-    }
 ?>
     <main class="py-5">
         <section id="listado" class="mb-5">
@@ -20,7 +16,7 @@ if (isset($_SESSION)) {
                     <?php if (empty($funcionList)) 
                     {
                         echo '<h1 style="color:red">No existen funciones cargadas</h1>'; ?> <form action="<?php echo FRONT_ROOT ?>movie/showNowPlayingView" method="post">
-                            <button type="submit" class="btn btn-success ml-3"> Volver </button>
+                            <button type="submit" class="btn btn-success ml-3"> Agregar peliculas a cartelera </button>
                         </form>
                     <?php
                     } 
@@ -111,6 +107,12 @@ if (isset($_SESSION)) {
 
 <?php
 
+    } else {
+        require_once(VIEWS_PATH . 'nav.php');
+        //require_once(VIEWS_PATH.'login.php');         
+    }
+
     require_once(VIEWS_PATH . "footer.php");
+    
 }
 ?>

@@ -6,14 +6,15 @@
         private $idMovie;
         private $nombreSala;
         private $horario;
+        private $fecha;
         private $idFuncion;
 
-        public function __construct($idMovie='', $nombreSala='', $horario='', $idFuncion='')
+        public function __construct($nombreSala='', $idMovie='', $horario='', $fecha='')
         {
-            $this->idFuncion = $idFuncion;
             $this->idMovie = $idMovie;
             $this->nombreSala = $nombreSala;
             $this->horario = $horario;
+            $this->fecha = $fecha;
         }
 
         public function getIdMovie()
@@ -36,6 +37,11 @@
             return $this->idFuncion;
         }
 
+        public function getFecha()
+        {
+            return $this->fecha;
+        }
+
         public function setIdMovie($idMovie)
         {
             $this->idMovie = $idMovie;
@@ -54,6 +60,11 @@
         public function setIdFuncion($idFuncion)
         {
             $this->idFuncion = $idFuncion;
+        }
+
+        public function setFecha($fecha)
+        {
+            $this->fecha = $fecha;
         }
         
     }

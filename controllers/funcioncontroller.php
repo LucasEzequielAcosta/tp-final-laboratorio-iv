@@ -4,6 +4,7 @@
     use dao\FuncionDao as FuncionDao;
     use dao\SalaDao as SalaDao;
     use dao\MovieDao as MovieDao;
+    use dao\CineDao as CineDao;
     use models\Funcion as Funcion;
     use models\Sala as Sala;
     use models\Movie as Movie;
@@ -13,12 +14,14 @@
         private $funcionDao;
         private $salaDao;
         private $movieDao;
+        private $cineDao;
 
         public function __construct() {
 
             $this->funcionDao = new FuncionDao();
             $this->salaDao = new SalaDao();
             $this->movieDao = new MovieDao();
+            $this->cineDao = new CineDao();
         }
 
         public function showFunctionView()
@@ -29,7 +32,7 @@
             $salaList = $this->salaDao->getAll();
             $movieList = $this->movieDao->getAll();
 
-            require_once(VIEWS_PATH . 'funcion-list.php');
+            require_once(VIEWS_PATH . 'admin-funcion.php');
         }
 
         public function delete($idFuncion)
@@ -65,5 +68,23 @@
             $this->showFunctionView();
         }
 
+        public function createMovieShow($idMovie)
+        {
+            $salaList = $this->salaDao->getAll();
+            $cineList = $this->cineDao->getAll();
+            $title = $this->movieDao->getMovieById($idMovie);
+
+            require_once(VIEWS_PATH . 'create-movie-show.php');
+        }
+
+        public function addMovieShow($date, $time, $name, $idMovie)
+        {
+
+            $funcion = new Funcion($idMovie, $name, $time, $date);
+
+            //var_dump($funcion);
+
+            $this->funcionDao->add($funcion);
+        }
         
     }
