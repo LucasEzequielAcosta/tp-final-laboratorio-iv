@@ -22,6 +22,7 @@ if (isset($_SESSION)) {
                     } 
                     else{ ?>
                         <thead>
+                            <th>Cine</th>
                             <th>Sala</th>
                             <th>Película</th>
                             <th>Horario</th>
@@ -32,8 +33,9 @@ if (isset($_SESSION)) {
                             foreach ($funcionList as $funcion) {
                             ?>
                                 <tr>
+                                    <td><?php echo $funcion->getCine() ?></td>
                                     <td><?php echo $funcion->getNombreSala() ?></td>
-                                    <td><?php echo $funcion->getIdMovie()  ?></td>
+                                    <td><?php echo $this->movieDao->getMovieById($funcion->getIdMovie());  ?></td>
                                     <td><?php echo $funcion->getHorario() ?></td>
                                     <td>
 
@@ -66,7 +68,7 @@ if (isset($_SESSION)) {
                                                                 <div class="col-lg-4">
                                                                     <div class="form-group">
                                                                         <label style="color:white" for="">Pelicula</label>
-                                                                        <input type="text" name="pelicula" value="<?php echo $funcion->getIdMovie(); ?>" class="form-control" required>
+                                                                        <input type="text" name="pelicula" value="<?php echo $this->movieDao->getMovieById($funcion->getIdMovie()); ?>" class="form-control" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-4">

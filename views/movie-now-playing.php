@@ -49,7 +49,7 @@ if (isset($_SESSION)) {
                                     <td><?php echo $movie->getRating() ?></td>
                                     <td>
                                         <form action="<?php echo FRONT_ROOT ?>funcion/createMovieShow" method="POST">
-                                            <button onclick="openNav()" type="submit" class="btn btn-success ml-3" name="<?php echo $movie->getId(); ?>" value="<?php echo $movie->getId(); ?>">
+                                            <button type="submit" class="btn btn-success ml-3" name="<?php echo $movie->getId(); ?>" value="<?php echo $movie->getId(); ?>">
                                                 Agregar a cartelera
                                             </button>
                                         </form>

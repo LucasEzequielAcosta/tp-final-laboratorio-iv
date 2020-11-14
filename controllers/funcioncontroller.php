@@ -77,14 +77,13 @@
             require_once(VIEWS_PATH . 'create-movie-show.php');
         }
 
-        public function addMovieShow($date, $time, $name, $idMovie)
+        public function addMovieShow($date, $time, $idMovie, $cine, $nombreSala)
         {
-
-            $funcion = new Funcion($idMovie, $name, $time, $date);
-
-            //var_dump($funcion);
+            $funcion = new Funcion($nombreSala, $idMovie, $time, $date, $cine);
 
             $this->funcionDao->add($funcion);
+
+            $this->showFunctionView();
         }
         
     }

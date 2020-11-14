@@ -28,6 +28,7 @@
                     $funcion->setHorario($fila['horario']);
                     $funcion->setFecha($fila['fecha']);
                     $funcion->setNombreSala($fila['nombreSala']);
+                    $funcion->setCine($fila['cine']);
 
                     array_push($funcionList, $funcion);
                 }
@@ -84,12 +85,13 @@
         {
             try
             {
-                $query = "INSERT INTO " . $this->tableName . " (idMovie, horario, fecha, nombreSala) VALUES (:idMovie, :horario, :fecha, :nombreSala);";
+                $query = "INSERT INTO " . $this->tableName . " (idMovie, horario, fecha, nombreSala, cine) VALUES (:idMovie, :horario, :fecha, :nombreSala, :cine);";
 
                 $parameters['idMovie'] = $funcion->getIdMovie();
                 $parameters['horario'] = $funcion->getHorario();
                 $parameters['fecha'] = $funcion->getFecha();
                 $parameters['nombreSala'] = $funcion->getNombreSala();
+                $parameters['cine'] = $funcion->getCine();
 
                 $this->connection = Connection::GetInstance();
                 $this->connection->ExecuteNonQuery($query, $parameters);

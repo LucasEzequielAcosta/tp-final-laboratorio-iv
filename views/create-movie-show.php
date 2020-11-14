@@ -36,11 +36,12 @@ if (isset($_SESSION)) {
                                                 <input type="date" class="form-control" name="date" required>
                                             </td>
                                             <td>
-                                                <input type="time" max="23:00" min="16:00" class="form-control" name="time" required>
+                                                <input type="time" max="23:00" min="12:00" class="form-control" name="time" required>
                                             </td>
                                                 <input type="hidden" class="form-control" name="idMovie" value="<?php echo $idMovie; ?>" required>
+                                                <input type="hidden" class="form-control" name="cine" value="<?php echo $sala->getCine(); ?>" required>
                                             <td>
-                                                <button type="submit" name="name" value="<?php echo $sala->getName(); ?>" class="btn btn-success ml-3">Crear Funcion</button>
+                                                <button type="submit" name="nombreSala" value="<?php echo $sala->getName(); ?>" class="btn btn-success ml-3">Crear Funcion</button>
                                             </td>
                                         </form>
                                     </tr>
