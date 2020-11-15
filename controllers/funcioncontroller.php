@@ -5,6 +5,7 @@
     use dao\SalaDao as SalaDao;
     use dao\MovieDao as MovieDao;
     use dao\CineDao as CineDao;
+    use dao\GenreDao as GenreDao;
     use models\Funcion as Funcion;
     use models\Sala as Sala;
     use models\Movie as Movie;
@@ -15,6 +16,7 @@
         private $salaDao;
         private $movieDao;
         private $cineDao;
+        private $genreDao;
 
         public function __construct() {
 
@@ -22,6 +24,7 @@
             $this->salaDao = new SalaDao();
             $this->movieDao = new MovieDao();
             $this->cineDao = new CineDao();
+            $this->genreDao = new GenreDao();
         }
 
         public function showFunctionView()
@@ -85,5 +88,40 @@
 
             $this->showFunctionView();
         }
-        
+
+        public function getFunctionsByGenre($genreId)
+        {
+            session_start();
+            $genreList = $this->genreDao->getAll();
+            $funcionList = $this->funcionDao->getAll();
+            if($genreId != -1)
+            {
+                $funcionFiltered = array();
+                $movieList = $this->movieDao->getMoviesByGenre($genreId);
+                foreach($movieList as $movie)
+                {
+                    foreach($funcionList as $funcion)
+                    {
+                        if($movie->getId() == $funcion->getIdMovie())
+                        {
+                            array_push($funcionFiltered, $funcion);
+                        }
+                    }
+                }
+                $funcionList = $funcionFiltered;
+                if($funcionList)
+                {
+                    require_once(VIEWS_PATH."cartelera.php");
+                }
+                else
+                {
+                    require_once(VIEWS_PATH."cartelera.php");
+                    echo "<strong><h2 class='nav navbar justify-content-center'>No hay Peliculas del genero " . $this->genreDao->getGenreById($genreId) ."</h2></strong>";
+                }
+            }
+            else
+            {
+                require_once(VIEWS_PATH."cartelera.php");
+            }
+        }
     }

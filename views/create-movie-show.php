@@ -55,7 +55,6 @@ if (isset($_SESSION)) {
                 </div>
             </section>
         </main>
-
 <?php
 
     } else {

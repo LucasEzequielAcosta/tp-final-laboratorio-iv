@@ -6,39 +6,35 @@ if (isset($_SESSION)) {
     $currentUser = $_SESSION['loggedUser'];
     if ($currentUser->getType() == 'admin') {
         require_once('admin-nav.php');
+    }
+}
 ?>
     <main class="py-5">
         <section id="listado" class="mb-5">
             <div class="container">
                 <h2 class="mb-4">Listado de Funciones</h2>
                 <table class="table bg-light-alpha">
-
-                    <?php if (empty($funcionList)) 
-                    {
-                        echo '<h1 style="color:red">No existen funciones cargadas</h1>'; ?> <form action="<?php echo FRONT_ROOT ?>movie/showNowPlayingView" method="post">
-                            <button type="submit" class="btn btn-success ml-3"> Agregar peliculas a cartelera </button>
-                        </form>
-                    <?php
-                    } 
-                    else{ ?>
                         <thead>
                             <th>Cine</th>
                             <th>Sala</th>
                             <th>Película</th>
+                            <th>Dia</th>
                             <th>Horario</th>
                             <th>Opciones</th>
                         </thead>
                         <tbody>
                             <?php
                             foreach ($funcionList as $funcion) {
+                                $originalDate = $funcion->getFecha();
+                                $newDate = date("d/m/Y", strtotime($originalDate));
                             ?>
                                 <tr>
                                     <td><?php echo $funcion->getCine() ?></td>
                                     <td><?php echo $funcion->getNombreSala() ?></td>
                                     <td><?php echo $this->movieDao->getMovieById($funcion->getIdMovie());  ?></td>
+                                    <td><?php echo $newDate ?></td>
                                     <td><?php echo $funcion->getHorario() ?></td>
                                     <td>
-
                                         <form action="<?php echo FRONT_ROOT ?>funcion/Delete" method="post">
                                             <button type="submit" name="<?php echo $funcion->getIdFuncion(); ?>" value="<?php echo $funcion->getIdFuncion(); ?>">
                                                 <img width="20" height="20" src="<?php echo IMG_PATH ?>delete.png" alt="Eliminar_Cine">
@@ -96,25 +92,23 @@ if (isset($_SESSION)) {
                                         </script>
                                     </td>
                                 </tr>
-                        <?php
-                            }
-                        }
-                        ?>
-                        </tr>
+                            <?php } ?>    
                         </tbody>
                 </table>
+                <button class="btn btn-success ml-3">
+                    <a class="link" href="<?php echo FRONT_ROOT ?>movie/showNowPlayingView" style="color:white">Agregar mas funciones</a>
+                </button>
             </div>
         </section>
     </main>
 
+    
+
 <?php
 
-    } else {
-        require_once(VIEWS_PATH . 'nav.php');
-        //require_once(VIEWS_PATH.'login.php');         
-    }
+    
 
     require_once(VIEWS_PATH . "footer.php");
     
-}
+
 ?>

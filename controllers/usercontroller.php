@@ -35,7 +35,7 @@
 
                     $homeController = new HomeController();
 
-                    $homeController->home();                    
+                    $homeController->homeAdmin();                    
                 }
 
                 elseif($userDao->searchUser($_user->getUser()))
@@ -48,7 +48,7 @@
 
                         $homeController = new HomeController();
 
-                        $homeController->home(); 
+                        $homeController->homeUser(); 
                     }
 
                     else
