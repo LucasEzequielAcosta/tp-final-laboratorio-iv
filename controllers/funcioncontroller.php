@@ -30,7 +30,7 @@ class funcionController
         $this->genreDao = new GenreDao();
     }
 
-    public function showFunctionView($mesage='')
+    public function showFunctionView($mesage = '')
     {
         session_start();
 
@@ -83,36 +83,80 @@ class funcionController
         require_once(VIEWS_PATH . 'create-movie-show.php');
     }
 
-    public function verifyDate($date)
+    public function verifyDate($date, $idMovie, $nombreSala, $cine)
     {
-        $response = true;
-        $funcionList = $this->funcionDao->getAll();
+        $mesage = '';
+        $funcionList = $this->funcionDao->getAll(); //traigo las funciones ya cargadas
 
-        foreach($funcionList as $funcion)
-        {
-            if($date == $funcion->getFecha()){
-                return $response  = false;
+        foreach ($funcionList as $funcion) { //Recorro las funciones ya cargadas para comparar con los parametros que llegan
+            if ($funcion->getFecha() == $date) { // Comparo si tienen la misma fecha
+                if ($funcion->getIdMovie() == $idMovie) { //comparo si es la misma pelicula
+                    if ($funcion->getCine() == $cine) { // comparo si es el mismo cine
+                        if ($funcion->getNombreSala() != $nombreSala) { //verifico si es la misma sala
+                            return $mesage  = "En un mismo dia, la misma pelicula no puede ser reproducida en más de una sala del mismo cine."; //si no es la misma sala retorno mensaje de error
+                        }
+                    } else {
+                        return $mesage = "Una misma película solo puede ser proyectada en un único cine por día"; // si es distinto cine retorno mensaje de error
+                    }
+                }
             }
         }
-        return $response;
+        return $mesage;
+    }
+
+    public function higherHour($hour)
+    {
+        $horaMayor = strtotime('+0 hour', strtotime($hour));
+        $horaMayor = strtotime('+15 minute', $horaMayor);
+        $horaMayor = date('H:i:s', $horaMayor);
+        return $horaMayor;
+    }
+
+    public function lowerHour($hour)
+    {
+        $horaMenor = strtotime('+0 hour', strtotime($hour));
+        $horaMenor = strtotime('-15 minute', $horaMenor);
+        $horaMenor = date('H:i:s', $horaMenor);
+        return $horaMenor;
+    }
+
+    public function verifyTime($time, $date, $nombreSala, $cine)
+    {
+        $time = date('H:i:s', strtotime($time));
+        $mesage = '';
+        $funcionList = $this->funcionDao->getAll();
+
+        foreach ($funcionList as $funcion) {
+            if ($funcion->getFecha() == $date) {
+                if ($funcion->getCine() == $cine) {
+                    if ($funcion->getNombreSala() == $nombreSala) {
+                        if ($funcion->getHorario() < $time) {
+                            if ($this->higherHour($funcion->getHorario()) > $time) {
+                                return $mesage = "La funcion debe empezar 15 minutos despues de las demas funciones de esta sala";
+                            }
+                        } else {
+                            if ($this->lowerHour($funcion->getHorario()) < $time) {
+                                return $mesage = "La funcion debe empezar 15 minutos despues de las demas funciones de esta sala";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $mesage;
     }
 
     public function addMovieShow($date, $time, $idMovie, $cine, $nombreSala)
     {
-        if($this->verifyDate($date))
-        {
+        $mesage = $this->verifyDate($date, $idMovie, $nombreSala, $cine) . "" . $this->verifyTime($time, $date, $nombreSala, $cine);
+        if ($mesage == '') {
             $funcion = new Funcion($nombreSala, $idMovie, $time, $date, $cine);
-
             $this->funcionDao->add($funcion);
-
-            $this->showFunctionView();
-        }
-        else
-        {
-            $mesage = "Ya existe una funcion de " .$this->movieDao->getMovieById($idMovie). " el $date";
+            $mesage = "agregado correctamente";
+            $this->showFunctionView($mesage);
+        } else {
             $this->showFunctionView($mesage);
         }
-
     }
 
     public function getFunctionsByGenre($genreId)
