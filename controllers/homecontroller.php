@@ -30,6 +30,8 @@
             $funcionList = $this->funcionDao->getAll();
             $movieList = $this->movieDao->getAll();
             $genreList = $this->genreDao->getAll();
+            $today = date("Y-n-d");
+            $max = date("Y-n-d", mktime(0, 0, 0, date("n"), date("d")+20, date("Y")));
             require_once(VIEWS_PATH. 'cartelera.php');
         }
     }

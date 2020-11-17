@@ -103,6 +103,34 @@
             }
         }
 
+        public function getFunctionsByDate($date)
+        {
+            try{
+                $funcionList = array();
 
+                $query = "SELECT * FROM  . funciones f . WHERE f.fecha = $date";
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+
+                foreach ($resultSet as $fila)
+                {
+                    $funcion = new Funcion();
+                    $funcion->setIdMovie($fila['idMovie']);
+                    $funcion->setIdFuncion($fila['idFuncion']);
+                    $funcion->setHorario($fila['horario']);
+                    $funcion->setFecha($fila['fecha']);
+                    $funcion->setNombreSala($fila['nombreSala']);
+                    $funcion->setCine($fila['cine']);
+
+                    array_push($funcionList, $funcion);
+                }
+
+                return $funcionList;
+            }
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
+        }
 
     }
