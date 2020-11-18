@@ -103,34 +103,26 @@
             }
         }
 
-        public function getFunctionsByDate($date)
+        public function lastId()
         {
             try{
-                $funcionList = array();
+                $lastId = array();
 
-                $query = "SELECT * FROM " . $this->tableName . " WHERE (fecha = '" . $date ."');";
-                $this->connection = Connection::GetInstance();
-                $resultSet = $this->connection->Execute($query);
+                $query = "SELECT * FROM " . $this->tableName . " WHERE idFuncion= (SELECT MAX(idFuncion) FROM " . $this->tableName . ");";
 
-                foreach ($resultSet as $fila)
-                {
-                    $funcion = new Funcion();
-                    $funcion->setIdMovie($fila['idMovie']);
-                    $funcion->setIdFuncion($fila['idFuncion']);
-                    $funcion->setHorario($fila['horario']);
-                    $funcion->setFecha($fila['fecha']);
-                    $funcion->setNombreSala($fila['nombreSala']);
-                    $funcion->setCine($fila['cine']);
+                $this->connection = Connection::GetInstance();               
+                
+                $lastId = $this->connection->Execute($query);
 
-                    array_push($funcionList, $funcion);
-                }
-
-                return $funcionList;
+                return $lastId[0]['idFuncion'];
             }
+
             catch (Exception $ex)
             {
                 throw $ex;
             }
         }
+
+
 
     }
