@@ -8,8 +8,6 @@ use dao\MovieDao as MovieDao;
 use dao\CineDao as CineDao;
 use dao\GenreDao as GenreDao;
 use models\Funcion as Funcion;
-use models\Sala as Sala;
-use models\Movie as Movie;
 
 class funcionController
 {
@@ -76,7 +74,7 @@ class funcionController
     {
         $salaList = $this->salaDao->getAll();
         $cineList = $this->cineDao->getAll();
-        $title = $this->movieDao->getMovieById($idMovie);
+        $title = $this->movieDao->getTitleById($idMovie);
         $today = date("Y-n-d");
         $max = date("Y-n-d", mktime(0, 0, 0, date("n"), date("d") + 20, date("Y")));
 

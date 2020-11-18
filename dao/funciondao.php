@@ -108,7 +108,7 @@
             try{
                 $funcionList = array();
 
-                $query = "SELECT * FROM  . funciones f . WHERE f.fecha = $date";
+                $query = "SELECT * FROM " . $this->tableName . " WHERE (fecha = '" . $date ."');";
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
 

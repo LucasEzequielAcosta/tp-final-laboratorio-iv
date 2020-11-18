@@ -5,7 +5,7 @@ if (isset($_SESSION)) {
 
     $currentUser = $_SESSION['loggedUser'];
     if ($currentUser->getType() == 'client') {
-        require_once(VIEWS_PATH . 'nav.php');
+        require_once(VIEWS_PATH . 'client-nav.php');
     }
 }
 ?>
@@ -54,7 +54,7 @@ if (isset($_SESSION)) {
                             <tr>
                                 <td><?php echo $funcion->getCine() ?></td>
                                 <td><?php echo $funcion->getNombreSala() ?></td>
-                                <td><?php echo $this->movieDao->getMovieById($funcion->getIdMovie());  ?></td>
+                                <td><?php echo $this->movieDao->getMovieById($funcion->getIdMovie())->getTitle();  ?></td>
                                 <td><?php echo date("d/m/Y", strtotime($originalDate)); ?></td>
                                 <td><?php echo date("H:i A", strtotime($originalHour)); ?></td>
                                 <td>

@@ -34,7 +34,7 @@ if (isset($_SESSION)) {
                         <tr>
                             <td><?php echo $funcion->getCine() ?></td>
                             <td><?php echo $funcion->getNombreSala() ?></td>
-                            <td><?php echo $this->movieDao->getMovieById($funcion->getIdMovie());  ?></td>
+                            <td><?php echo $this->movieDao->getMovieById($funcion->getIdMovie())->getTitle();  ?></td>
                             <td><?php echo date("d/m/Y", strtotime($originalDate)); ?></td>
                             <td><?php echo date("H:i A", strtotime($originalHour)); ?></td>
                             <td>
@@ -60,6 +60,12 @@ if (isset($_SESSION)) {
                                                     <div class="row">
                                                         <div class="col-lg-4">
                                                             <div class="form-group">
+                                                                <label style="color:white" for="">Cine</label>
+                                                                <input type="text" name="cine" value="<?php echo $funcion->getCine(); ?>" class="form-control" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <div class="form-group">
                                                                 <label style="color:white" for="">Sala</label>
                                                                 <input type="text" name="sala" value="<?php echo $funcion->getNombreSala(); ?>" class="form-control" required>
                                                             </div>
@@ -67,7 +73,7 @@ if (isset($_SESSION)) {
                                                         <div class="col-lg-4">
                                                             <div class="form-group">
                                                                 <label style="color:white" for="">Pelicula</label>
-                                                                <input type="text" name="pelicula" value="<?php echo $this->movieDao->getMovieById($funcion->getIdMovie()); ?>" class="form-control" required>
+                                                                <input type="text" name="pelicula" value="<?php echo $this->movieDao->getMovieById($funcion->getIdMovie())->getTitle(); ?>" class="form-control" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4">
