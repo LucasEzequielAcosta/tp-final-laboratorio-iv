@@ -31,15 +31,15 @@ if (isset($_SESSION)) {
                                     <tr>
                                         <td><?php echo $sala->getCine() ?></td>
                                         <td><?php echo $sala->getName() ?></td>
-                                        <form action="<?php echo FRONT_ROOT ?>funcion/addMovieShow" method="POST">
+                                        <form action="<?php echo FRONT_ROOT ?>funcion/addMovieShow" method="POST" class="form-group">
                                             <td>
-                                                <input type="date" class="form-control" name="date" required>
+                                                <input type="date" class="form-control" name="name" min="<?php echo $today; ?>" max="<?php echo $max; ?>" required>
                                             </td>
                                             <td>
-                                                <input type="time" max="23:00" min="12:00" class="form-control" name="time" required>
+                                                <input type="time" max="23:00" min="10:00" class="form-control" name="time" required>
                                             </td>
-                                                <input type="hidden" class="form-control" name="idMovie" value="<?php echo $idMovie; ?>" required>
-                                                <input type="hidden" class="form-control" name="cine" value="<?php echo $sala->getCine(); ?>" required>
+                                            <input type="hidden" class="form-control" name="idMovie" value="<?php echo $idMovie; ?>" required>
+                                            <input type="hidden" class="form-control" name="cine" value="<?php echo $sala->getCine(); ?>" required>
                                             <td>
                                                 <button type="submit" name="nombreSala" value="<?php echo $sala->getName(); ?>" class="btn btn-success ml-3">Crear Funcion</button>
                                             </td>

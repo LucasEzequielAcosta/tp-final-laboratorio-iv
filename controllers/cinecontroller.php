@@ -19,7 +19,7 @@
             require_once(VIEWS_PATH . "cine-home.php");
         }
 
-        public function showAddView()
+        public function showAddView($mesage='')
         {
             session_start();
             require_once(VIEWS_PATH . "add-cine.php");
@@ -69,13 +69,38 @@
             $this->showListView();
         }
 
+        public function verify($name, $adress)
+        {
+            $mesage = '';
+            $cineList = $this->cineDao->getAll();
+
+            foreach($cineList as $cine)
+            {
+                if($cine->getName() == $name){
+                    return $mesage = "Ya existe un cine con ese nombre";
+                }
+                elseif ($cine->getAdress() == $adress){
+                    return $mesage = "Ya existe un cine en esa direccion";
+                }
+            }
+            return $mesage;
+        }
+
         public function addCine($name, $adress) {
 
-            $cine = new Cine($name, $adress);
+            $mesage = $this->verify($name, $adress);
 
-            $this->cineDao->add($cine);
+            if($mesage == '')
+            {
+                $cine = new Cine($name, $adress);
 
-            $this->showAddView();
+                $this->cineDao->add($cine);
+
+                $this->showAddView($mesage = "cine agregado correctamente");
+            }
+            else{
+                $this->showAddView($mesage);
+            }
         }
     }
 ?>

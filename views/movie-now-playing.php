@@ -12,7 +12,7 @@ if (isset($_SESSION)) {
         <main class="py-5">
             <div class="container">
                 <div class="nav navbar justify-content-center">
-                    <form role="form" action="<?php echo FRONT_ROOT ?>movie/getMoviesByGenre?>" method="POST">
+                    <form role="form" action="<?php echo FRONT_ROOT ?>movie/getMoviesByGenre" method="POST">
                         <label class="text-light mr-3" for="genre_movie">Genero: </label>
                         <select class="form-control-sm" name="genre">
                             <option value=-1>Todas</option>
