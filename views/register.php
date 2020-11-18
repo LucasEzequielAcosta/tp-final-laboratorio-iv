@@ -7,8 +7,6 @@ require_once('nav.php');
     <section id="listado" class="mb-5">
         <div class="container">
             <h1 class="mb-4">Registrarse</h1>
-            <h5 class="mb-2">Por defecto los usuarios nuevos son clientes</h5>
-            <br>
             
             <form action= "<?php echo FRONT_ROOT ?>user/register" method="post" class="bg-light-alpha p-5">
                 <div class="row">
