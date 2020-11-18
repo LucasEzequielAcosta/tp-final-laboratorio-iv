@@ -22,7 +22,7 @@
             {
                 throw $ex;
             }
-        }
+        }        
 
         public static function GetInstance()
         {
@@ -59,6 +59,8 @@
                 $this->BindParameters($parameters, $queryType);
 
                 $this->pdoStatement->execute();
+
+                //echo($this->pdo->lastInsertId());
 
                 return $this->pdoStatement->rowCount();
             }
