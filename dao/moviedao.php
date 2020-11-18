@@ -248,10 +248,9 @@
 
             foreach($movies as $movie)
             {
-                $movie->getTitle();
                 if($movie->getId() == $id)
                 {
-                    return $movie->getTitle();
+                    return $movie;
                 }
             }
         }

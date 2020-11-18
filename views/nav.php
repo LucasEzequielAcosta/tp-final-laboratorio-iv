@@ -7,9 +7,8 @@ require_once(VIEWS_PATH."header.php");
     </span>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo FRONT_ROOT ?>home">Inicio</a>
-        </li>
-        
+            <a class="nav-link" href="<?php echo FRONT_ROOT ?>user/showLoginView">Iniciar sesion</a>
+        </li>     
         <li class="nav-item">
             <a class="nav-link" href="<?php echo FRONT_ROOT ?>user/showRegisterView">Registrarse</a>
         </li>

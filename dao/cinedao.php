@@ -30,8 +30,7 @@
         {
             try
             {
-                $cineList = $this->getAll();
-                $capacityArray = array();                               
+                $cineList = $this->getAll();                               
                 
                 foreach ($cineList as $cine)
                 {
@@ -83,22 +82,13 @@
 
                 $this->connection = Connection::GetInstance();
 
-                $this->connection->ExecuteNonQuery($query, $parameters);                
+                $this->connection->ExecuteNonQuery($query, $parameters);
             }
 
             catch (Exception $ex)
             {
                 throw $ex;
             }
-        }
-
-        protected function map($queryResult)
-        {
-            $queryResult = is_array($queryResult) ? $queryResult : [];
-
-            $mapping = array_map(function($aux){return new Cine($aux['name'], $aux['adress']);}, $queryResult);
-
-            return count($mapping) >= 1 ? $mapping : $mapping['0'];
         }
 
         public function getAll()
@@ -110,18 +100,23 @@
                 $query = "SELECT * FROM " . $this->tableName;
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
+
+                foreach ($resultSet as $fila)
+                {
+                    $cine = new Cine();
+                    $cine->setName($fila["name"]);                    
+                    $cine->setAdress($fila["adress"]);                    
+
+                    array_push($cineList, $cine);
+                }
+
+                return $cineList;                
             }
 
-            catch (\PDOException $ex)
+            catch (Exception $ex)
             {
                 throw $ex;
             }
-
-            if(!empty($resultSet))            
-                return $this->map($resultSet);
-            
-            else
-                return false;
 
         }              
     }
