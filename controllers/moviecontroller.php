@@ -19,7 +19,7 @@
         {  
             $genreList = $this->genreDao->update();
             $movieList = $this->movieDao->update();    
-            
+            $message='';
             require_once(VIEWS_PATH."movie-now-playing.php");
         }
 
@@ -32,13 +32,13 @@
                 
                 if($movieList)
                 {
+                    $message='';
                     require_once(VIEWS_PATH."movie-now-playing.php");
                 }
                 else
                 {
-                    
+                    $message='No hay Peliculas del genero ' . $this->genreDao->getGenreById($genreId);
                     require_once(VIEWS_PATH."movie-now-playing.php");
-                    echo "<strong><h2 class='nav navbar justify-content-center'>No hay Peliculas del genero " . $this->genreDao->getGenreById($genreId);
                 }
             }
             else
