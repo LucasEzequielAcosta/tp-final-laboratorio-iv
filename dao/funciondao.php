@@ -42,6 +42,25 @@
             }
         }
 
+        public function getFunction($funcion)
+        {
+            $query= 'SELECT * FROM ' . $this->tableName . ' WHERE (idFuncion="' . $funcion . '");';
+
+            try{
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+            }
+
+            catch (\PDOException $ex)
+            {
+                throw $ex;
+            }
+
+            $_funcion= new Funcion($resultSet[0]['nombreSala'], $resultSet[0]['idMovie'], $resultSet[0]['horario'], $resultSet[0]['fecha'], $resultSet[0]['cine']);
+
+            return $_funcion;
+        }
+
         public function modify(Funcion $funcion)
         {
             try

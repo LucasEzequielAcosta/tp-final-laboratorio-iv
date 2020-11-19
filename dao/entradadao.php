@@ -14,9 +14,8 @@
         {
             try
             {
-                $query = "INSERT INTO " . $this->tableName . " (numeroEntrada, idFuncion, idCompra) VALUES (:numeroEntrada, :idFuncion, :idCompra);";
-
-                $parameters['numeroEntrada'] = $entrada->getNumeroEntrada();
+                $query = "INSERT INTO " . $this->tableName . " (idFuncion, idCompra) VALUES (:idFuncion, :idCompra);";
+                
                 $parameters['idFuncion'] = $entrada->getFuncion();
                 $parameters['idCompra'] = $entrada->getIdCompra();
 

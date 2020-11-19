@@ -37,7 +37,10 @@ if (isset($_SESSION)) {
                             <td><?php echo $movieName  ?></td>
                             <td><?php echo $newDate ?></td>
                             <td><?php echo $funcion->getHorario() ?></td>
-                            <td><?php  ?></td>
+                            <td>$<?php foreach ($salaList as $sala){
+                                if($funcion->getNombreSala() == $sala->getName())
+                                {    echo $sala->getPrice(); $salita= $sala->getName(); $plata= $sala->getPrice(); }
+                            }  ?></td>
                         </tr>
                     <?php
                     }
@@ -46,6 +49,16 @@ if (isset($_SESSION)) {
                     </tr>
                 </tbody>
             </table>
+
+            <form action="<?php echo FRONT_ROOT ?>compra/confirmBuy" method="POST">
+            <input type="hidden" name="movieName" value="<?php echo $movieName; ?>">
+            <input type="hidden" name="idFunc" value="<?php echo $idFuncion; ?>">
+            <input type="hidden" name="sala" value="<?php echo $salita; ?>">
+            <input type="hidden" name="precio" value="<?php echo $plata; ?>">
+            <button type="submit" class="btn btn-success ml-3" name="confirm" value="">
+                Confirmar
+            </button>
+            </form>
         </div>
     </section>
 </main>
