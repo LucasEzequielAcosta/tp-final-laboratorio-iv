@@ -6,6 +6,9 @@ require_once('nav.php');
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
+                    <?php if ($message) { ?>
+                        <h3 style="color: red;"><?php echo $message ?></h3>
+                    <?php } ?>
             <h1 class="mb-4">Ingresar</h1>
             
             <form action= "<?php echo FRONT_ROOT ?>user/login" method="post" class="bg-light-alpha p-5">

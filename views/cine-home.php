@@ -16,6 +16,9 @@ if(isset($_SESSION))
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
+                    <?php if ($message) { ?>
+                        <h3 style="color: red;"><?php echo $message ?></h3>
+                    <?php } ?>
             <h2 class="mb-4">Administración de Cines</h2>
             <br>
             <h6 class="mb-1">Bienvenido, <strong><?php echo $currentUser->getUser(); ?></strong>.

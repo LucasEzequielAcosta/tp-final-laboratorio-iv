@@ -8,7 +8,7 @@
         function Register(User $user);
         function GetAll();
         //function ChangeType(User $user, $type);
-        function SearchUser($name);
+        function SearchUser(User $user);
         function VerifyPassword(User $user);
         function FullUser(User $user);
     }

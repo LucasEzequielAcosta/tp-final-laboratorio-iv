@@ -12,8 +12,8 @@ if (isset($_SESSION)) {
         <main class="py-5">
             <section id="listado" class="mb-5">
                 <div class="container">
-                    <?php if ($mesage) { ?>
-                        <h3 style="color: red;"><?php echo $mesage ?></h3>
+                    <?php if ($message) { ?>
+                        <h3 style="color: red;"><?php echo $message ?></h3>
                     <?php } ?>
                     <h2 class="mb-4">Agregar cine</h2>
                     <form action="<?php echo FRONT_ROOT ?>cine/addCine" method="post" class="bg-light-alpha p-5">

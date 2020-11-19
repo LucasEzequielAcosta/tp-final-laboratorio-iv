@@ -17,8 +17,9 @@
             require_once(VIEWS_PATH.'login.php');
         }
         
-        public function homeAdmin()
+        public function homeAdmin($message='')        
         {            
+            $message = $message;
             require_once(VIEWS_PATH. 'cine-home.php');
         }
 
