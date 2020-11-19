@@ -90,7 +90,7 @@
                 
                 try {
                     
-                    if($userDao->searchUser($newUser->getUser()))
+                    if($userDao->searchUser($newUser))
                     {
                         $message = 'Usuario ya existente!';
                         $this->showRegisterView($message);

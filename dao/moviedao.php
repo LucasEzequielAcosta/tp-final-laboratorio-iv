@@ -41,7 +41,7 @@
             $movie->setRating($valuesArray['vote_average']);
             $movie->setPoster('https://image.tmdb.org/t/p/w500' . $valuesArray['poster_path']);
             $movie->setId($valuesArray['id']);
-            $movie->setGenres($valuesArray['genre_ids']);                
+            $movie->setGenres($valuesArray['genre_ids']);         
 
             return $movie;
         }
@@ -208,13 +208,13 @@
         }
 
 
-        //retorna las peliculas de un determinado id de genero
+        //retorna las peliculas de un determinado id de genero   
         public function getMoviesByGenre($id)
         {
             try{
                 if($this->getMoviesXgenero())
                 {
-                    $query = "SELECT m.*, g.genero FROM movies m LEFT JOIN mxg mg ON m.idMovie = mg.idMovie LEFT JOIN generos g ON mg.idGenero = g.idGenero WHERE g.idGenero = $id";
+                    $query = "SELECT m.*, g.genero FROM movies m LEFT JOIN mxg mg ON m.idMovie = mg.idMovie LEFT JOIN generos g ON mg.idGenero = g.idGenero WHERE g.idGenero ='" . $id ."';";
                     $movieList = array();
                     $this->connection = Connection::GetInstance();
                     $resultSet = $this->connection->Execute($query);
