@@ -229,7 +229,7 @@
                         $movie->setPoster($fila["poster"]);
 
                         array_push($movieList, $movie);
-                    }
+                    }                    
                     return $movieList;
                 }
                 else{

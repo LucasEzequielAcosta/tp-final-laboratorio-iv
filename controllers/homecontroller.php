@@ -23,7 +23,7 @@
             require_once(VIEWS_PATH. 'cine-home.php');
         }
 
-        public function homeUser()
+        public function homeUser($message='')
         {   
             $this->funcionDao = new FuncionDao();
             $this->movieDao = new MovieDao;
