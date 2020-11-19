@@ -28,10 +28,11 @@ class funcionController
         $this->genreDao = new GenreDao();
     }
 
-    public function showFunctionView($mesage = '')
+    public function showFunctionView($message = '')
     {
         session_start();
 
+        $msj = $message;
         $funcionList = $this->funcionDao->getAll();
         $salaList = $this->salaDao->getAll();
         $movieList = $this->movieDao->getAll();
@@ -83,7 +84,7 @@ class funcionController
 
     public function verifyDate($date, $idMovie, $nombreSala, $cine)
     {
-        $mesage = '';
+        $message = '';
         $funcionList = $this->funcionDao->getAll(); //traigo las funciones ya cargadas
 
         foreach ($funcionList as $funcion) { //Recorro las funciones ya cargadas para comparar con los parametros que llegan
@@ -91,15 +92,15 @@ class funcionController
                 if ($funcion->getIdMovie() == $idMovie) { //comparo si es la misma pelicula
                     if ($funcion->getCine() == $cine) { // comparo si es el mismo cine
                         if ($funcion->getNombreSala() != $nombreSala) { //verifico si es la misma sala
-                            return $mesage  = "En un mismo dia, la misma pelicula no puede ser reproducida en más de una sala del mismo cine."; //si no es la misma sala retorno mensaje de error
+                            return $message  = "En un mismo dia, la misma pelicula no puede ser reproducida en más de una sala del mismo cine."; //si no es la misma sala retorno mensaje de error
                         }
                     } else {
-                        return $mesage = "Una misma película solo puede ser proyectada en un único cine por día"; // si es distinto cine retorno mensaje de error
+                        return $message = "Una misma película solo puede ser proyectada en un único cine por día"; // si es distinto cine retorno mensaje de error
                     }
                 }
             }
         }
-        return $mesage;
+        return $message;
     }
 
     public function higherHour($hour)
@@ -121,7 +122,7 @@ class funcionController
     public function verifyTime($time, $date, $nombreSala, $cine)
     {
         $time = date('H:i:s', strtotime($time));
-        $mesage = '';
+        $message = '';
         $funcionList = $this->funcionDao->getAll();
 
         foreach ($funcionList as $funcion) {
@@ -130,30 +131,30 @@ class funcionController
                     if ($funcion->getNombreSala() == $nombreSala) {
                         if ($funcion->getHorario() < $time) {
                             if ($this->higherHour($funcion->getHorario()) > $time) {
-                                return $mesage = "La funcion debe empezar 15 minutos despues de las demas funciones de esta sala";
+                                return $message = "La funcion debe empezar 15 minutos despues de las demas funciones de esta sala";
                             }
                         } else {
                             if ($this->lowerHour($funcion->getHorario()) < $time) {
-                                return $mesage = "La funcion debe empezar 15 minutos despues de las demas funciones de esta sala";
+                                return $message = "La funcion debe empezar 15 minutos despues de las demas funciones de esta sala";
                             }
                         }
                     }
                 }
             }
         }
-        return $mesage;
+        return $message;
     }
 
     public function addMovieShow($date, $time, $idMovie, $cine, $nombreSala)
     {
-        $mesage = $this->verifyDate($date, $idMovie, $nombreSala, $cine) . "" . $this->verifyTime($time, $date, $nombreSala, $cine);
-        if ($mesage == '') {
+        $message = $this->verifyDate($date, $idMovie, $nombreSala, $cine) . "" . $this->verifyTime($time, $date, $nombreSala, $cine);
+        if ($message == '') {
             $funcion = new Funcion($nombreSala, $idMovie, $time, $date, $cine);
             $this->funcionDao->add($funcion);
-            $mesage = "Agregado correctamente";
-            $this->showFunctionView($mesage);
+            $message = "Agregado correctamente";
+            $this->showFunctionView($message);
         } else {
-            $this->showFunctionView($mesage);
+            $this->showFunctionView($message);
         }
     }
 
@@ -174,14 +175,18 @@ class funcionController
                     }
                 }
             }
+
             $funcionList = $funcionFiltered;
             if ($funcionList) {
+                
+                $message='';
                 require_once(VIEWS_PATH . "cartelera.php");
             } else {
-                require_once(VIEWS_PATH . "cartelera.php");
-                echo "<strong><h2 class='nav navbar justify-content-center'>No hay Peliculas del genero " . $this->genreDao->getGenreById($genreId) . "</h2></strong>";
+                $message= 'No hay Peliculas del genero ' . $this->genreDao->getGenreById($genreId);
+                require_once(VIEWS_PATH . "cartelera.php");                
             }
         } else {
+            $message='';
             require_once(VIEWS_PATH . "cartelera.php");
         }
     }
@@ -195,10 +200,11 @@ class funcionController
         $funcionList = $this->funcionDao->getFunctionsByDate($date);
 
         if ($funcionList) {
+            $message='';
             require_once(VIEWS_PATH . "cartelera.php");
         } else {
+            $message= 'No hay funciones en la fecha ' . $date;
             require_once(VIEWS_PATH . "cartelera.php");
-            echo "<strong><h2 class='nav navbar justify-content-center'>No hay funciones en la fecha " . $date . "</h2></strong>";
         }
     }
 }
