@@ -8,7 +8,7 @@
     define("IMG_PATH", FRONT_ROOT.VIEWS_PATH . "img/");
 
     define("DB_HOST", "localhost");
-    define("DB_NAME", "moviepass2");
+    define("DB_NAME", "moviepass");
     define("DB_USER", "root");
     define("DB_PASS", "");
 ?>

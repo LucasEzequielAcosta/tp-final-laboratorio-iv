@@ -74,7 +74,7 @@ class funcionController
     {
         $salaList = $this->salaDao->getAll();
         $cineList = $this->cineDao->getAll();
-        $title = $this->movieDao->getTitleById($idMovie);
+        $title = $this->movieDao->getMovieById($idMovie);
         $today = date("Y-n-d");
         $max = date("Y-n-d", mktime(0, 0, 0, date("n"), date("d") + 20, date("Y")));
 
@@ -150,7 +150,7 @@ class funcionController
         if ($mesage == '') {
             $funcion = new Funcion($nombreSala, $idMovie, $time, $date, $cine);
             $this->funcionDao->add($funcion);
-            $mesage = "agregado correctamente";
+            $mesage = "Agregado correctamente";
             $this->showFunctionView($mesage);
         } else {
             $this->showFunctionView($mesage);

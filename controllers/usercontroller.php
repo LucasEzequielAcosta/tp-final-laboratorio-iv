@@ -7,104 +7,118 @@
 
     class UserController {
 
-        public function showLoginView()
+        public function showLoginView($message='')
         {
             require_once(VIEWS_PATH . "login.php");
         }
 
-        public function showRegisterView()
+        public function showRegisterView($message='')
         {
             require_once(VIEWS_PATH. "register.php");
         }
 
-        public function login() 
+        public function login($formUser, $formPassword) 
         {
-            if($_POST)
-            {
-                $_user= new User($_POST['user'], $_POST['password']);
+                $_user= new User($formUser, $formPassword);
                 $userDao= new UserDao();
 
-                if(($_user->getUser() == "admin") && ($_user->getPassword() == "123456")) //Superadmin default, para poder definir otros admin
-                { 
-                    session_start();
-
-                    $_user->setType('admin');
-                    
-
-                    $_SESSION['loggedUser'] = $_user;
-
-                    $homeController = new HomeController();
-
-                    $homeController->homeAdmin();                    
-                }
-
-                elseif($userDao->searchUser($_user->getUser()))
-                {
-                    if($userDao->verifyPassword($_user))
-                    {
+                try{
+                    if(($_user->getUser() == "admin") && ($_user->getPassword() == "123456")) //Superadmin default, para poder definir otros admin
+                    { 
                         session_start();
+
+                        $_user->setType('admin');
                         
-                        $_SESSION['loggedUser'] = $userDao->fullUser($_user);
+
+                        $_SESSION['loggedUser'] = $_user;
 
                         $homeController = new HomeController();
 
-                        $homeController->homeUser(); 
+                        $homeController->homeAdmin();                    
+                    }
+
+                
+
+                    elseif($userDao->searchUser($_user))
+                    {
+                        if($userDao->verifyPassword($_user))
+                        {
+                            session_start();
+
+                            $fullUser = $userDao->fullUser($_user);                            
+                            
+                            $_SESSION['loggedUser'] = $fullUser[0];
+
+                            $homeController = new HomeController();
+
+                            $homeController->homeUser(); 
+                        }
+
+                        else
+                        {
+                            $message = 'Contraseña errónea!';
+                            $this->showLoginView($message);
+                        }
+                    }
+
+                    elseif(($userDao->searchUser($_user) == false))
+                    {
+                        $message = 'Usuario no existente!';
+                        $this->showLoginView($message);
+                    }
+
+                    else
+                    {  
+                        $message = 'Error no identificado!';
+                        $this->showLoginView($message); 
+                    }
+                }
+
+                catch(\PDOException $ex)
+                {
+                    $message = 'Error en la Base de Datos!';
+                    $this->showLoginView($message);
+                }
+        }
+        
+
+        public function register($formUser, $formPassword)
+        {
+            
+                $newUser= new User($formUser, $formPassword);
+                $userDao= new UserDao();
+                
+                try {
+                    
+                    if($userDao->searchUser($newUser->getUser()))
+                    {
+                        $message = 'Usuario ya existente!';
+                        $this->showRegisterView($message);
+                    }
+
+                    elseif($newUser->getUser() == 'admin')
+                    {
+                        $message = 'No se puede usar el nombre del SuperAdmin!';
+                        $this->showRegisterView($message);
                     }
 
                     else
                     {
-                        require_once(VIEWS_PATH . "login.php");
-                        echo '<script> alert("Contraseña errónea!") </script>';
+                        $userDao->register($newUser);
+                        $message = 'Usuario creado con éxito! Bienvenido ' . $newUser->getUser();
+                        $this->showLoginView($message);
                     }
                 }
 
-                elseif(($userDao->searchUser($_user->getUser())) == false)
+                catch(\PDOException $ex)
                 {
-                    require_once(VIEWS_PATH . "login.php");
-                    echo '<script> alert("Usuario no encontrado!") </script>';
+                    $message = 'Error en la base de datos!';
+                    $this->showRegisterView($message);
                 }
-                
-
-                else
-                {  
-                    $alert = "error";
-                    require_once(VIEWS_PATH . "login.php");
-                    echo '<script> alert("Usuario y/o contraseña no válidos!") </script>'; 
-                }
-            }
-        }
-        
-
-        public function register()
-        {
-            if($_POST)
-            {
-                $newUser= new User($_POST['user'], $_POST['password']);
-                $userDao= new UserDao();
-                
-
-                if($userDao->searchUser($newUser->getUser()))
-                {
-                    require_once(VIEWS_PATH. "register.php");
-                    echo '<script> alert("Usuario ya existente!") </script>';
-                }
-
-                elseif($newUser->getUser() == 'admin')
-                {
-                    require_once(VIEWS_PATH. "register.php");
-                    echo '<script> alert("No se puede ocupar el nombre del Superadmin") </script>';
-                }
-
-                else
-                {
-                    $userDao->register($newUser);
-                    require_once(VIEWS_PATH . "login.php");
-                    echo '<script> alert("Usuario registrado exitosamente! Bienvenido '. $newUser->getUser() . ' !") </script>';
-                }
-            }
+            
         }
 
-        public function logOut()
+        public function logOut($message='')
         {
             session_start();
     

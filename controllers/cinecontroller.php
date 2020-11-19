@@ -13,28 +13,38 @@
             $this->cineDao = new CineDao();
         }
 
-        public function showHomeView()
+        public function showHomeView($message='')
         {
             session_start();
+            $message = $message;
             require_once(VIEWS_PATH . "cine-home.php");
         }
 
-        public function showAddView($mesage='')
+        public function showAddView($message='')
         {
             session_start();
+            $message = $message;
             require_once(VIEWS_PATH . "add-cine.php");
         }
 
-        public function showListView()
+        public function showListView($message='')
         {
-            session_start();            
+            session_start();
+            $message = $message;            
             
-            $cineList = $this->cineDao->getAll();
+            try {
+                $cineList = $this->cineDao->getAll();
             
-            if(!empty($cineList))
-            {
-                $capacidad = $this->cineDao->getCapacity();
-            }           
+                if(!empty($cineList))
+                {
+                    $capacidad = $this->cineDao->getCapacity();
+                }
+            }
+
+            catch(\Exception $ex) {
+                $message = 'Error en la base de Datos!';
+                $this->showHomeView($message);
+            }
             
 
             require_once(VIEWS_PATH . "cine-list.php");
@@ -60,46 +70,62 @@
         {            
             $cine = new Cine();
             $cine->setName($newName);            
-            $cine->setAdress($newAdress);            
+            $cine->setAdress($newAdress);
+            
+            try {
+                $this->cineDao->modify($cine, $idName);
+            }
 
-            $this->cineDao->modify($cine, $idName);
+            catch(\Exception $ex)
+            {
+                $message = 'Error de la base de Datos al modificar cine!';                
+                $this->showListView($message);                
+            }
 
             usleep(550000);
 
             $this->showListView();
         }
 
-        public function verify($name, $adress)
+        public function verify($name, $adress) //hacer este laburo en DAO
         {
-            $mesage = '';
+            $message = '';
             $cineList = $this->cineDao->getAll();
 
             foreach($cineList as $cine)
             {
                 if($cine->getName() == $name){
-                    return $mesage = "Ya existe un cine con ese nombre";
+                    return $message = "Ya existe un cine con ese nombre!";
                 }
                 elseif ($cine->getAdress() == $adress){
-                    return $mesage = "Ya existe un cine en esa direccion";
+                    return $message = "Ya existe un cine en esa direccion!";
                 }
             }
-            return $mesage;
+            return $message;
         }
 
         public function addCine($name, $adress) {
 
-            $mesage = $this->verify($name, $adress);
+            $message = $this->verify($name, $adress);
 
-            if($mesage == '')
-            {
-                $cine = new Cine($name, $adress);
+            try {
+                if($message == '')
+                {
+                    $cine = new Cine($name, $adress);
 
-                $this->cineDao->add($cine);
+                    $this->cineDao->add($cine);
 
-                $this->showAddView($mesage = "cine agregado correctamente");
+                    $this->showAddView($message = "Cine agregado correctamente.");
+                }
+                else{
+                    $this->showAddView($message);
+                }
             }
-            else{
-                $this->showAddView($mesage);
+
+            catch(\Exception $ex)
+            {
+                $message = 'Error de la base de Datos al cargar cine nuevo!';
+                $this->showAddView($message);
             }
         }
     }

@@ -58,8 +58,9 @@ if (isset($_SESSION)) {
                                 <td><?php echo date("d/m/Y", strtotime($originalDate)); ?></td>
                                 <td><?php echo date("H:i A", strtotime($originalHour)); ?></td>
                                 <td>
-                                    <form action="<?php echo FRONT_ROOT ?>funcion/createMovieShow" method="POST">
-                                        <button type="submit" class="btn btn-success ml-3" name="movie" value="<?php echo $funcion->getIdMovie(); ?>">
+                                    <form action="<?php echo FRONT_ROOT ?>compra/BuyView" method="POST">
+                                        <input type="hidden" name="movieName" value="<?php echo $this->movieDao->getMovieById($funcion->getIdMovie())->getTitle(); ?>">
+                                        <button type="submit" class="btn btn-success ml-3" name="idFuncion" value="<?php echo $funcion->getIdFuncion(); ?>">
                                             Comprar
                                         </button>
                                     </form>
