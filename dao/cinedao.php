@@ -20,7 +20,7 @@
                 $this->connection->ExecuteNonQuery($query);
             }
             
-            catch (Exception $ex)
+            catch (\PDOException $ex)
             {
                 throw $ex;
             }
@@ -45,7 +45,7 @@
                 return $capacityArray;
             }
 
-            catch (Exception $ex)
+            catch (\PDOException $ex)
             {
                 throw $ex;
             }
@@ -66,7 +66,7 @@
                 $this->connection->ExecuteNonQuery($query, $parameters);
             }
 
-            catch (Exception $ex)
+            catch (\PDOException $ex)
             {
                 throw $ex;
             }
@@ -86,7 +86,7 @@
                 $this->connection->ExecuteNonQuery($query, $parameters);                
             }
 
-            catch (Exception $ex)
+            catch (\PDOException $ex)
             {
                 throw $ex;
             }
@@ -105,8 +105,6 @@
         {
             try
             {
-                $cineList = array();
-
                 $query = "SELECT * FROM " . $this->tableName;
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);

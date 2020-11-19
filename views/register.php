@@ -6,6 +6,9 @@ require_once('nav.php');
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
+                    <?php if ($message) { ?>
+                        <h3 style="color: red;"><?php echo $message ?></h3>
+                    <?php } ?>
             <h1 class="mb-4">Registrarse</h1>
             <h5 class="mb-2">Por defecto los usuarios nuevos son clientes</h5>
             <br>

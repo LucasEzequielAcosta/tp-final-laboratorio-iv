@@ -56,6 +56,7 @@
             $this->showFunctionView();
         }
 
+<<<<<<< Updated upstream
         public function modify($idFuncion, $sala, $pelicula, $fecha)
         {
             $funcion = new Funcion();
@@ -63,6 +64,15 @@
             $funcion->setNombreSala($sala);
             $funcion->setIdMovie($pelicula);
             $funcion->setHorario($fecha);
+=======
+    public function createMovieShow($idMovie)
+    {
+        $salaList = $this->salaDao->getAll();
+        $cineList = $this->cineDao->getAll();
+        $title = $this->movieDao->getMovieById($idMovie);
+        $today = date("Y-n-d");
+        $max = date("Y-n-d", mktime(0, 0, 0, date("n"), date("d") + 20, date("Y")));
+>>>>>>> Stashed changes
 
             $this->funcionDao->modify($funcion);
 
@@ -85,8 +95,15 @@
             $funcion = new Funcion($nombreSala, $idMovie, $time, $date, $cine);
 
             $this->funcionDao->add($funcion);
+<<<<<<< Updated upstream
 
             $this->showFunctionView();
+=======
+            $mesage = "Agregado correctamente";
+            $this->showFunctionView($mesage);
+        } else {
+            $this->showFunctionView($mesage);
+>>>>>>> Stashed changes
         }
 
         public function getFunctionsByGenre($genreId)

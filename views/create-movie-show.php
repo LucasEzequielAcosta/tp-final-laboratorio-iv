@@ -12,7 +12,7 @@ if (isset($_SESSION)) {
         <main class="py-5">
             <section id="listado" class="mb-5">
                 <div class="container">
-                    <h2 class="mb-4">Crear Funcion de la pelicula <?php echo $title ?>
+                    <h2 class="mb-4">Crear Funcion de la pelicula <?php echo $title->getTitle(); ?>
 
                         <h3>Selecionar Sala</h3>
 

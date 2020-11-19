@@ -26,7 +26,11 @@ if (isset($_SESSION)) {
                 <tbody>
                     <?php
                     foreach ($funcionList as $funcion) {
+<<<<<<< Updated upstream
                         if($_POST['idFuncion'] == $funcion->getIdFuncion())
+=======
+                        if($idFuncion == $funcion->getIdFuncion())
+>>>>>>> Stashed changes
                         {
                         $originalDate = $funcion->getFecha();
                         $newDate = date("d/m/Y", strtotime($originalDate));
@@ -34,7 +38,11 @@ if (isset($_SESSION)) {
                         <tr>
                             <td><?php echo $funcion->getCine() ?></td>
                             <td><?php echo $funcion->getNombreSala() ?></td>
+<<<<<<< Updated upstream
                             <td><?php echo $_POST['movieName']  ?></td>
+=======
+                            <td><?php echo $movieName  ?></td>
+>>>>>>> Stashed changes
                             <td><?php echo $newDate ?></td>
                             <td><?php echo $funcion->getHorario() ?></td>
                             <td><?php  ?></td>

@@ -21,10 +21,20 @@
             $this->entradaDao = new EntradaDao();
         }
 
+<<<<<<< Updated upstream
         public function buyView()
         {
             session_start();
 
+=======
+        public function buyView($movie, $idFunc)
+        {
+            session_start();
+
+            $movieName = $movie;
+            $idFuncion = $idFunc;
+
+>>>>>>> Stashed changes
             $funcionList = $this->funcionDao->getAll();
             
             require_once(VIEWS_PATH . 'compra.php');

@@ -13,56 +13,71 @@
 
         public function fullUser(User $user) //Busca usuario completo y devuelve
         {
-            $userList = array();
-            $userList = $this->getAll();
-
-            foreach($userList as $_user)
-            {
-                if($_user->getUser() == $user->getUser())
-                {
-                    $fullUser= $_user;
-                }
+            $query = 'SELECT * FROM ' . $this->tableName . ' WHERE (user="' . $user->getUser() . '");';
+            
+            try{
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
             }
 
-            return $fullUser; 
+            catch(\PDOException $ex)
+            {                
+                var_dump($ex);
+                throw $ex;
+            }
+
+            if(!empty($resultSet))            
+                return $this->map($resultSet);
+            
+            else
+                return false;
         }
 
         public function verifyPassword(User $user) //Verifica password
         {   
-            $userList = array();
-            $userList = $this->getAll();
+            $query = 'SELECT * FROM ' . $this->tableName . ' WHERE (user="' . $user->getUser() . '") AND (password="' . $user->getPassword() . '");';
             $response= false;
 
-            foreach($userList as $_user)
-            {
-                if($_user->getUser() == $user->getUser())
-                {
-                    if($_user->getPassword() == $user->getPassword())
-                    {
-                        $response= true;
-                    }
-                }
+            try{
+                $this->connection = Connection::GetInstance();
+                $response = $this->connection->Execute($query);
             }
 
-            return $response;            
+            catch(\PDOException $ex)
+            {                
+                var_dump($ex);
+                throw $ex;
+            }
+
+            if($response != false)
+                return true;
+
+            else
+                return false;
         }
 
 
-        public function searchUser($name) //Verifica si el nombre de usuario ya existe
+        public function searchUser(User $user) //Verifica si el nombre de usuario ya existe
         {
-            $userList = array();
-            $userList = $this->getAll();
+            $query = 'SELECT * FROM ' . $this->tableName . ' WHERE (user="' . $user->getUser() . '");';
             $response= false;
 
-            foreach($userList as $_user)
-            {
-                if($_user->getUser() == $name)
-                {
-                    $response= true;                    
-                }                
+            try{
+                $this->connection = Connection::GetInstance();
+                $response = $this->connection->Execute($query);
             }
 
-            return $response;
+            catch(\PDOException $ex)
+            {                
+                var_dump($ex);
+                throw $ex;
+            }
+
+            if($response != false)
+                return true;
+
+            else
+                return false;
         }
 
    
@@ -98,10 +113,19 @@
                 $this->connection->ExecuteNonQuery($query, $parameters);
             }
 
-            catch (Exception $ex)
+            catch (\PDOException $ex)
             {
                 throw $ex;
             }            
+        }
+
+        protected function map($queryResult)
+        {
+            $queryResult = is_array($queryResult) ? $queryResult : [];
+
+            $mapping = array_map(function($aux){return new User($aux['user'], $aux['password'], $aux['type']);}, $queryResult);
+
+            return count($mapping) >= 1 ? $mapping : $mapping['0'];
         }
 
 
@@ -110,27 +134,22 @@
             try
             {
                 $userList = array();
+
                 $query = "SELECT * FROM " . $this->tableName;
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
-
-                foreach ($resultSet as $fila)
-                {
-                    $user = new User();
-                    $user->setUser($fila["user"]);
-                    $user->setPassword($fila["password"]);
-                    $user->setType($fila["type"]);                    
-
-                    array_push($userList, $user);
-                }
-
-                return $userList;                
             }
 
-            catch (Exception $ex)
+            catch (\PDOException $ex)
             {
                 throw $ex;
             }
+
+            if(!empty($resultSet))
+                return $this->map($resultSet);
+
+            else   
+                return false;
         }        
     }
 ?>
