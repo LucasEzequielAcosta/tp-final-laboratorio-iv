@@ -24,7 +24,7 @@
         }
 
         public function homeUser($message='')
-        {   
+        { 
             $this->funcionDao = new FuncionDao();
             $this->movieDao = new MovieDao;
             $this->genreDao = new GenreDao;

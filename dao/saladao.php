@@ -10,6 +10,25 @@
         private $connection;
         private $tableName = "salas";
 
+        public function getSala($sala)
+        {
+            $query = 'SELECT * FROM ' . $this->tableName . ' WHERE (nombreSala="' . $sala . '");';
+            
+            try {
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+            }
+
+            catch (\PDOException $ex)
+            {
+                throw $ex;
+            }
+
+            $salita= new Sala($resultSet[0]['nombreSala'], $resultSet[0]['precioSala'], $resultSet[0]['capacidadSala'], $resultSet[0]['nombreCine']);
+
+            return $salita;
+        }
+
         public function getAll()
         {
             try
