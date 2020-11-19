@@ -24,7 +24,7 @@ if (isset($_SESSION)) {
                                 <option value="<?php echo $genre->getGenreId(); ?>"><?php echo $genre->getGenre(); ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <button type="submit" class="btn btn-success ml-3"> Buscar </button>
+                        <button type="submit" class="btn btn-success ml-3" name="<?php echo $genre->getGenreId(); ?>"> Buscar </button>
                     </form>
                 </div>
             </div>
@@ -32,7 +32,7 @@ if (isset($_SESSION)) {
             <br><br>
             <section id="listado" class="mb-5">
                 <div class="container">
-                    <h2 class="mb-4">Listado de Peliculas <?php if ($_POST) echo ($_POST['genre'] != -1) ? "de " . $this->genreDao->getGenreById($_POST['genre']) : " "; ?></h2>
+                    <h2 class="mb-4">Listado de Peliculas <?php if ($genreId) echo ($genreId != -1) ? "de " . $this->genreDao->getGenreById($genreId) : " "; ?></h2>
                     <table class="table bg-light-alpha">
                         <thead>
                             <th>Poster</th>

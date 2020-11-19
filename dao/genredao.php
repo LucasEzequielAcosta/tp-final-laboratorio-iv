@@ -146,11 +146,11 @@
         }
 
         //Retorna un genero buscado mediante su id
-        public function getGenreById($id)
+        public function getGenreById($id)  
         {
             try
             {
-                $query = "SELECT * FROM  generos  WHERE  idGenero = $id";
+                $query = "SELECT * FROM " . $this->tableName . " WHERE  (idGenero ='" . $id ."');";
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
 

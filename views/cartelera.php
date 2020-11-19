@@ -18,7 +18,7 @@ if (isset($_SESSION)) {
             <h2 class="mb-4">Cartelera</h2>
             <div class="row">
                 <div class="col-sm">
-                    <form role="form" action="<?php echo FRONT_ROOT ?>funcion/getFunctionsByGenre?>" method="POST">
+                    <form role="form" action="<?php echo FRONT_ROOT ?>funcion/getFunctionsByGenre" method="POST">
                         <label class="text-light mr-3" for="genre_movie">Genero: </label>
                         <select class="form-control-sm" name="genre">
                             <option value=-1>Todas</option>
@@ -32,7 +32,7 @@ if (isset($_SESSION)) {
                 </div>
                 <div class="col-sm">
                     <div class="nav navbar justify-content-center">
-                        <form role="form" action="<?php echo FRONT_ROOT ?>funcion/filterFunctionsByDate?>" method="POST">
+                        <form role="form" action="<?php echo FRONT_ROOT ?>funcion/filterFunctionsByDate" method="POST">
                             <input type="date" name="date" min="<?php echo $today; ?>" max="<?php echo $max; ?>" required>
                             <button type="submit" class="btn btn-success ml-3"> Buscar </button>
                         </form>

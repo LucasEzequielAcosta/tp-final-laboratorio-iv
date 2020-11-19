@@ -15,7 +15,7 @@
             $this->genreDao = new GenreDao();
         }
 
-        public function showNowPlayingView()
+        public function showNowPlayingView($genreId='')
         {  
             $genreList = $this->genreDao->update();
             $movieList = $this->movieDao->update();    
@@ -23,11 +23,10 @@
             require_once(VIEWS_PATH."movie-now-playing.php");
         }
 
-        public function getMoviesByGenre()
+        public function getMoviesByGenre($genreId)
         {
-            if($_POST['genre'] != -1)
+            if($genreId != -1)
             {   
-                $genreId = $_POST['genre'];
                 $movieList = $this->movieDao->getMoviesByGenre($genreId);
                 $genreList = $this->genreDao->update();
                 
@@ -39,12 +38,12 @@
                 else
                 {
                     $message='No hay Peliculas del genero ' . $this->genreDao->getGenreById($genreId);
-                    require_once(VIEWS_PATH."movie-now-playing.php");                    
+                    require_once(VIEWS_PATH."movie-now-playing.php");
                 }
             }
             else
             {
-                $this->showNowPlayingView();
+                $this->showNowPlayingView($genreId);
             }
         }
     }
