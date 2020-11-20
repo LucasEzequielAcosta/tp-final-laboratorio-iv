@@ -28,12 +28,8 @@
 
 	//session_start();
 
-	//require_once(VIEWS_PATH."header.php");
-
 	$request = new Request();
 
 	Router::route($request);
-
-	//require_once(VIEWS_PATH."footer.php");
 
 ?>
