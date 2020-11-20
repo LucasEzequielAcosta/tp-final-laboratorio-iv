@@ -23,7 +23,7 @@
                 $userDao= new UserDao();
 
                 try{
-                    if(($_user->getUser() == "admin") && ($_user->getPassword() == "123456")) //Superadmin default, para poder definir otros admin
+                    if(($_user->getUser() == "admin") && ($_user->getPassword() == "123456"))
                     { 
                         session_start();
 
