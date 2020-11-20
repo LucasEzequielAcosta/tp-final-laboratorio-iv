@@ -41,9 +41,10 @@ if (isset($_SESSION)) {
 
                 <table class="table bg-light-alpha table-striped">
                     <thead>
+                        <th>Poster</th>
+                        <th>Película</th>
                         <th>Cine</th>
                         <th>Sala</th>
-                        <th>Película</th>
                         <th>Dia</th>
                         <th>Horario</th>
                         <th>Opciones</th>
@@ -55,9 +56,10 @@ if (isset($_SESSION)) {
                             $originalHour = $funcion->getHorario();
                         ?>
                             <tr>
-                                <td><?php echo $funcion->getCine() ?></td>
-                                <td><?php echo $funcion->getNombreSala() ?></td>
+                                <td><img src="<?php echo $this->movieDao->getMovieById($funcion->getIdMovie())->getPoster(); ?>" class="resize"></td>
                                 <td><?php echo $this->movieDao->getMovieById($funcion->getIdMovie())->getTitle();  ?></td>
+                                <td><?php echo $funcion->getCine() ?></td>
+                                <td><?php echo $funcion->getNombreSala() ?></td>                                                                
                                 <td><?php echo date("d/m/Y", strtotime($originalDate)); ?></td>
                                 <td><?php echo date("H:i A", strtotime($originalHour)); ?></td>
                                 <td>

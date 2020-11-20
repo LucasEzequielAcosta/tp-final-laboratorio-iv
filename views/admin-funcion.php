@@ -40,12 +40,12 @@ if (isset($_SESSION)) {
                             <td>
                                 <form action="<?php echo FRONT_ROOT ?>funcion/Delete" method="post">
                                     <button type="submit" name="<?php echo $funcion->getIdFuncion(); ?>" value="<?php echo $funcion->getIdFuncion(); ?>">
-                                        <img width="20" height="20" src="<?php echo IMG_PATH ?>delete.png" alt="Eliminar_Cine">
+                                        <img width="20" height="20" src="<?php echo IMG_PATH ?>delete.png" alt="Eliminar_Funcion">
                                     </button>
                                 </form>
 
                                 <button onclick="openNav<?php echo $funcion->getIdFuncion(); ?>()">
-                                    <img width="20" height="20" src="<?php echo IMG_PATH ?>modify.png" alt="Modificar_Cine">
+                                    <img width="20" height="20" src="<?php echo IMG_PATH ?>modify.png" alt="Modificar_Funcion">
                                 </button>
 
                                 <div id="myNav<?php echo $funcion->getIdFuncion(); ?>" class="overlay">
