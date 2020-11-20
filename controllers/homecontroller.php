@@ -25,6 +25,9 @@
 
         public function homeUser($message='')
         { 
+            if(!isset($_SESSION))
+                session_start();
+            
             $this->funcionDao = new FuncionDao();
             $this->movieDao = new MovieDao;
             $this->genreDao = new GenreDao;

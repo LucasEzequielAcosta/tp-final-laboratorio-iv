@@ -16,7 +16,7 @@ if (isset($_SESSION)) {
 
                         <h3>Selecionar Sala</h3>
 
-                        <table class="table bg-light-alpha">
+                        <table class="table bg-light-alpha table-striped">
                             <thead>
                                 <th>Cine</th>
                                 <th>Sala</th>

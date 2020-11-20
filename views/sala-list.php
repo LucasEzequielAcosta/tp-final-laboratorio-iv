@@ -71,7 +71,7 @@ if (isset($_SESSION)) {
 
                         </h3>
 
-                        <table class="table bg-light-alpha">
+                        <table class="table bg-light-alpha table-striped">
                             <thead>
                                 <th>Nombre Sala</th>
                                 <th>Capacidad</th>
