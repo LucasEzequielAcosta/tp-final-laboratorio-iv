@@ -28,8 +28,18 @@
 
 	//session_start();
 
+<<<<<<< HEAD
+=======
+	//require_once(VIEWS_PATH."header.php");
+
+>>>>>>> 884b91877a0248744e875e4d2bc1f4245e48fcac
 	$request = new Request();
 
 	Router::route($request);
 
+<<<<<<< HEAD
+=======
+	//require_once(VIEWS_PATH."footer.php");
+
+>>>>>>> 884b91877a0248744e875e4d2bc1f4245e48fcac
 ?>

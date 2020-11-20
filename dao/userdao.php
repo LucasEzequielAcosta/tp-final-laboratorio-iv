@@ -21,8 +21,7 @@
             }
 
             catch(\PDOException $ex)
-            {                
-                var_dump($ex);
+            {  
                 throw $ex;
             }
 
@@ -44,8 +43,7 @@
             }
 
             catch(\PDOException $ex)
-            {                
-                var_dump($ex);
+            { 
                 throw $ex;
             }
 
@@ -68,8 +66,7 @@
             }
 
             catch(\PDOException $ex)
-            {                
-                var_dump($ex);
+            {  
                 throw $ex;
             }
 

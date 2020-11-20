@@ -10,24 +10,27 @@
         private $connection;
         private $tableName = 'entradas';
 
-        private function add(Entrada $entrada)
+        public function add(Entrada $entrada)
         {
+            $operation= false;
+
             try
             {
-                $query = "INSERT INTO " . $this->tableName . " (numeroEntrada, idFuncion, idCompra) VALUES (:numeroEntrada, :idFuncion, :idCompra);";
-
-                $parameters['numeroEntrada'] = $entrada->getNumeroEntrada();
+                $query = "INSERT INTO " . $this->tableName . " (idFuncion, idCompra) VALUES (:idFuncion, :idCompra);";
+                
                 $parameters['idFuncion'] = $entrada->getFuncion();
                 $parameters['idCompra'] = $entrada->getIdCompra();
 
                 $this->connection = Connection::GetInstance();
-                $this->connection->ExecuteNonQuery($query, $parameters);
+                $operation= $this->connection->ExecuteNonQuery($query, $parameters);
             }
 
             catch (Excpetion $ex)
             {
                 throw $ex;
             }
+
+            return $operation;
         }
 
         public function getAll()
@@ -37,6 +40,35 @@
                 $entradaList = array();
 
                 $query = "SELECT * FROM " .$this->tableName;
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+
+                foreach ($resultSet as $fila)
+                {
+                    $entrada = new Entrada();
+                    $entrada->setNumeroEntrada($fila['numeroEntrada']);
+                    $entrada->setIdCompra($fila['idCompra']);
+                    $entrada->setFuncion($fila['idFuncion']);
+
+                    array_push($entradaList, $entrada);
+                }
+
+                return $entradaList;
+            }
+
+            catch (Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+
+        public function getAllDesc()
+        {
+            try{
+
+                $entradaList = array();
+
+                $query = "SELECT * FROM " .$this->tableName . " ORDER BY 'numeroEntrada' DESC;";
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
 

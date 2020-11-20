@@ -12,6 +12,9 @@ if (isset($_SESSION)) {
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
+                    <?php if ($message) { ?>
+                        <h3 style="color: red;"><?php echo $message ?></h3>
+                    <?php } ?>
             <h2 class="mb-4">Cartelera</h2>
             <div class="row">
                 <div class="col-sm">
@@ -36,7 +39,7 @@ if (isset($_SESSION)) {
                     </div>
                 </div>
 
-                <table class="table bg-light-alpha">
+                <table class="table bg-light-alpha table-striped">
                     <thead>
                         <th>Cine</th>
                         <th>Sala</th>

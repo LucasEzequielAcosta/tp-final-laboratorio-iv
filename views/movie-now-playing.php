@@ -11,6 +11,9 @@ if (isset($_SESSION)) {
 ?>
         <main class="py-5">
             <div class="container">
+                    <?php if ($message) { ?>
+                        <h3 style="color: red;"><?php echo $message ?></h3>
+                    <?php } ?>
                 <div class="nav navbar justify-content-center">
                     <form role="form" action="<?php echo FRONT_ROOT ?>movie/getMoviesByGenre" method="POST">
                         <label class="text-light mr-3" for="genre_movie">Genero: </label>
@@ -30,7 +33,7 @@ if (isset($_SESSION)) {
             <section id="listado" class="mb-5">
                 <div class="container">
                     <h2 class="mb-4">Listado de Peliculas <?php if ($genreId) echo ($genreId != -1) ? "de " . $this->genreDao->getGenreById($genreId) : " "; ?></h2>
-                    <table class="table bg-light-alpha">
+                    <table class="table bg-light-alpha table-striped">
                         <thead>
                             <th>Poster</th>
                             <th>Titulo</th>

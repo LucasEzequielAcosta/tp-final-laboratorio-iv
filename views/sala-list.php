@@ -71,7 +71,7 @@ if (isset($_SESSION)) {
 
                         </h3>
 
-                        <table class="table bg-light-alpha">
+                        <table class="table bg-light-alpha table-striped">
                             <thead>
                                 <th>Nombre Sala</th>
                                 <th>Capacidad</th>
@@ -87,7 +87,7 @@ if (isset($_SESSION)) {
                                         <tr>
                                             <td><?php echo $sala->getName(); ?></td>
                                             <td><?php echo $sala->getCapacity();  ?></td>
-                                            <td><?php echo $sala->getPrice(); ?></td>
+                                            <td>$<?php echo $sala->getPrice(); ?></td>
                                             <td>
 
                                                 <form action="<?php echo FRONT_ROOT ?>sala/Delete" method="post">
