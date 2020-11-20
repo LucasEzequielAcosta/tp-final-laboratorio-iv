@@ -5,10 +5,20 @@ require_once(VIEWS_PATH."header.php");
     <span class="navbar-text">
         <strong>Movie Pass</strong>
     </span>
-    <ul class="navbar-nav ml-auto">        
+    <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo FRONT_ROOT ?>compra/ticketsByUser">Mis Entradas</a>
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo FRONT_ROOT ?>home/homeUser">Cartelera</a>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" href="<?php echo FRONT_ROOT ?>user/logOut">Cerrar sesion</a>
         </li>
+
     </ul>
 </nav>
 <?php

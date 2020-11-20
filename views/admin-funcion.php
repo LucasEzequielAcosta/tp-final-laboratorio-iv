@@ -16,7 +16,7 @@ if (isset($_SESSION)) {
                 <h3 style="color: red;"><?php echo $message ?></h3>
             <?php } ?>
             <h2 class="mb-4">Listado de Funciones</h2>
-            <table class="table bg-light-alpha">
+            <table class="table bg-light-alpha table-striped">
                 <thead>
                     <th>Cine</th>
                     <th>Sala</th>

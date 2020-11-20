@@ -19,6 +19,10 @@ require_once(VIEWS_PATH."header.php");
         </li>
 
         <li class="nav-item">
+            <a class="nav-link" href="<?php echo FRONT_ROOT ?>compra/checkSales">Ver Ventas</a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link" href="<?php echo FRONT_ROOT ?>user/logOut">Cerrar sesion</a>
         </li>
     </ul>

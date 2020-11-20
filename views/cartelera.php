@@ -39,7 +39,7 @@ if (isset($_SESSION)) {
                     </div>
                 </div>
 
-                <table class="table bg-light-alpha">
+                <table class="table bg-light-alpha table-striped">
                     <thead>
                         <th>Cine</th>
                         <th>Sala</th>
