@@ -66,6 +66,11 @@
   font-size: 60px;
 }
 
+img.resize {
+  max-width:20%;
+  max-height:20%;
+}
+
 @media screen and (max-height: 450px) {
   .overlay a {font-size: 20px}
   .overlay .closebtn {

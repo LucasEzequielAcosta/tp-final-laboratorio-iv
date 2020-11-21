@@ -46,7 +46,7 @@ if (isset($_SESSION)) {
                             foreach ($movieList as $movie) {
                             ?>
                                 <tr>
-                                    <td><img src="<?php echo $movie->getPoster() ?>" class="img-fluid"></td>
+                                    <td><img src="<?php echo $movie->getPoster() ?>" class="img-thumbnail"></td>
                                     <td><?php echo $movie->getTitle() ?></td>
                                     <td><?php echo $movie->getDescription() ?></td>
                                     <td><?php echo $movie->getRating() ?></td>

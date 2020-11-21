@@ -28,8 +28,10 @@
 
 	//session_start();
 
+
 	$request = new Request();
 
 	Router::route($request);
+
 
 ?>
