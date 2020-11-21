@@ -157,7 +157,7 @@
             $compra->setFechaCompra($today);
             $compra->setUserCompra($user->getUser());
             $compra->setDescuento(0);
-            $compra->setTotalCompra($_total * $_cantEntradas);
+            $compra->setTotalCompra($_total);
 
             $entrada = New Entrada();
             $entrada->setFuncion($_idFunc);
