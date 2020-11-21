@@ -12,6 +12,9 @@ if (isset($_SESSION)) {
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
+                    <?php if ($message) { ?>
+                        <h3 style="color: red;"><?php echo $message ?></h3>
+                    <?php } $plata= 0; ?>
             <h2 class="mb-4">Comprar</h2>
             
             <table class="table bg-light-alpha table-striped">
@@ -21,6 +24,7 @@ if (isset($_SESSION)) {
                     <th>Película</th>
                     <th>Dia</th>
                     <th>Horario</th>
+                    <th>Cantidad de Entradas</th>
                     <th>Precio</th>
                 </thead>
                 <tbody>
@@ -37,9 +41,10 @@ if (isset($_SESSION)) {
                             <td><?php echo $movieName  ?></td>
                             <td><?php echo $newDate ?></td>
                             <td><?php echo $funcion->getHorario() ?></td>
+                            <td><?php echo $cantidad; ?></td>
                             <td>$<?php foreach ($salaList as $sala){
                                 if($funcion->getNombreSala() == $sala->getName())
-                                {    echo $sala->getPrice(); $salita= $sala->getName(); $plata= $sala->getPrice(); }
+                                {    echo ($sala->getPrice() * $cantidad); $plata= $sala->getPrice() * $cantidad; }
                             }  ?></td>
                         </tr>
                     <?php
@@ -53,7 +58,8 @@ if (isset($_SESSION)) {
             <form action="<?php echo FRONT_ROOT ?>compra/confirmBuy" method="POST">
             <input type="hidden" name="movieName" value="<?php echo $movieName; ?>">
             <input type="hidden" name="idFunc" value="<?php echo $idFuncion; ?>">            
-            <input type="hidden" name="precio" value="<?php echo $plata; ?>">
+            <input type="hidden" name="precio" value="<?php echo $plata; ?>">                        
+            <input type="hidden" name="cantidadEntradas" value="<?php echo $cantidad; ?>">
             <button type="submit" class="btn btn-success ml-3" name="confirm" value="">
                 Confirmar
             </button>

@@ -47,7 +47,7 @@ if (isset($_SESSION)) {
                         <th>Sala</th>
                         <th>Dia</th>
                         <th>Horario</th>
-                        <th>Opciones</th>
+                        <th>Entradas</th>
                     </thead>
                     <tbody>
                         <?php
@@ -65,7 +65,8 @@ if (isset($_SESSION)) {
                                 <td>
                                     <form action="<?php echo FRONT_ROOT ?>compra/BuyView" method="POST">
                                         <input type="hidden" name="movieName" value="<?php echo $this->movieDao->getMovieById($funcion->getIdMovie())->getTitle(); ?>">
-                                        <button type="submit" class="btn btn-success ml-3" name="idFuncion" value="<?php echo $funcion->getIdFuncion(); ?>">
+                                        <input type="number" id="cantidadEntradas" name="cantidadEntradas" min="1" max="10" value="1">
+                                        <button type="submit" class="btn btn-success" name="idFuncion" value="<?php echo $funcion->getIdFuncion(); ?>">
                                             Comprar
                                         </button>
                                     </form>

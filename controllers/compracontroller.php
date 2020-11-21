@@ -37,23 +37,118 @@
             $this->cineDao = new CineDao();
         }
 
-        public function buyView($movie, $idFunc, $message='')
+        public function buyView($movie, $cantEntradas, $idFunc, $_message='')
         {
-            session_start();
-
-            $movieName = $movie;
-            $idFuncion = $idFunc;
-
-            $funcionList = $this->funcionDao->getAll();
-            $salaList = $this->salaDao->getAll();
+            if(!isset($_SESSION))
+            {
+                session_start();
+            }
             
-            require_once(VIEWS_PATH . 'compra.php');
+            $cap = $this->checkCapacity($idFunc, $cantEntradas);
+
+            if($cap == 'ok')
+            {
+                $message = $_message;
+                $movieName = $movie;
+                $idFuncion = $idFunc;
+                $cantidad = $cantEntradas;
+
+                try{
+                    $funcionList = $this->funcionDao->getAll();
+                    $salaList = $this->salaDao->getAll();
+                }
+
+                catch (\Exception $ex)
+                {
+                    $message= 'Error en la Base de Datos!';
+                    require_once(VIEWS_PATH . 'compra.php');
+                }
+                    
+                require_once(VIEWS_PATH . 'compra.php');
+            }
+
+            elseif($cap == 'capped')
+            {
+                $message= 'No hay más asientos disponibles en esta funcion!';
+                $this->homeCon->homeUser($message);
+            }
+
+            else
+            {
+                $message= 'No hay tantos asientos disponibles en esta funcion! Asientos disponibles: ' . $cap;
+                $this->homeCon->homeUser($message);
+            }
+
+
         }
 
-        public function confirmBuy($_movie, $_idFunc, $_total)
+        public function checkCapacity($_idFunc, $_cantEntradas)
         {
-            session_start();
+            $operation = 0;
 
+            try{
+                $funcionList = $this->funcionDao->getAll();
+                $salaList = $this->salaDao->getAll();
+                $entradaList = $this->entradaDao->getAll();
+            }
+
+            catch (\Exception $ex)
+            {
+                $message= 'Error en la Base de Datos!';
+                require_once(VIEWS_PATH . 'compra.php');
+            }
+
+            $salaCap = 0;
+            foreach($funcionList as $funcion)
+            {
+                if($funcion->getIdFuncion() == $_idFunc)
+                {
+                    foreach($salaList as $sala)
+                    {
+                        if($funcion->getNombreSala() == $sala->getName())
+                        {
+                            $salaCap = (int)$sala->getCapacity();                            
+                            break;
+                        }
+                    }
+                }
+            }
+
+            $currentCap = 0;
+            foreach($entradaList as $entrada)
+            {
+                if($entrada->getFuncion() == $_idFunc)
+                {
+                    ++$currentCap;                      
+                }
+            }            
+                        
+            
+            if($currentCap == $salaCap)
+            { 
+                $operation = 'capped';
+                return $operation;
+            }
+            
+            elseif(($currentCap + $_cantEntradas) > $salaCap)
+            {
+                $operation = $salaCap - $currentCap;                
+                return $operation;
+            }
+
+            else
+            {
+                $operation = 'ok';
+                return $operation;
+            }
+            
+        }
+
+        public function confirmBuy($_movie, $_idFunc, $_total, $_cantEntradas)
+        {
+            session_start();            
+
+            
             $user= new User();
             $user = $_SESSION['loggedUser'];
             $today = date("Y-n-d");
@@ -62,26 +157,29 @@
             $compra->setFechaCompra($today);
             $compra->setUserCompra($user->getUser());
             $compra->setDescuento(0);
-            $compra->setTotalCompra($_total);
+            $compra->setTotalCompra($_total * $_cantEntradas);
 
             $entrada = New Entrada();
             $entrada->setFuncion($_idFunc);
-            
-            $operation;
+                
+            $operation = false;
 
             try {
                 $this->compraDao->add($compra);
 
-                $entrada->setIdCompra($this->compraDao->getLatest());
-                $operation = $this->entradaDao->add($entrada);
+                for ($i=1; $i <= $_cantEntradas ; $i++)
+                { 
+                    $entrada->setIdCompra($this->compraDao->getLatest());
+                    $operation = $this->entradaDao->add($entrada);
+                }                    
             }
 
-            catch (\PDOException $ex)
+            catch (\Exception $ex)
             {
                 $message= 'Error en la Base de Datos!';
                 $this->buyView($_movie, $_idFunc, $message);
             }
-            
+                
             if($operation)
             {
                 $message= 'Compra registrada con éxito!';
