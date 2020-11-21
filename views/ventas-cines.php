@@ -36,14 +36,21 @@ if (isset($_SESSION)) {
 
                             <td><?php 
                                     $total = 0;
-                                    foreach($entradaList as $entrada)
+                                    foreach($compraList as $compra)
                                     {
-                                        foreach($compraList as $compra)
+                                        $stop= 0;
+                                        foreach($entradaList as $entrada)
                                         {
-                                            foreach($funcionList as $funcion)
+                                            if($entrada->getIdCompra() == $compra->getIdCompra())
                                             {
-                                                if($funcion->getCine() == $cine->getName() && $entrada->getFuncion() == $funcion->getIdFuncion() && $entrada->getIdCompra() == $compra->getIdCompra())
-                                                    $total+= $compra->getTotalCompra();
+                                                foreach($funcionList as $funcion)
+                                                {
+                                                    if($funcion->getIdFuncion() == $entrada->getFuncion() && $funcion->getCine() == $cine->getName() && $stop!=1)
+                                                    {
+                                                        $total += $compra->getTotalCompra();
+                                                        $stop= 1;
+                                                    }
+                                                }
                                             }
                                         }
                                     }

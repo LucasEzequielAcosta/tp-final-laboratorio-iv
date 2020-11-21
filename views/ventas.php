@@ -50,7 +50,7 @@ if (isset($_SESSION)) {
 
                             <td><?php echo $entrada->getNumeroEntrada(); ?></td>
                             <td><?php foreach($compraList as $compra) { if($entrada->getIdCompra() == $compra->getIdCompra()) { echo $compra->getFechaCompra(); }} ?></td>                            
-                            <td>$<?php foreach ($salaList as $sala){
+                            <td><strong>$</strong><?php foreach ($salaList as $sala){
                                 if($funcion->getNombreSala() == $sala->getName())
                                 {    echo $sala->getPrice(); $salita= $sala->getName(); $plata= $sala->getPrice(); }
                             }  ?></td>

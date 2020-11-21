@@ -42,7 +42,7 @@ if (isset($_SESSION)) {
                             <td><?php echo $newDate ?></td>
                             <td><?php echo $funcion->getHorario() ?></td>
                             <td><?php echo $cantidad; ?></td>
-                            <td>$<?php foreach ($salaList as $sala){
+                            <td><strong>$</strong><?php foreach ($salaList as $sala){
                                 if($funcion->getNombreSala() == $sala->getName())
                                 {    echo ($sala->getPrice() * $cantidad); $plata= $sala->getPrice() * $cantidad; }
                             }  ?></td>

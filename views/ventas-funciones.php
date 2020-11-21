@@ -39,18 +39,18 @@ if (isset($_SESSION)) {
                             <td><?php echo $funcion->getCine(); ?></td>
 
                             <td><?php 
-                                    $total = 0;
-                                    $cantEntradas = 0;
-                                    foreach($entradaList as $entrada)
+                                    $total = 0;                                    
+                                    $stop= 0;
+                                    foreach($compraList as $compra)
                                     {
-                                        foreach($compraList as $compra)
+                                        $stop= 0;                                        
+                                        foreach($entradaList as $entrada)
                                         {
-                                            if($entrada->getFuncion() == $funcion->getIdFuncion() && $entrada->getIdCompra() == $compra->getIdCompra())
-                                            {
-                                                $total+= $compra->getTotalCompra();
-                                                $cantEntradas++;
+                                            if($entrada->getFuncion() == $funcion->getIdFuncion() && $entrada->getIdCompra() == $compra->getIdCompra() && $stop!=1)
+                                            {   $total+= $compra->getTotalCompra();
+                                                $stop=1;
                                             }
-                                        }
+                                        }                                        
                                     }
                                     
                                     if($total == 0)
@@ -64,7 +64,15 @@ if (isset($_SESSION)) {
                                     }
                                 ?></td>
 
-                                <td><?php echo $cantEntradas; ?></td>
+                                <td><?php
+                                    $cantEntradas = 0;
+                                    foreach($entradaList as $entrada)
+                                    {
+                                        if($entrada->getFuncion() == $funcion->getIdFuncion())
+                                            ++$cantEntradas;
+                                    }
+                                    echo $cantEntradas;
+                                ?></td>
                         </tr>
 
                         <?php  } ?>                    

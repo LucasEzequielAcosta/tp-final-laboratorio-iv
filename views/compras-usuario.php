@@ -47,12 +47,19 @@ if (isset($_SESSION)) {
                                                     foreach($movieList as $movie)
                                                     {
                                                         if($movie->getId() == $funcion->getIdMovie())
-                                                            echo $movie->getTitle();
+                                                        {
+                                                            $mov= $movie->getTitle();
+                                                            
+                                                        }
                                                     }
+                                                    
                                                 }
                                             }
+                                            
                                         }
-                                     }                                     
+                                     }
+                                     
+                                    echo $mov;
                                 ?></td>
 
 <!-- CINE -->               <td><?php
@@ -80,7 +87,7 @@ if (isset($_SESSION)) {
                                     }
                                 ?></td>
 
-<!-- COSTO -->              <td><?php echo $compra->getTotalCompra(); ?></td>
+<!-- COSTO -->              <td><strong>$</strong><?php echo $compra->getTotalCompra(); ?></td>
 
 <!-- FECHA COMPRA -->       <td><?php echo $compra->getFechaCompra(); ?></td>
                         </tr>
