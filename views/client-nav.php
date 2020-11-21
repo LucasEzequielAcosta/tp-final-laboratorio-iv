@@ -3,7 +3,7 @@ require_once(VIEWS_PATH."header.php");
 ?>
 <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
     <span class="navbar-text">
-        <strong>Movie Pass</strong>
+        <strong>Movie Pass</strong> --- <strong style='color:lightgreen;'><?php echo $_SESSION['loggedUser']->getUser(); ?></strong>
     </span>
     <ul class="navbar-nav ml-auto">
 
