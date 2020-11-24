@@ -113,7 +113,7 @@ class funcionController
         $horaMayor = strtotime('+'.$runtime. ' minute', $horaMayor);
         $horaMayor = date('H:i:s', $horaMayor);
         
-        echo "HORA MAYOR: ". $horaMayor;
+        
 
         return $horaMayor;
     }
@@ -128,7 +128,7 @@ class funcionController
         $horaMenor = strtotime('-'.$runtime. ' minute', $horaMenor);
         $horaMenor = date('H:i:s', $horaMenor);
 
-        echo "HORA MENOR: ". $horaMenor;
+        
 
         return $horaMenor;
     }
@@ -171,8 +171,7 @@ class funcionController
                 if ($funcion->getCine() == $cine) {
                     if ($funcion->getNombreSala() == $nombreSala) {
                         $horarioFinal = $this->getHorarioFinal($funcion);
-                        echo "-horario final: -". $horarioFinal;
-                        echo "-time: -". $time;
+                        
                         if ($horarioFinal < $time) {
                             if ($this->higherHour($horarioFinal, $funcion->getIdMovie()) > $time) {
                                 return $message = "La funcion debe empezar 15 minutos despues de las demas funciones de esta sala";
