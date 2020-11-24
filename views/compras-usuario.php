@@ -30,6 +30,10 @@ if (isset($_SESSION)) {
                 </thead>
                 <tbody>
                     <?php
+                            $mov= 'Fuera de Cartelera';
+                            $cin= 'N/A';
+                            $fech= 'N/A';
+                            $tim= 'N/A';
                             foreach($compraList as $compra)
                             {
                                 if($compra->getUserCompra() == $currentUser->getUser())

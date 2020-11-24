@@ -77,12 +77,12 @@ if (isset($_SESSION)) {
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                 <label for="">E-mail</label>
-                                                <input type="userEmail" name="email" value="" class="form-control" required>
+                                                <input type="Email" name="userEmail" placeholder="ejemplo@dominio.com" value="" class="form-control" required>
                                                 </div>
                                                 
                                                 <div class="col-lg-6">   
                                                 <label for="">Nombre completo</label>
-                                                <input type="text" name="userName" value="" class="form-control" required>
+                                                <input type="text" name="userName" value="" placeholder="ej.   John Doe" class="form-control" required>
                                                 </div>
                                             </div>                                            
                                             <br>
