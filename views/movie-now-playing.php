@@ -39,6 +39,7 @@ if (isset($_SESSION)) {
                             <th>Titulo</th>
                             <th>Descripcion</th>
                             <th>Puntaje</th>
+                            <th>Duracion</th>
                             <th></th>
                         </thead>
                         <tbody>
@@ -50,6 +51,7 @@ if (isset($_SESSION)) {
                                     <td><?php echo $movie->getTitle() ?></td>
                                     <td><?php echo $movie->getDescription() ?></td>
                                     <td><?php echo $movie->getRating() ?></td>
+                                    <td><?php echo $movie->getRuntime() ?> min</td>
                                     <td>
                                         <form action="<?php echo FRONT_ROOT ?>funcion/createMovieShow" method="POST">
                                             <button type="submit" class="btn btn-success ml-3" name="<?php echo $movie->getId(); ?>" value="<?php echo $movie->getId(); ?>">

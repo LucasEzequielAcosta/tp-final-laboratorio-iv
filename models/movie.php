@@ -9,10 +9,11 @@
         private $poster;
         private $id;
         private $genres;
+        private $runtime;
 
         
 
-        public function __construct($title='', $description='', $rating='', $poster='', $id='', $genres= array()) {
+        public function __construct($title='', $description='', $rating='', $poster='', $id='', $runtime='', $genres= array()) {
 
             $this->title = $title;            
             $this->description = $description;
@@ -20,6 +21,7 @@
             $this->poster = $poster;
             $this->id = $id;
             $this->genres = $genres;
+            $this->runtime = $runtime;
 
         }
 
@@ -53,12 +55,16 @@
             return $this->genres;
         }
 
+        public function getRuntime() {
+
+            return $this->runtime;
+        }
+
         public function setTitle($value) {
 
             $this->title = $value;
         }
         
-
         public function setDescription($value) {
 
             $this->description = $value;
@@ -82,6 +88,11 @@
         public function setGenres($genres) {
 
             $this->genres = $genres;
+        }
+
+        public function setRuntime($value) {
+
+            $this->runtime = $value;
         }
     }
 ?>

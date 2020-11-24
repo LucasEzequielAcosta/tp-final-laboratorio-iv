@@ -103,38 +103,82 @@ class funcionController
         return $message;
     }
 
-    public function higherHour($hour)
+    public function higherHour($hour, $idMovie)
     {
+        $movie = $this->movieDao->getMovieById($idMovie);
+        $runtime = $movie->getRuntime();
+
         $horaMayor = strtotime('+0 hour', strtotime($hour));
         $horaMayor = strtotime('+15 minute', $horaMayor);
+        $horaMayor = strtotime('+'.$runtime. ' minute', $horaMayor);
         $horaMayor = date('H:i:s', $horaMayor);
+        
+        echo "HORA MAYOR: ". $horaMayor;
+
         return $horaMayor;
     }
 
-    public function lowerHour($hour)
+    public function lowerHour($hour, $idMovie)
     {
+        $movie = $this->movieDao->getMovieById($idMovie);
+        $runtime = $movie->getRuntime();
+
         $horaMenor = strtotime('+0 hour', strtotime($hour));
         $horaMenor = strtotime('-15 minute', $horaMenor);
+        $horaMenor = strtotime('-'.$runtime. ' minute', $horaMenor);
         $horaMenor = date('H:i:s', $horaMenor);
+
+        echo "HORA MENOR: ". $horaMenor;
+
         return $horaMenor;
     }
 
-    public function verifyTime($time, $date, $nombreSala, $cine)
+    public function sumarRuntime($hour, $idMovie)
     {
-        $time = date('H:i:s', strtotime($time));
+        $movie = $this->movieDao->getMovieById($idMovie);
+        $runtime = $movie->getRuntime();
+
+        $horario = strtotime('+0 hour', strtotime($hour));
+        $horario = strtotime('+'.$runtime. ' minute', $horario);
+        $horario = date('H:i:s', $horario);
+
+
+        
+        return $horario;
+    }
+
+    public function getHorarioFinal($funcion)
+    {
+        $movie = $this->movieDao->getMovieById($funcion->getIdMovie());
+        $runtime = $movie->getRuntime();
+
+        $horarioFinal = strtotime('+0 hour', strtotime($funcion->getHorario()));
+        $horarioFinal = strtotime('+'.$runtime. ' minute', $horarioFinal);
+        $horarioFinal = date('H:i:s', $horarioFinal);
+
+        return $horarioFinal;
+    }
+
+    public function verifyTime($time, $date, $nombreSala, $cine, $idMovie)
+    {
         $message = '';
         $funcionList = $this->funcionDao->getAll();
+
+        $time = $this->sumarRuntime($time, $idMovie);
 
         foreach ($funcionList as $funcion) {
             if ($funcion->getFecha() == $date) {
                 if ($funcion->getCine() == $cine) {
                     if ($funcion->getNombreSala() == $nombreSala) {
-                        if ($funcion->getHorario() < $time) {
-                            if ($this->higherHour($funcion->getHorario()) > $time) {
+                        $horarioFinal = $this->getHorarioFinal($funcion);
+                        echo "-horario final: -". $horarioFinal;
+                        echo "-time: -". $time;
+                        if ($horarioFinal < $time) {
+                            if ($this->higherHour($horarioFinal, $funcion->getIdMovie()) > $time) {
                                 return $message = "La funcion debe empezar 15 minutos despues de las demas funciones de esta sala";
                             }
                         } else {
-                            if ($this->lowerHour($funcion->getHorario()) < $time) {
+                            if ($this->lowerHour($horarioFinal, $funcion->getIdMovie()) < $time) {
                                 return $message = "La funcion debe empezar 15 minutos despues de las demas funciones de esta sala";
                             }
                         }
@@ -147,7 +191,7 @@ class funcionController
 
     public function addMovieShow($date, $time, $idMovie, $cine, $nombreSala)
     {
-        $message = $this->verifyDate($date, $idMovie, $nombreSala, $cine) . "" . $this->verifyTime($time, $date, $nombreSala, $cine);
+        $message = $this->verifyDate($date, $idMovie, $nombreSala, $cine) . "" . $this->verifyTime($time, $date, $nombreSala, $cine, $idMovie);
         if ($message == '') {
             $funcion = new Funcion($nombreSala, $idMovie, $time, $date, $cine);
             $this->funcionDao->add($funcion);

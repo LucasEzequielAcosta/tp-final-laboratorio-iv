@@ -41,7 +41,10 @@
             $movie->setRating($valuesArray['vote_average']);
             $movie->setPoster('https://image.tmdb.org/t/p/w500' . $valuesArray['poster_path']);
             $movie->setId($valuesArray['id']);
-            $movie->setGenres($valuesArray['genre_ids']);         
+            $movie->setGenres($valuesArray['genre_ids']);
+            $json = file_get_contents('https://api.themoviedb.org/3/movie/'.$valuesArray['id'].'?api_key=' .$this->apiKey. '&language=en-US');
+            $data = json_decode($json, true);        
+            $movie->setRuntime($data['runtime']);
 
             return $movie;
         }
@@ -65,6 +68,7 @@
             $movies = $this->getNowPlayingMoviesFromAPI();
 
             foreach($movies as $movie){
+                
                 $resultMovies[] = $this->createMoviesFromApi($movie);
             }
             return $resultMovies;
@@ -112,13 +116,14 @@
         {
             try
             {
-                $query = "INSERT INTO " . $this->tableName . " (idMovie, titulo, descripcion, rating, poster) VALUES (:idMovie, :titulo, :descripcion, :rating, :poster);";
+                $query = "INSERT INTO " . $this->tableName . " (idMovie, titulo, descripcion, rating, poster, runtime) VALUES (:idMovie, :titulo, :descripcion, :rating, :poster, :runtime);";
 
                 $parameters["idMovie"] = $movie->getId();
                 $parameters["titulo"] = $movie->getTitle();
                 $parameters["descripcion"] = $movie->getDescription();
                 $parameters["rating"] = $movie->getRating();
                 $parameters["poster"] = $movie->getPoster();
+                $parameters["runtime"] = $movie->getRuntime();
 
                 $this->connection = Connection::GetInstance();
 
@@ -149,6 +154,7 @@
                     $movie->setDescription($fila["descripcion"]);
                     $movie->setRating($fila["rating"]);
                     $movie->setPoster($fila["poster"]);
+                    $movie->setRuntime($fila["runtime"]);
 
                     array_push($movieList, $movie);
                 }
@@ -227,6 +233,7 @@
                         $movie->setDescription($fila["descripcion"]);
                         $movie->setRating($fila["rating"]);
                         $movie->setPoster($fila["poster"]);
+                        $movie->setRuntime($fila["runtime"]);
 
                         array_push($movieList, $movie);
                     }                    
