@@ -146,7 +146,8 @@
 
         public function confirmBuy($_movie, $_idFunc, $_total, $_cantEntradas)
         {
-            session_start();            
+            if(!isset($_SESSION))
+                session_start();            
 
             
             $user= new User();
@@ -179,12 +180,9 @@
                 $message= 'Error en la Base de Datos!';
                 $this->buyView($_movie, $_idFunc, $message);
             }
-                
-            if($operation)
-            {
-                $message= 'Compra registrada con éxito!';
-                $this->homeCon->homeUser($message);
-            }
+
+            $compra= $this->compraDao->getLatest();
+            return $compra;
         }
 
         public function checkSales($message='')
@@ -272,6 +270,62 @@
 
             require_once(VIEWS_PATH . 'ventas-funciones.php');
         }
+
+        public function checkSalesByDate($message = '', $total='')
+    {
+        session_start();
+
+        $max = date("Y-n-d");
+        $min = $this->minDate();
+
+        try {
+            $funcionList = $this->funcionDao->getAll();
+            $salaList = $this->salaDao->getAll();
+            $compraList = $this->compraDao->getAll();
+            $entradaList = $this->entradaDao->getAllDesc();
+            $movieList = $this->movieDao->getAll();
+        } catch (\Exception $ex) {
+            $message = "Error en la BD!";
+            require_once(VIEWS_PATH . 'ventas-fechas.php');
+        }
+
+        require_once(VIEWS_PATH . 'ventas-fechas.php');
+    }
+
+    public function verificarRangoFechas($fechaInicio, $fechaFinal)
+    {
+        $fechaInicio = strtotime($fechaInicio);
+        $fechaFinal = strtotime($fechaFinal);
+        $compraList = $this->compraDao->getAll();
+        $total = 0;
+
+        foreach ($compraList as $compra) 
+        {
+            $fechaNueva = strtotime($compra->getFechaCompra());
+            if (($fechaNueva >= $fechaInicio) && ($fechaNueva <= $fechaFinal)) 
+            {
+                $total += $compra->getTotalCompra();
+            }
+        }
+        $this->checkSalesByDate('', $total);
+    }
+
+    public function minDate() //Traigo la lista de compras y retorno la fecha mas antigua
+    {
+        try {
+            $compraList = $this->compraDao->getAll();
+            $dates = array();
+
+            foreach ($compraList as $compra) {
+                array_push($dates, $compra->getFechaCompra());
+            }
+            $min = min($dates);
+        } catch (\Exception $ex) {
+            $message = "Error en la BD!";
+            require_once(VIEWS_PATH . 'ventas-fechas.php');
+        }
+        return $min;
+    }
 
         public function ticketsByUser($message='')
         {

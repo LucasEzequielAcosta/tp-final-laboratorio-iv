@@ -40,7 +40,7 @@
 
 .overlay-content {
   position: relative;
-  top: 25%;
+  top: 7%;
   width: 100%;
   text-align: center;
   margin-top: 30px;
@@ -64,6 +64,15 @@
   top: 20px;
   right: 45px;
   font-size: 60px;
+}
+
+div.payDiv {
+  display: inline-block;
+  
+  border-radius: 25px;
+  border: 2px solid lightblue;
+  padding: 50px;
+  background-image: repeating-linear-gradient(30deg, #ccc, #ccc 10px, #dbdbdb 30px, #dbdbdb 10px);
 }
 
 img.resize {
