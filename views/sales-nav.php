@@ -20,7 +20,8 @@
 
         <li class="nav-item">
             <a class="nav-link" href="<?php echo FRONT_ROOT ?>compra/checkSalesByDate"><strong>Ventas por Fecha</strong></a>
-        </li>        
+        </li>       
+
     </ul>
 </nav>
 <?php
