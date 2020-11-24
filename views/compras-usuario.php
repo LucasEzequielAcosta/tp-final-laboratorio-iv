@@ -24,6 +24,7 @@ if (isset($_SESSION)) {
                     <th>Cine</th>
                     <th>Fecha Función</th>
                     <th>Hora Función</th>
+                    <th>Entradas</th>
                     <th>Costo</th>
                     <th>Fecha Compra</th>
                 </thead>
@@ -33,11 +34,12 @@ if (isset($_SESSION)) {
                             {
                                 if($compra->getUserCompra() == $currentUser->getUser())
                                 {
+                                    
                     ?>
                         <tr>
 <!-- PELICULA -->           <td><?php 
-                                     foreach($entradaList as $entrada)
-                                     {
+                                    foreach($entradaList as $entrada)
+                                    {
                                         if($entrada->getIdCompra() == $compra->getIdCompra())
                                         {
                                             foreach($funcionList as $funcion)
@@ -57,34 +59,71 @@ if (isset($_SESSION)) {
                                             }
                                             
                                         }
-                                     }
+                                    }
                                      
-                                    echo $mov;
+                                        echo $mov;
                                 ?></td>
 
 <!-- CINE -->               <td><?php
-                                    foreach($funcionList as $funcion)
+                                    foreach($entradaList as $entrada)
                                     {
-                                        if($entrada->getFuncion() == $funcion->getIdFuncion())
-                                            echo $funcion->getCine();
+                                        if($entrada->getIdCompra() == $compra->getIdCompra())
+                                        {
+                                            foreach($funcionList as $funcion)
+                                            {
+                                                if($entrada->getFuncion() == $funcion->getIdFuncion())
+                                                    $cin= $funcion->getCine();
+                                            }
+                                        }
                                     }
+
+                                    echo $cin;
 
                                  ?></td>
 
-<!-- FECHA FUNCION -->      <td><?php 
-                                    foreach($funcionList as $funcion)
+<!-- FECHA FUNCION -->      <td><?php
+                                    foreach($entradaList as $entrada)
                                     {
-                                        if($entrada->getFuncion() == $funcion->getIdFuncion())
-                                            echo $funcion->getFecha();
+                                        if($entrada->getIdCompra() == $compra->getIdCompra())
+                                        {
+                                            foreach($funcionList as $funcion)
+                                            {
+                                                if($entrada->getFuncion() == $funcion->getIdFuncion())
+                                                    $fech= $funcion->getFecha();
+                                            }
+                                        }
                                     }
+
+                                    echo $fech;
                                 ?></td>
 
 <!-- HORA FUNCION -->       <td><?php
-                                    foreach($funcionList as $funcion)
+                                    foreach($entradaList as $entrada)
                                     {
-                                        if($entrada->getFuncion() == $funcion->getIdFuncion())
-                                            echo str_replace(":00", "", $funcion->getHorario());
+                                        if($entrada->getIdCompra() == $compra->getIdCompra())
+                                        {
+                                            foreach($funcionList as $funcion)
+                                            {
+                                                if($entrada->getFuncion() == $funcion->getIdFuncion())
+                                                    $tim= str_replace(":00", "", $funcion->getHorario()) . " hs.";
+                                            }
+                                        }
                                     }
+
+                                    echo $tim;
+                                ?></td>
+
+<!-- CANTIDAD -->           <td><?php
+                                    $cant=0;
+                                    foreach($entradaList as $entrada)
+                                    {
+                                        if($entrada->getIdCompra() == $compra->getIdCompra())
+                                        {
+                                            ++$cant;
+                                        }
+                                    }
+                                    echo $cant;
+                                
                                 ?></td>
 
 <!-- COSTO -->              <td><strong>$</strong><?php echo $compra->getTotalCompra(); ?></td>
