@@ -34,7 +34,7 @@ if (isset($_SESSION)) {
                         <tr>
                             <td><?php echo $funcion->getFecha(); ?></td>
                             
-                            <td><?php echo str_replace(":00", "", $funcion->getHorario()); ?></td>
+                            <td><?php echo str_replace(":00", "", $funcion->getHorario()) . " hs."; ?></td>
 
                             <td><?php echo $funcion->getCine(); ?></td>
 
